@@ -1,0 +1,13 @@
+Cần phải nghĩ về việc làm sao để vẽ background (tạo class background,...) mà ko cần bỏ mỗi thành phần (cây, mây,...) vào các class cho riêng nó (class cây, mây,...)
+
+Cách vẽ background và game object:
+1. Vẽ object background trước, object này sẽ là một tilemap
+2. Vẽ các game object
+3. Vẽ các foreground (những thứ mà có thể che (vẽ chồng lên) được game object)
+
+Tile map editor có thể:
+- Thêm được các vùng collision (hình tròn, vuông, chữ nhật, hình bất kì,...)
+
+
+Cần làm:
+- Tìm cách tạo vùng collision dính vào game object
