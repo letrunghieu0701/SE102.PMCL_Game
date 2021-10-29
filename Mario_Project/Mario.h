@@ -103,6 +103,7 @@
 
 class CMario : public CGameObject
 {
+private:
 	BOOLEAN isSitting;
 	float maxVx;
 	float ax;				// acceleration on x 

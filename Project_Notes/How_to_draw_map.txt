@@ -10,4 +10,18 @@ Tile map editor có thể:
 
 
 Cần làm:
-- Tìm cách tạo vùng collision dính vào game object
+1. Load map (phải chia nhỏ công việc ra)
+- Tìm cách tạo vùng collision dính vào game object: Phải viết code để tạo file xml chứa thông tin về sprite và animation của object hoặc làm bằng tay
+- ....
+- ....
+
+2. Va chạm với các object terrain (pipe, brick,...)
+
+3. Hệ thống level cho game object: Mario, Goomba, Koopas, mushroom (power-up: tùy vào level hiện tại của Mario thì sẽ cho ra biến lớn, thêm đuôi,...)
+
+4. Viết logic cho các game object: Mario, ? brick, Goomba, Koopa
+
+
+Cần phải hiểu rõ kiến trúc của framework và sau đó là cách code chạy như thế nào:
+1. Kiến trúc của framework
+2. Cách code chạy

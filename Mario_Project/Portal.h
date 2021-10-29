@@ -7,6 +7,7 @@
 */
 class CPortal : public CGameObject
 {
+private:
 	int scene_id;	// target scene to switch to 
 
 	float width;
