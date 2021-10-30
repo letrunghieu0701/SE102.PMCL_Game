@@ -24,6 +24,7 @@ using namespace std;
 */
 class CGame
 {
+private:
 	static CGame* __instance;
 	HWND hWnd;									// Window handle
 

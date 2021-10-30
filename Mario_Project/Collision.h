@@ -45,6 +45,7 @@ struct CCollisionEvent
 
 class CCollision
 {
+private:
 	static CCollision* __instance;
 public: 
 	static void SweptAABB(
