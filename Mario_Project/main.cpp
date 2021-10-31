@@ -1,4 +1,4 @@
-/* =============================================================
+﻿/* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
 	
 	SAMPLE 05 - SCENE MANAGER
@@ -177,6 +177,10 @@ int Run()
 			Update(dt);
 			Render();
 
+			// Chuyển sang next_scene
+			// Nhưng khi mới tạo game thì next_scene = giá trị start trong file sample-mario.txt nên sẽ Load() scene start
+			// Và gán current_scene = next_scene để không diễn ra việc switch scene ở mỗi frame
+			// Nên chỉ khi Mario va chạm với Portal (thay đổi next_scene) thì mới có thể Switch scene
 			CGame::GetInstance()->SwitchScene();
 		}
 		else

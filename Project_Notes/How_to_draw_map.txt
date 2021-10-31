@@ -22,6 +22,24 @@ Cần làm:
 4. Viết logic cho các game object: Mario, ? brick, Goomba, Koopa
 
 
+5. Nhớ hủy subscription của Lucidchart trước ngày 6/11/2021
+
+
 Cần phải hiểu rõ kiến trúc của framework và sau đó là cách code chạy như thế nào:
 1. Kiến trúc của framework
 2. Cách code chạy
+
+
+
+
+
+
+Cần làm sau khi hoàn thành Milestone 1:
+1.Thêm code để tùy chỉnh width và height của cửa sổ game trong file mario-sample.txt trong mục SETTINGS
+
+
+
+
+
+
+
