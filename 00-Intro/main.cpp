@@ -59,8 +59,8 @@ int BackBufferWidth = 0;
 int BackBufferHeight = 0;
 
 #define TEXTURE_PATH_BRICK L"brick.png"
-#define BRICK_START_X 8.0f
-#define BRICK_START_Y 200.0f
+#define BRICK_START_X 0.0f
+#define BRICK_START_Y 0.0f
 
 #define BRICK_START_VX 0.2f
 
@@ -73,9 +73,9 @@ ID3DX10Sprite* spriteObject = NULL;				// Sprite handling object
 
 D3DX10_SPRITE spriteBrick;
 
-float brick_x = BRICK_START_X;
+float brick_x = BRICK_START_X + (BRICK_WIDTH / 2);
+float brick_y = BRICK_START_Y + (BRICK_WIDTH / 2);
 float brick_vx = BRICK_START_VX;
-float brick_y = BRICK_START_Y;
 
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -316,15 +316,15 @@ void Update(DWORD dt)
 
 		brick_vx = -brick_vx;
 
-		//	//Why not having these logics would make the brick disappear sometimes?  
-		////	if (brick_x <= 0)
-		////	{
-		////		brick_x = 0;
-		////	}
-		////	else if (brick_x >= BackBufferWidth - BRICK_WIDTH)
-		////	{
-		////		brick_x = BackBufferWidth - BRICK_WIDTH;
-		////	}
+			//Why not having these logics would make the brick disappear sometimes?  
+			if (brick_x <= 0)
+			{
+				brick_x = 0;
+			}
+			else if (brick_x >= BackBufferWidth - BRICK_WIDTH)
+			{
+				brick_x = BackBufferWidth - BRICK_WIDTH;
+			}
 	}
 }
 
@@ -442,7 +442,7 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
-			Update((DWORD)dt);
+			//Update((DWORD)dt);
 			Render();
 		}
 		else

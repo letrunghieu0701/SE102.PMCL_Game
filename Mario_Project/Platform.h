@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Textures.h"
 
 // 
 // The most popular type of object in Mario! 
@@ -29,6 +30,7 @@ public:
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void RenderBoundingBox();
 };
 
 typedef CPlatform* LPPLATFORM;

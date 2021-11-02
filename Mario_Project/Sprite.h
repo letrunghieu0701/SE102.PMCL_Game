@@ -19,6 +19,11 @@ private:
 public:
 	CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex);
 
+	int GetLeft() { return this->left; }
+	int GetTop() { return this->top; }
+	int GetRight() { return this->right; }
+	int GetBottom() { return this->bottom; }
+
 	void Draw(float x, float y);
 };
 
