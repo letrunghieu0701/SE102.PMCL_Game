@@ -33,8 +33,8 @@
 #define WINDOW_ICON_PATH L"mario.ico"
 
 #define BACKGROUND_COLOR D3DXCOLOR(200.0f/255, 200.0f/255, 255.0f/255,0.0f)
-#define SCREEN_WIDTH 576
-#define SCREEN_HEIGHT 370
+#define SCREEN_WIDTH 3520//576
+#define SCREEN_HEIGHT 1440//370
 
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
@@ -57,7 +57,8 @@ CGoomba* goomba;
 #define GOOMBA_START_Y 130.0f
 #define GOOMBA_START_VX 0.1f
 
-CTileMap map("First_half_world_1-1.tmx");
+//CTileMap map("First_half_world_1-1.tmx");
+CTileMap map("Scene_1-1.tmx");
 
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

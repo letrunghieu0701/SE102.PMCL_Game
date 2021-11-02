@@ -10,10 +10,11 @@ Tile map editor có thể:
 
 
 Cần làm:
-1. Load map (phải chia nhỏ công việc ra)
+1. Load map (phải chia nhỏ công việc ra) (khá khó, bây giờ chỉ cần load một ảnh map lớn, về sau sẽ sửa lại thành tilemap)
 - Tìm cách tạo vùng collision dính vào game object: Phải viết code để tạo file xml chứa thông tin về sprite và animation của object hoặc làm bằng tay
-- ....
-- ....
+- Load background
+- Load foreground
+- Sắp xếp thứ tự vẽ các layer trong tilemap
 
 2. Va chạm với các object terrain (pipe, brick,...)
 

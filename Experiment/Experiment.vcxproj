@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{daffcdba-b6af-4d4e-816e-f701af2b976c}</ProjectGuid>
-    <RootNamespace>TestTinyXML2</RootNamespace>
+    <ProjectGuid>{0bb7abd7-8ecd-497b-b65b-4cbe1f97d891}</ProjectGuid>
+    <RootNamespace>Experiment</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -140,23 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="tinystr.cpp" />
-    <ClCompile Include="tinyxml.cpp" />
-    <ClCompile Include="tinyxmlerror.cpp" />
-    <ClCompile Include="tinyxmlparser.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="First_half_world_1-1.tmx" />
-    <None Include="Scenes_1-1.tmx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="tinystr.h" />
-    <ClInclude Include="tinyxml.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="Authors.xml" />
-    <Xml Include="NES - Super Mario Bros 3 - Stage Tiles.xml" />
-    <Xml Include="NES - Super Mario Bros 3 - Stage Tiles_transparent.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

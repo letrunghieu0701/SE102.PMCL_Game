@@ -15,46 +15,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tinystr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxmlerror.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxmlparser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="First_half_world_1-1.tmx">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Scenes_1-1.tmx">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="tinystr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tinyxml.h">
+    <ClInclude Include="tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Authors.xml">
-      <Filter>Resource Files</Filter>
-    </Xml>
-    <Xml Include="NES - Super Mario Bros 3 - Stage Tiles.xml">
-      <Filter>Resource Files</Filter>
-    </Xml>
-    <Xml Include="NES - Super Mario Bros 3 - Stage Tiles_transparent.xml">
+    <Xml Include="data.xml">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>

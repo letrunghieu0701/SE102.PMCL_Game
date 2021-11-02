@@ -1,4 +1,5 @@
-﻿#include "TileMap.h"
+﻿#include "..\Mario_Project\TileMap.h"
+#include "TileMap.h"
 
 
 CTileMap::CTileMap(string tileMapPath)
@@ -160,6 +161,10 @@ void CTileMap::ReadMap()
 
 	// Lấy tọa độ của các sprite cần vẽ
 	GetSpritesInfo(root, grid);
+}
+
+void CTileMap::MakeLayers()
+{
 }
 
 void CTileMap::Render()

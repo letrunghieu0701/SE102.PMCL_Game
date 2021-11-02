@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml-stylesheet type='text/xsl' href='image_metadata_stylesheet.xsl'?>
+<dataset>
+    <name>imglab dataset</name>
+    <comment>Created by imglab tool.</comment>
+    <images>
+        <image file='cardataset/1000.jpg'>
+            <box top='111' left='403' width='72' height='60' ignore='1'/>
+            <box top='115' left='525' width='77' height='64'/>
+            <box top='84' left='648' width='74' height='64'/>
+            <box top='33' left='474' width='47' height='44' ignore='1'/>
+            <box top='59' left='533' width='61' height='52' ignore='1'/>
+            <box top='13' left='645' width='40' height='29' ignore='1'/>
+            <box top='5' left='584' width='37' height='27' ignore='1'/>
+        </image>
+        <image file='cardataset/1050.jpg'>
+            <box top='142' left='360' width='82' height='70'/>
+            <box top='264' left='495' width='142' height='134'/>
+            <box top='86' left='652' width='71' height='60' ignore='1'/>
+            <box top='20' left='636' width='44' height='35' ignore='1'/>
+            <box top='44' left='555' width='49' height='36' ignore='1'/>
+            <box top='17' left='569' width='36' height='27' ignore='1'/>
+            <box top='-6' left='542' width='42' height='27' ignore='1'/>
+        </image>
+    </images>
+</dataset>

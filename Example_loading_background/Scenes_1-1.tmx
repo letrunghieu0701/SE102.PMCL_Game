@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="220" height="90" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="35">
- <tileset firstgid="1" source="NES - Super Mario Bros 3 - Stage Tiles_transparent.xml"/>
+ <tileset firstgid="1" source="NES - Super Mario Bros 3 - Stage Tiles.xml"/>
  <layer id="1" name="BackGround" width="220" height="90">
   <properties>
    <property name="Layer_order_to_draw" type="int" value="0"/>

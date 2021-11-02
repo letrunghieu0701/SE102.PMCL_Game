@@ -138,7 +138,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_IMAGEMAP:
+	{
+		int id = atoi(tokens[3].c_str());
+		obj = new CImageMap(x, y, id);
+		DebugOut(L"[INFO] Image map object has been created!\n");
 
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
