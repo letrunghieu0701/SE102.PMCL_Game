@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "AssetIDs.h"
+
 using namespace std;
 
 class CGameObject;

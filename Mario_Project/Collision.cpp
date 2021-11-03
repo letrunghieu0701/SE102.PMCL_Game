@@ -1,4 +1,4 @@
-#include "Collision.h"
+﻿#include "Collision.h"
 #include "GameObject.h"
 
 #include "debug.h"
@@ -159,6 +159,10 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 	coObjects: the list of colliable objects
 	coEvents: list of potential collisions
 */
+/*
+	"potetial" là bởi vì source object sẽ va chạm với cả đống object, nhưng ko phải cái nào cũng là cái mà source object va chạm đầu tiên,
+	nên cần phải lưu hết lại để về sau xử lý, cụ thể là chạy hàm Filter để lọc ra những object va chạm đầu tiên với source object
+*/
 void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDests, vector<LPCOLLISIONEVENT>& coEvents)
 {
 	for (UINT i = 0; i < objDests->size(); i++)
@@ -174,6 +178,10 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
+// Filter là để lựa ra những object nào mà source object va chạm đầu tiên.
+// Bởi vì rất có thể là source object sẽ đi va chạm với rất nhiều object ở frame trước đó, và những object đã đó sẽ được thêm vào danh sách
+// colliision event để xử lý, mà do xử lý va chạm là chỉ xử lý với những object mình va chạm đầu tiên thôi, tụi kia là do nó nằm trên quỹ đạo
+// di chuyển của source object nên mới bị thêm vào danh sách collision event. Do đó, mình cần phải filter (lọc) ra những collision event đầu tiên
 void CCollision::Filter( LPGAMEOBJECT objSrc,
 	vector<LPCOLLISIONEVENT>& coEvents,
 	LPCOLLISIONEVENT &colX,
@@ -191,12 +199,19 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
+		
 		LPCOLLISIONEVENT c = coEvents[i];
 		if (c->isDeleted) continue;
-		if (c->obj->IsDeleted()) continue; 
+		if (c->obj->IsDeleted()) continue;
 
+		if (c->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
+		{
+			DebugOutTitle(L"object type: invisible platform");;
+		}
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 && !c->obj->IsBlocking()) 
+		if (filterBlock == 1 && 
+			(!c->obj->IsBlocking() || !(c->nx==0 && c->ny<0 /*&& 
+										c->obj->GetType()==OBJECT_TYPE_INVISIBLE_PLATFORM*/)))
 		{
 			continue;
 		}

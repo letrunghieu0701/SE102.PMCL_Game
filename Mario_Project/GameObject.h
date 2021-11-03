@@ -30,6 +30,8 @@ protected:
 
 	bool isDeleted; 
 
+	int type;	// type of object == id of object in
+
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
@@ -43,7 +45,7 @@ public:
 	void RenderBoundingBox();
 
 	CGameObject();
-	CGameObject(float x, float y) :CGameObject() { this->x = x; this->y = y; }
+	CGameObject(float x, float y, int type) :CGameObject() { this->x = x; this->y = y; this->type = type; }
 
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
@@ -68,4 +70,6 @@ public:
 	~CGameObject();
 
 	static bool IsDeleted(const LPGAMEOBJECT &o) { return o->isDeleted; }
+
+	int GetType() { return this->type; }
 };

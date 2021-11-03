@@ -123,7 +123,7 @@ private:
 	int GetAniIdSmall();
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
+	CMario(float x, float y, int type) : CGameObject(x, y, type)
 	{
 		isSitting = false;
 		maxVx = 0.0f;

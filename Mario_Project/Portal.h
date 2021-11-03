@@ -14,7 +14,7 @@ private:
 	float width;
 	float height; 
 public:
-	CPortal(float l, float t, float r, float b, int scene_id);
+	CPortal(float l, float t, float r, float b, int scene_id, int type);
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 

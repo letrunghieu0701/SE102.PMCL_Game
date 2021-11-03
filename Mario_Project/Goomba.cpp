@@ -1,6 +1,6 @@
 #include "Goomba.h"
 
-CGoomba::CGoomba(float x, float y):CGameObject(x, y)
+CGoomba::CGoomba(float x, float y, int type):CGameObject(x, y, type)
 {
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
@@ -59,7 +59,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 

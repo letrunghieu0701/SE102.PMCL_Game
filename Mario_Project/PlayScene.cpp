@@ -112,14 +112,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
+		obj = new CMario(x,y, object_type);
 		player = (CMario*)obj;  
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y, object_type); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y, object_type); break;
+	case OBJECT_TYPE_COIN: obj = new CCoin(x, y, object_type); break;
 
 	case OBJECT_TYPE_PLATFORM:
 	{
@@ -132,7 +132,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_end = atoi(tokens[8].c_str());
 
 		obj = new CPlatform(
-			x, y,
+			x, y, object_type,
 			cell_width, cell_height, length,
 			sprite_begin, sprite_middle, sprite_end
 		);
@@ -143,13 +143,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int width = atoi(tokens[3].c_str());
 		int height = atoi(tokens[4].c_str());
-		obj = new CInvisiblePlatform(x, y, width, height);
+		obj = new CInvisiblePlatform(x, y, object_type, width, height);
 		break;
 	}
 	case OBJECT_TYPE_IMAGEMAP:
 	{
 		int id = atoi(tokens[3].c_str());
-		obj = new CImageMap(x, y, id);
+		obj = new CImageMap(x, y, object_type, id);
 		DebugOut(L"[INFO] Image map object has been created!\n");
 
 		break;
@@ -159,7 +159,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
+		obj = new CPortal(x, y, r, b, scene_id, object_type);
 	}
 	break;
 
