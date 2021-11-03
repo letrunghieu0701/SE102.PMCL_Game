@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "InvisiblePlatform.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -136,6 +137,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_begin, sprite_middle, sprite_end
 		);
 
+		break;
+	}
+	case OBJECT_TYPE_INVISIBLE_PLATFORM:
+	{
+		int width = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
+		obj = new CInvisiblePlatform(x, y, width, height);
 		break;
 	}
 	case OBJECT_TYPE_IMAGEMAP:
@@ -268,7 +276,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0;
 
 	CGame::GetInstance()->SetCamPos(cx, /*0.0f */cy);
-	DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);
+	/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
 
 	PurgeDeletedObjects();
 }

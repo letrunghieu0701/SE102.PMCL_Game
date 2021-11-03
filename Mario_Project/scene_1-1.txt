@@ -8,15 +8,39 @@ image_map.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, , 8 = invisible platform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
 0	20	380
 
+# ? brick
+7	176	352
+7	192	352
 
 #Platform
-5	0	416	16	16	32	51000	52000	53000
+# First ground (lower)
+5	0	416	16	16	39	51000	52000	53000
+# Second ground (higher)
+5	625	400	16	16	29	51000	52000	53000
+
+# Invisible platform
+# Big rectangle platform (Pink)
+8	240	368	48	8
+# Big rectangle platform (Blue)
+8	272	336	48	8
+# Pipe
+8	352	368	32	48
+# Big rectangle platform (Green)
+8	400	368	80	8
+# Big rectangle platform (Pink, second)
+8	464	336	64	8
+# Big rectangle platform (Green, second)
+8	512	384	96	8
+# Big rectangle platform (White)
+8	512	304	64	8
+
+
 
 
 #Image map

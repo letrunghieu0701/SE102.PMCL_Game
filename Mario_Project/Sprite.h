@@ -3,6 +3,9 @@
 #include "Texture.h"
 #include "Game.h"
 
+#define TILE_WIDTH 16
+#define TILE_HEIGHT 16
+
 class CSprite
 {
 private:

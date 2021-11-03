@@ -7,8 +7,8 @@ void CImageMap::Render()
 
 	float l, t, r, b;
 	GetBoundingBox(l, t, r, b);
-	float re_position_x = x + (r - l) / 2;
-	float re_position_y = y + (b - t) / 2;
+	float re_position_x = x - (TILE_WIDTH / 2) + ((r - l) / 2);
+	float re_position_y = y - (TILE_HEIGHT / 2) + ((b - t) / 2);
 	s->Draw(re_position_x, re_position_y);
 }
 

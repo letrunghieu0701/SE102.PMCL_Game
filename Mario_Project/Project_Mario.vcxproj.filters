@@ -99,6 +99,12 @@
     <ClCompile Include="ImageMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QuestionBrick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvisiblePlatform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -189,6 +195,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImageMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestionBrick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvisiblePlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
