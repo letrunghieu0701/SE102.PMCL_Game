@@ -1,7 +1,7 @@
 # list of object assets to load in this scene
 [ASSETS]
 mario.txt
-#coin.txt
+coin.txt
 cloud.txt
 image_map.txt
 
@@ -14,31 +14,69 @@ image_map.txt
 # MARIO
 0	20	380
 
-# ? brick
-7	176	352
-7	192	352
+# Coin
+4	170	352
+
+4	1073	320
+4	1105	288
+4	1137	256
+4	1169	224
+4	1201	192
 
 #Platform
-# First ground (lower)
+# 1st ground (lower)
 5	0	416	16	16	39	51000	52000	53000
-# Second ground (higher)
+# 2nd ground (higher)
 5	625	400	16	16	29	51000	52000	53000
+# 3rd ground (lower)
+5	1152	416	16	16	22	51000	52000	53000
+# 4th ground (lower, short)
+5	1536	416	16	16	5	51000	52000	53000
+# 5th ground (
+5	1664	416	16	16	36	51000	52000	53000
+# 6th ground (lower, the last one of this scene)
+5	2256	416	16	16	35	51000	52000	53000
 
-# Invisible platform
-# Big rectangle platform (Pink)
+# Invisible platform (Big rectangle platform)
+# 1st ground
+# 1st (Pink)
 8	240	368	48	8
-# Big rectangle platform (Blue)
+# 2nd (Blue)
 8	272	336	48	8
-# Pipe
-8	352	368	32	48
-# Big rectangle platform (Green)
+# 3rd (Green)
 8	400	368	80	8
-# Big rectangle platform (Pink, second)
+# 4th (Pink)
 8	464	336	64	8
-# Big rectangle platform (Green, second)
+# 5th (Green)
 8	512	384	96	8
-# Big rectangle platform (White)
+# 6th (White)
 8	512	304	64	8
+
+# 3rd ground
+# 7th (Green)
+8	1264	384	112	8
+# 8th (Pink)
+8	1296	352	112	8
+# 9th (Blue)
+8	1328	320	112	8
+
+# 5th ground
+# 10th (Pink)
+8	2144	368	48	8
+# 11th (Green)
+8	2176	272	48	8
+
+# Above
+# 12th (Pink)
+8	1312	144	64	8
+# 13th (1st square cloud)
+8	1408	192	64	16
+# 14th (2nd square cloud)
+8	1488	176	208	16
+
+# Pipe
+# 1st
+# 8	352	368	32	48
 
 
 

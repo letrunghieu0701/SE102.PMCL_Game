@@ -42,6 +42,11 @@ Cần làm sau khi hoàn thành Milestone 1:
 
 
 
+Điều cần làm hiện tại:
+1. Vẽ sơ đồ mối liên kết giữa các file asset (load game, asset.txt, object, AssetIh.h) của game để có thể nhìn được tổng thể mọi thứ liên quan tới sprite được liên kết ra sao, và cũng để dễ dàng thêm object khi cần.
 
+2. Thêm nốt các big rectangle platform vào file scene_1-1.txt
+
+3. Tạo brick object (có vằn) bằng cách thay sprite cho nó, vẫn sử dụng clas CBrick
 
 

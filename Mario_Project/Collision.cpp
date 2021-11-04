@@ -210,8 +210,9 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		}
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
 		if (filterBlock == 1 && 
-			(!c->obj->IsBlocking() || !(c->nx==0 && c->ny<0 /*&& 
-										c->obj->GetType()==OBJECT_TYPE_INVISIBLE_PLATFORM*/)))
+			(!c->obj->IsBlocking() /* ||
+				!(c->nx==0 && c->ny<0 &&	// This condition make platform object can't be touch from x-axis
+				c->obj->GetType()==OBJECT_TYPE_INVISIBLE_PLATFORM)*/))	// This condition make platform object can't be touch, thus Mario fall off the platform
 		{
 			continue;
 		}
