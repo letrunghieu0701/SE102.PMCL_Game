@@ -43,10 +43,28 @@ Cần làm sau khi hoàn thành Milestone 1:
 
 
 Điều cần làm hiện tại:
-1. Vẽ sơ đồ mối liên kết giữa các file asset (load game, asset.txt, object, AssetIh.h) của game để có thể nhìn được tổng thể mọi thứ liên quan tới sprite được liên kết ra sao, và cũng để dễ dàng thêm object khi cần.
 
-2. Thêm nốt các big rectangle platform vào file scene_1-1.txt
+0. Tạo question brick bằng cách kế thừa class Brick, chỉ thêm animation, xử lý va chạm để sau.
 
-3. Tạo brick object (có vằn) bằng cách thay sprite cho nó, vẫn sử dụng clas CBrick
+1. Tạo brick object (có vằn) bằng cách thay sprite cho nó, vẫn sử dụng class CBrick
+
+2. Thêm Goomba vào scene_1-1 nhưng dùng animation của Koopa. Xử lý va chạm thì có thể sẽ dễ, vì chỉ cần đọc code phần của Goomba rồi mô phỏng theo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

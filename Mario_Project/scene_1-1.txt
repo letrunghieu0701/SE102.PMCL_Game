@@ -2,6 +2,8 @@
 [ASSETS]
 mario.txt
 coin.txt
+brick.txt
+question_brick.txt
 cloud.txt
 image_map.txt
 
@@ -14,14 +16,88 @@ image_map.txt
 # MARIO
 0	20	380
 
+
+
+
 # Coin
-4	170	352
+4	170	330
 
 4	1073	320
 4	1105	288
 4	1137	256
 4	1169	224
 4	1201	192
+
+
+
+
+# Brick
+# Question Brick's location
+7	176	352
+7	192	352
+
+1	224	304
+1	240	304
+
+1	656	384
+1	704	352
+
+1	1472	368
+
+# Normal Brick's location
+1	1504	336
+1	1520	336
+
+1	1568	400
+1	1584	400
+1	1584	384
+1	1600	400
+1	1600	384
+1	1600	368
+
+1	1664	400
+1	1664	384
+1	1664	368
+1	1680	400
+1	1680	384
+1	1696	400
+
+1	2256	368
+1	2256	304
+
+1	2272	368
+1	2272	304
+
+# Breakable Brick's location
+1	1952	400
+
+1	1968	400
+1	1968	384
+
+1	1984	400
+1	1984	384
+1	1984	368
+
+1	2000	400
+1	2000	384
+1	2000	368
+
+1	2016	400
+1	2016	384
+1	2016	368
+
+1	2032	400
+1	2032	384
+1	2032	368
+
+1	2048	400
+
+1	2096	400
+1	2096	384
+1	2112	400
+
+
+
 
 #Platform
 # 1st ground (lower)
@@ -36,6 +112,9 @@ image_map.txt
 5	1664	416	16	16	36	51000	52000	53000
 # 6th ground (lower, the last one of this scene)
 5	2256	416	16	16	35	51000	52000	53000
+
+
+
 
 # Invisible platform (Big rectangle platform)
 # 1st ground
@@ -73,6 +152,9 @@ image_map.txt
 8	1408	192	64	16
 # 14th (2nd square cloud)
 8	1488	176	208	16
+
+
+
 
 # Pipe
 # 1st
