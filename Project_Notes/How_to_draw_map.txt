@@ -38,13 +38,16 @@ Cần phải hiểu rõ kiến trúc của framework và sau đó là cách code
 Cần làm sau khi hoàn thành Milestone 1:
 1. Thêm code để tùy chỉnh width và height của cửa sổ game trong file mario-sample.txt trong mục SETTINGS
 2. Sửa e->ny != 0 thành e->ny < 0 ở hàm OnCollisionWith() của CMario. Do Mario va chạm phía trên platform nên vector normal sẽ là (0, -1) thì mới đúng.
+3. Cố gắng nâng cấp hàm Update() của PlayScene (cũng có thể nên update cho những scene khác như Intro, World map khi chọn màng chơi) bằng phân hoạch không gian (Grid, Quad Tree,...)
 
 
 
 
 Điều cần làm hiện tại:
 
-0. Tạo question brick bằng cách kế thừa class Brick, chỉ thêm animation, xử lý va chạm để sau.
+0. Vẽ hình xem collision trong sample code chạy như thế nào, để có thể làm tiếp các phần có liên quan đến va chạm
+
+0.5. Tạo question brick bằng cách kế thừa class Brick, chỉ thêm animation, xử lý va chạm để sau.
 
 1. Tạo brick object (có vằn) bằng cách thay sprite cho nó, vẫn sử dụng class CBrick
 

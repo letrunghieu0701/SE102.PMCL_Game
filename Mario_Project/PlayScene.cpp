@@ -250,7 +250,12 @@ void CPlayScene::Load()
 void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+	// TO-DO: This is a "dirty" way, need a more organized way
+	/* "dirty" là vì chưa xử dụng phân hoạch không gian(Grid, Quad Tree, ...) để xử lý va chạm cho ít game object hơn.
+		 Xử lý ít hơn là để cho game chạy nhanh hơn, mà cũng là vì những object không ở gần cửa sổ game thì cũng không cần update làm chi
+		 (đỡ tốn thời gian tính toán cho CPU).
+		 Nên mới cần phân hoạch không gian để chọn ra những object thực sự cần thiết để update.
+	*/ 
 
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)

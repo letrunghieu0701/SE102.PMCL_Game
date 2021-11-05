@@ -178,10 +178,15 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
-// Filter là để lựa ra những object nào mà source object va chạm đầu tiên.
-// Bởi vì rất có thể là source object sẽ đi va chạm với rất nhiều object ở frame trước đó, và những object đã đó sẽ được thêm vào danh sách
-// colliision event để xử lý, mà do xử lý va chạm là chỉ xử lý với những object mình va chạm đầu tiên thôi, tụi kia là do nó nằm trên quỹ đạo
-// di chuyển của source object nên mới bị thêm vào danh sách collision event. Do đó, mình cần phải filter (lọc) ra những collision event đầu tiên
+/* Filter là để lựa ra những object nào mà source object va chạm đầu tiên.
+	Bởi vì rất có thể là source object sẽ đi va chạm với rất nhiều object ở frame trước đó, và những object đó sẽ được thêm vào danh sách
+	colliision event để xử lý, mà do xử lý va chạm là chỉ xử lý với những object mình va chạm đầu tiên thôi, tụi kia là do nó nằm trên quỹ đạo
+	di chuyển của source object nên mới bị thêm vào danh sách collision event. Do đó, mình cần phải filter (lọc) ra những collision event đầu tiên.
+
+	Hàm này có chức năng chính là Filter (lọc và giữ lại) va chạm đầu tiên trên cả 2 trục x, y
+	(hoặc có thể chọn Filter trên một trục x hoặc y, nếu cần thiết)
+	Ta còn có thể tùy chỉnh tham số filterBLock để có thể filter những Blocking object hay không
+ */
 void CCollision::Filter( LPGAMEOBJECT objSrc,
 	vector<LPCOLLISIONEVENT>& coEvents,
 	LPCOLLISIONEVENT &colX,
@@ -204,10 +209,11 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		if (c->isDeleted) continue;
 		if (c->obj->IsDeleted()) continue;
 
-		if (c->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
+		/*if (c->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
 		{
 			DebugOutTitle(L"object type: invisible platform");;
-		}
+		}*/
+
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
 		if (filterBlock == 1 && 
 			(!c->obj->IsBlocking() /* ||
@@ -217,11 +223,17 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 			continue;
 		}
 
-		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
+		if (filterX == 1 &&
+			c->nx != 0 &&
+			c->t < min_tx)
+		{
 			min_tx = c->t; min_ix = i;
 		}
 
-		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
+		if (filterY == 1 &&
+			c->ny != 0 &&
+			c->t < min_ty)
+		{
 			min_ty = c->t; min_iy = i;
 		}
 	}
@@ -285,7 +297,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 				coEvents.push_back(SweptAABB(objSrc, dt, colX->obj));
 
 				// re-filter on X only
-				Filter(objSrc, coEvents, colX_other, colY, /*filterBlock = */ 1, 1, /*filterY=*/0);
+				Filter(objSrc, coEvents, colX_other, colY, /*filterBlock=*/ 1, /*filterX=*/ 1, /*filterY=*/ 0);
 
 				if (colX_other != NULL)
 				{
