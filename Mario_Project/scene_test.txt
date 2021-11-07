@@ -1,10 +1,13 @@
 # list of object assets to load in this scene
 [ASSETS]
 mario.txt
+
 brick.txt
 question_brick.txt
 mushroom.txt
 cloud.txt
+goomba.txt
+
 image_map.txt
 
 #
@@ -23,6 +26,9 @@ image_map.txt
 
 # Mushroom
 9	140	330
+
+#Goomba
+2	140	330
 
 
 #Platform

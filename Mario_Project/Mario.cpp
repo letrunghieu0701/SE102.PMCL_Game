@@ -61,6 +61,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithInvisiblePlatform(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
 		OnCllisionWithQuestionBrick(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_MUSHROOM)
+		OnCollisionWithMushroom(e);
+}
+
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	e->obj->Delete();
+	SetLevel(MARIO_LEVEL_BIG);
 }
 
 void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
