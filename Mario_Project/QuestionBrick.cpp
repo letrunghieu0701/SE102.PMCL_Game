@@ -4,7 +4,15 @@
 void CQuestionBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_QUESTION_BRICK)->Render(x, y);
+	
+	int ani_id = -1;
+	if (state != QUESTION_BRICK_STATE_IDLE_NO_MUSHROOM)
+		ani_id = ID_ANI_QUESTION_BRICK_QUESTION_MARK_MOVING;
+	else
+		ani_id = ID_ANI_QUESTION_BRICK_NO_QUESTION_MARK_MOVING;
+
+	animations->Get(ani_id)->Render(x, y);
+
 	RenderBoundingBox();
 }
 

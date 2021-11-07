@@ -65,7 +65,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
-	if (e->ny > 0)
+	if (e->ny > 0 &&
+		e->obj->GetState() == QUESTION_BRICK_STATE_IDLE_HAVE_MUSHROOM)
 	{
 		e->obj->SetState(QUESTION_BRICK_STATE_BOUNCING_UP);
 	}
