@@ -113,7 +113,9 @@ private:
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	int coin; 
+	int coin;
+
+	bool isStopUpdate;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -139,6 +141,8 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+
+		isStopUpdate = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -158,4 +162,6 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	bool IsStopUpdate() { return isStopUpdate; }
 };

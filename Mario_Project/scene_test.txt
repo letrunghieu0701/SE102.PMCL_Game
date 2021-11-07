@@ -18,7 +18,7 @@ image_map.txt
 
 # Brick
 # Question Brick's location
-7	176	352
+7	176	330
 #7	192	352
 
 
