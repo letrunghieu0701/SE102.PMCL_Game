@@ -34,6 +34,7 @@ public:
 	{
 		ax = 0;
 		ay = 0;
+		SetState(MUSHROOM_STATE_MOVING);
 	}
 	virtual void SetState(int state);
 };

@@ -10,7 +10,9 @@ void CMushroom::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy += ay * dt;
 
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CMushroom::Render()
@@ -26,10 +28,22 @@ void CMushroom::Render()
 
 void CMushroom::OnNoCollision(DWORD dt)
 {
+	x += vx * dt;
+	y += vy * dt;
 }
 
 void CMushroom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (!e->obj->IsBlocking()) return;
+
+	if (e->ny != 0)
+	{
+		vy = 0;
+	}
+	else if (e->nx != 0)
+	{
+		vx = -vx;
+	}
 }
 
 void CMushroom::SetState(int state)
@@ -46,5 +60,9 @@ void CMushroom::SetState(int state)
 			vy = -MUSHROOM_RISING_UP_SPEED;
 			ay = MUSHROOM_GRAVITY;
 			break;
+		case MUSHROOM_STATE_MOVING:
+			vx = MUSHROOM_WALKING_SPEED;
+			vy = 0;
+			ay = MUSHROOM_GRAVITY;
 	}
 }
