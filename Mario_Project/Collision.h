@@ -5,6 +5,9 @@
 #include <algorithm>
 
 #include "AssetIDs.h"
+#include "debug.h"
+
+#define BLOCK_PUSH_FACTOR 0.4f
 
 using namespace std;
 

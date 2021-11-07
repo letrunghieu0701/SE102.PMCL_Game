@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Mario.h"
@@ -7,6 +7,7 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
+#include "QuestionBrick.h"
 
 #include "Collision.h"
 
@@ -37,13 +38,15 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0 && e->obj->IsBlocking())
+	if (e->obj->IsBlocking() &&
+		e->ny != 0)
 	{
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
 	}
 	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
+	if (e->obj->IsBlocking() &&
+		e->nx != 0)
 	{
 		vx = 0;
 	}
@@ -54,6 +57,28 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
+		OnCollisionWithInvisiblePlatform(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
+		OnCllisionWithQuestionBrick(e);
+}
+
+void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
+{
+	if (e->ny > 0)
+	{
+		e->obj->SetState(QUESTION_BRICK_STATE_BOUNCING_UP);
+	}
+}
+
+void CMario::OnCollisionWithInvisiblePlatform(LPCOLLISIONEVENT e)
+{
+	if (e->ny < 0)	// Mario đang đứng trên Invisible Platform
+	{
+		this->y += this->vy * e->t + e->ny * BLOCK_PUSH_FACTOR;		// Đẩy Mario ra khỏi va chạm
+		this->vy = 0;												// Vì cũng là đang đứng trên platform, nên phải đặt lại bằng 0
+		this->isOnPlatform = true;
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -242,7 +267,7 @@ void CMario::Render()
 	RenderBoundingBox();
 	//DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)

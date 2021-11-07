@@ -58,7 +58,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		return;
 	}
 
-	//CGameObject::Update(dt, coObjects);	// Có vẻ là bị dư, do không có code để chạy trong hàm Update của CGameObject
+	CGameObject::Update(dt, coObjects);	// Có vẻ là bị dư, do không có code để chạy trong hàm Update của CGameObject
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -88,7 +88,7 @@ void CGoomba::SetState(int state)
 			ay = 0; 
 			break;
 		case GOOMBA_STATE_WALKING: 
-			//vx = -GOOMBA_WALKING_SPEED;
+			vx = -GOOMBA_WALKING_SPEED;
 			break;
 	}
 }

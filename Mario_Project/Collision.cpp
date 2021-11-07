@@ -1,10 +1,6 @@
 ﻿#include "Collision.h"
 #include "GameObject.h"
 
-#include "debug.h"
-
-#define BLOCK_PUSH_FACTOR 0.4f
-
 CCollision* CCollision::__instance = NULL;
 
 CCollision* CCollision::GetInstance()
@@ -14,7 +10,7 @@ CCollision* CCollision::GetInstance()
 }
 
 /*
-	SweptAABB 
+	SweptAABB
 */
 void CCollision::SweptAABB(
 	float ml, float mt, float mr, float mb,
@@ -169,7 +165,7 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	{
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
 
-		if (e->WasCollided()==1)
+		if (e->WasCollided() == 1)
 			coEvents.push_back(e);
 		else
 			delete e;
@@ -187,10 +183,10 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	(hoặc có thể chọn Filter trên một trục x hoặc y, nếu cần thiết)
 	Ta còn có thể tùy chỉnh tham số filterBLock để có thể filter những Blocking object hay không
  */
-void CCollision::Filter( LPGAMEOBJECT objSrc,
+void CCollision::Filter(LPGAMEOBJECT objSrc,
 	vector<LPCOLLISIONEVENT>& coEvents,
-	LPCOLLISIONEVENT &colX,
-	LPCOLLISIONEVENT &colY,
+	LPCOLLISIONEVENT& colX,
+	LPCOLLISIONEVENT& colY,
 	int filterBlock = 1,		// 1 = only filter block collisions, 0 = filter all collisions 
 	int filterX = 1,			// 1 = process events on X-axis, 0 = skip events on X 
 	int filterY = 1)			// 1 = process events on Y-axis, 0 = skip events on Y
@@ -204,7 +200,7 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
-		
+
 		LPCOLLISIONEVENT c = coEvents[i];
 		if (c->isDeleted) continue;
 		if (c->obj->IsDeleted()) continue;
@@ -215,7 +211,7 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		}*/
 
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 && 
+		if (filterBlock == 1 &&
 			(!c->obj->IsBlocking() /* ||
 				!(c->nx==0 && c->ny<0 &&	// This condition make platform object can't be touch from x-axis
 				c->obj->GetType()==OBJECT_TYPE_INVISIBLE_PLATFORM)*/))	// This condition make platform object can't be touch, thus Mario fall off the platform
@@ -243,13 +239,13 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 }
 
 /*
-*  Simple/Sample collision framework 
-*  NOTE: Student might need to improve this based on game logic 
+*  Simple/Sample collision framework
+*  NOTE: Student might need to improve this based on game logic
 */
 void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vector<LPCOLLISIONEVENT> coEvents;
-	LPCOLLISIONEVENT colX = NULL; 
+	LPCOLLISIONEVENT colX = NULL;
 	LPCOLLISIONEVENT colY = NULL;
 
 	coEvents.clear();
@@ -274,7 +270,9 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		dx = vx * dt;
 		dy = vy * dt;
 
-		if (colX != NULL && colY != NULL) 
+
+
+		if (colX != NULL && colY != NULL)
 		{
 			if (colY->t < colX->t)	// was collision on Y first ?
 			{
@@ -301,7 +299,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 				if (colX_other != NULL)
 				{
-					x += colX_other->t * dx +colX_other->nx * BLOCK_PUSH_FACTOR;
+					x += colX_other->t * dx + colX_other->nx * BLOCK_PUSH_FACTOR;
 					objSrc->OnCollisionWith(colX_other);
 				}
 				else
@@ -343,25 +341,23 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 				}
 			}
 		}
-		else
-		if (colX != NULL)
+		else if (colX != NULL)
 		{
 			x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
 			y += dy;
 			objSrc->OnCollisionWith(colX);
 		}
-		else 
-			if (colY != NULL)
-			{
-				x += dx;
-				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
-				objSrc->OnCollisionWith(colY);
-			}
-			else // both colX & colY are NULL 
-			{
-				x += dx;
-				y += dy;
-			}
+		else if (colY != NULL)
+		{
+			x += dx;
+			y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
+			objSrc->OnCollisionWith(colY);
+		}
+		else // both colX & colY are NULL 
+		{
+			x += dx;
+			y += dy;
+		}
 
 		objSrc->SetPosition(x, y);
 	}
@@ -375,7 +371,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		if (e->isDeleted) continue;
 		if (e->obj->IsBlocking()) continue;  // blocking collisions were handled already, skip them
 
-		objSrc->OnCollisionWith(e);			
+		objSrc->OnCollisionWith(e);
 	}
 
 

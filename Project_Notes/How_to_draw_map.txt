@@ -56,6 +56,10 @@ Cần làm sau khi hoàn thành Milestone 1:
 
 
 
+Muốn thực hiện cái vụ làm cho Mario có thể đứng phía trên invisible platform, thì chỉ cần xử lý sự kiện ở cái chỗ Non-blocking object mà thôi, haha.
+
+
+
 
 
 

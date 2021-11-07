@@ -1,0 +1,27 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+brick.txt
+question_brick.txt
+cloud.txt
+image_map.txt
+
+#
+[OBJECTS]
+# type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, , 8 = invisible platform
+# See OBJECT_TYPE constants in AssetIDs.h
+
+# MARIO
+0	20	380
+
+
+# Brick
+# Question Brick's location
+7	176	352
+#7	192	352
+
+
+#Platform
+# 1st ground (lower)
+5	0	416	16	16	39	51000	52000	53000
