@@ -23,9 +23,11 @@ image_map.txt
 # Brick
 # Question Brick's location
 7	176	330
+7	192	330
+7	208	330
 
 # Mushroom
-9	140	330
+9	176	330
 
 #Goomba
 2	140	330

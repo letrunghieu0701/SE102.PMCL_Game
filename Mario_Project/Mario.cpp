@@ -274,7 +274,7 @@ void CMario::Render()
 	animations->Get(aniId)->Render(x, y);
 
 	RenderBoundingBox();
-	DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);
+	/*DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);*/
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }

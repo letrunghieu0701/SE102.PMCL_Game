@@ -42,6 +42,8 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
+	void SetNormalDirectionX(int normal_x) { this->nx = normal_x; }
+	int GetNormalDirectionX() { return this->nx; }
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
 
