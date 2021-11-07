@@ -3,6 +3,7 @@
 mario.txt
 brick.txt
 question_brick.txt
+mushroom.txt
 cloud.txt
 image_map.txt
 
@@ -19,7 +20,9 @@ image_map.txt
 # Brick
 # Question Brick's location
 7	176	330
-#7	192	352
+
+# Mushroom
+9	140	330
 
 
 #Platform

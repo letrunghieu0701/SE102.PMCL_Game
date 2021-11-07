@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "InvisiblePlatform.h"
+#include "Mushroom.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -120,6 +121,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y, object_type); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y, object_type); break;
 	case OBJECT_TYPE_QUESTION_BRICK: obj = new CQuestionBrick(x, y, object_type); break;
+	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(x, y, object_type); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y, object_type); break;
 
 	case OBJECT_TYPE_PLATFORM:

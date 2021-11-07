@@ -10,7 +10,7 @@ private:
 	int width, height;
 	int type;
 public:
-	CInvisiblePlatform(int x, int y, int type, int width, int height) : CGameObject(x, y, type)
+	CInvisiblePlatform(float x, float y, int type, int width, int height) : CGameObject(x, y, type)
 	{ this->width = width;
 	this->height = height;
 	this->type = type; }
