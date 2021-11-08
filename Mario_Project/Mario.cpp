@@ -67,9 +67,16 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
-	e->obj->Delete();
-	if (level == MARIO_LEVEL_SMALL)
+	// Điều kiện kiểm tra state của Mushroom là để tránh Mario ăn được (va chạm) Mushroom trong khi Mushroom vẫn đang bị che bởi ? Brick
+	// Vì dù Mario được push back bởi ? Brick, nhưng vẫn còn sự kiện Mario đã va chạm với Mushroom, nên Mushroom sẽ bị ăn bởi Mario
+	// và bị delete mặc dù Mushroom vẫn chưa trồi lên
+	if (e->obj->GetState() != MUSHROOM_STATE_IDLE &&
+		level == MARIO_LEVEL_SMALL)
+	{
+		e->obj->Delete();
 		SetLevel(MARIO_LEVEL_BIG);
+	}
+		
 }
 
 void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
