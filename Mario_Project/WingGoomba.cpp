@@ -43,7 +43,7 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CWingGoomba::Render()
 {
-	int ani_id = ID_ANI_WING_GOOMBA_FLYING;
+	int ani_id = ID_ANI_GOOMBA_DIE;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 }

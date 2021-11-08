@@ -8,6 +8,7 @@
 
 #define ID_ANI_WING_GOOMBA_WALKING 5500
 #define ID_ANI_WING_GOOMBA_FLYING 5510
+#define ID_ANI_GOOMBA_DIE 5520
 
 class CWingGoomba: public CGoomba
 {
