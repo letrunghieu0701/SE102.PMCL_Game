@@ -1,6 +1,8 @@
 #pragma once
 #include "Goomba.h"
 
+#define WING_GOOMBA_GRAVITY 0.05f
+
 #define WING_GOOMBA_BBOX_WIDTH 20
 #define WING_GOOMBA_BBOX_HEIGHT 19
 
@@ -24,11 +26,7 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CWingGoomba(float x, float y, int type, float walking_distance) : CGoomba(x, y, type)
-	{
-		this->walkingDistance = walking_distance;
-		this->startWalkingLocation = x;
-	};
+	CWingGoomba(float x, float y, int type, float walking_distance);
 	virtual void SetState(int state);
 };
 
