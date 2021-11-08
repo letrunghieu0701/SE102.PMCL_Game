@@ -51,7 +51,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
+	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
@@ -70,13 +70,15 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	// Điều kiện kiểm tra state của Mushroom là để tránh Mario ăn được (va chạm) Mushroom trong khi Mushroom vẫn đang bị che bởi ? Brick
 	// Vì dù Mario được push back bởi ? Brick, nhưng vẫn còn sự kiện Mario đã va chạm với Mushroom, nên Mushroom sẽ bị ăn bởi Mario
 	// và bị delete mặc dù Mushroom vẫn chưa trồi lên
-	if (e->obj->GetState() != MUSHROOM_STATE_IDLE &&
-		level == MARIO_LEVEL_SMALL)
+	if (e->obj->GetState() != MUSHROOM_STATE_IDLE)
 	{
 		e->obj->Delete();
-		SetLevel(MARIO_LEVEL_BIG);
+
+		if (level == MARIO_LEVEL_SMALL)
+		{
+			SetLevel(MARIO_LEVEL_BIG);
+		}
 	}
-		
 }
 
 void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)

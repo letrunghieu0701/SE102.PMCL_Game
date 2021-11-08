@@ -7,6 +7,7 @@ question_brick.txt
 mushroom.txt
 cloud.txt
 goomba.txt
+wing_goomba.txt
 
 image_map.txt
 
@@ -31,6 +32,9 @@ image_map.txt
 
 #Goomba
 2	140	330
+
+# Wing Goomba
+10	160	330	30
 
 
 #Platform

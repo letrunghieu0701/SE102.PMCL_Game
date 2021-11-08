@@ -173,6 +173,7 @@
     <ClCompile Include="tinyxmlerror.cpp" />
     <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WingGoomba.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="WingGoomba.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project_Mario.rc" />
