@@ -22,8 +22,8 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWingGoomba::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
+	/*x += vx * dt;
+	y += vy * dt;*/
 }
 
 void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -43,7 +43,7 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CWingGoomba::Render()
 {
-	int ani_id = ID_ANI_WING_GOOMBA_WALKING;
+	int ani_id = ID_ANI_WING_GOOMBA_FLYING;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 }

@@ -7,6 +7,7 @@
 #define WING_GOOMBA_BBOX_HEIGHT 19
 
 #define ID_ANI_WING_GOOMBA_WALKING 5500
+#define ID_ANI_WING_GOOMBA_FLYING 5510
 
 class CWingGoomba: public CGoomba
 {
