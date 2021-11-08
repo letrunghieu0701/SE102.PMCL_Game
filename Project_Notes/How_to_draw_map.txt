@@ -36,9 +36,12 @@ Cần phải hiểu rõ kiến trúc của framework và sau đó là cách code
 
 
 Cần làm sau khi hoàn thành Milestone 1:
+0. Nghĩ về cách làm sao cho Mario đang ở trạng thái untouchable, di chuyển va chạm với các Game object gây hại cho Mario (Goomba, Koopa,...) cho tới khi hết thời gian untouchable, thì làm sao để có thể cho Mario die khi đã hết thời gian, bởi vì Mario đã va chạm sẵn với Game object gây hại rồi thì làm sao mà phát hiện va chạm với SweptAABB được.
+
 1. Thêm code để tùy chỉnh width và height của cửa sổ game trong file mario-sample.txt trong mục SETTINGS
 2. Sửa e->ny != 0 thành e->ny < 0 ở hàm OnCollisionWith() của CMario. Do Mario va chạm phía trên platform nên vector normal sẽ là (0, -1) thì mới đúng.
 3. Cố gắng nâng cấp hàm Update() của PlayScene (cũng có thể nên update cho những scene khác như Intro, World map khi chọn màng chơi) bằng phân hoạch không gian (Grid, Quad Tree,...)
+3. Đổi cái untouchable của Mario từ kiểu int thành bool
 
 
 
@@ -49,14 +52,9 @@ Cần làm sau khi hoàn thành Milestone 1:
 
 0.5. Tạo question brick bằng cách kế thừa class Brick, chỉ thêm animation, xử lý va chạm để sau.
 
-1. Tạo brick object (có vằn) bằng cách thay sprite cho nó, vẫn sử dụng class CBrick
-
 2. Thêm Goomba vào scene_1-1 nhưng dùng animation của Koopa. Xử lý va chạm thì có thể sẽ dễ, vì chỉ cần đọc code phần của Goomba rồi mô phỏng theo
 
 
-
-
-Muốn thực hiện cái vụ làm cho Mario có thể đứng phía trên invisible platform, thì chỉ cần xử lý sự kiện ở cái chỗ Non-blocking object mà thôi, haha.
 
 
 

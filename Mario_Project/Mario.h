@@ -125,6 +125,7 @@ private:
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

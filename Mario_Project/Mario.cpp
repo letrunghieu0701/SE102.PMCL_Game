@@ -8,6 +8,7 @@
 #include "Coin.h"
 #include "Portal.h"
 #include "QuestionBrick.h"
+#include "WingGoomba.h"
 
 #include "Collision.h"
 
@@ -53,6 +54,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
 		OnCollisionWithGoomba(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_WING_GOOMBA)
+		OnCollisionWithWingGoomba(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_COIN)
 		OnCollisionWithCoin(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_PORTAL)
@@ -129,6 +132,36 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
+{
+	CWingGoomba* wing_goomba = dynamic_cast<CWingGoomba*>(e->obj);
+
+	if (e->ny < 0)	// Mario nhảy lên đầu Wing Goomba
+	{
+		if (wing_goomba->GetState() != WING_GOOMBA_STATE_DIE)
+		{
+			wing_goomba->SetState(WING_GOOMBA_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else  // Mario bị đụng bởi Wing Goomba
+	{
+		if (untouchable == 0)	// Nếu Mario có thể bị đụng vào
+		{
+			if (level > MARIO_LEVEL_SMALL)	// Mario đang ở level dạng Big thì chuyển lại thành level Small và bắt đầu khoảng thời gian Mario không thể bị đụng vào
+			{
+				SetLevel(MARIO_LEVEL_SMALL);
+				StartUntouchable();
+			}
+			else  // Mario đang ở level Small thì cho chết luôn
+			{
+				DebugOut(L">>> Mario DIE >>> \n");
+				SetState(MARIO_STATE_DIE);
 			}
 		}
 	}
