@@ -21,6 +21,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
+	itemsInside = new unordered_map<int, LPGAMEOBJECT>();
 }
 
 
@@ -120,10 +121,28 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y, object_type); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y, object_type); break;
-	case OBJECT_TYPE_QUESTION_BRICK: obj = new CQuestionBrick(x, y, object_type); break;
-	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(x, y, object_type); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y, object_type); break;
+	case OBJECT_TYPE_QUESTION_BRICK:
+	{
+		int item_id;
+		if (tokens.size() > 3)
+		{
+			item_id = atoi(tokens[3].c_str());
+			obj = new CQuestionBrick(x, y, object_type, item_id);
+		}
+		else
+			obj = new CQuestionBrick(x, y, object_type);
 
+		break;
+	}
+	case OBJECT_TYPE_MUSHROOM:
+	{
+		int mushroom_id = atoi(tokens[3].c_str());
+		obj = new CMushroom(x, y, object_type, mushroom_id);
+
+		itemsInside->insert(make_pair(mushroom_id, obj));
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 

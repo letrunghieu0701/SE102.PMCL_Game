@@ -68,7 +68,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
-	SetLevel(MARIO_LEVEL_BIG);
+	if (level == MARIO_LEVEL_SMALL)
+		SetLevel(MARIO_LEVEL_BIG);
 }
 
 void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)

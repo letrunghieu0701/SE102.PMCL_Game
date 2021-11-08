@@ -27,6 +27,8 @@ protected:
 	float ax, ay;
 	float default_pos_y;	// Để kiểm tra xem Mushroom đã trồi qua khỏi ? brick, rồi sau đó sẽ gán trọng lực cho ? brick
 
+	int id;		// ID để có thể liên kết giữa ? brick và mushroom
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -37,12 +39,13 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
-	CMushroom(int x, int y, int type) : CGameObject(x, y, type)
+	CMushroom(int x, int y, int type, int mushroom_id) : CGameObject(x, y, type)
 	{
 		ax = 0;
 		ay = 0;
 		default_pos_y = y;
-		SetState(MUSHROOM_STATE_RISING);
+		id = mushroom_id;
+		SetState(MUSHROOM_STATE_IDLE);
 	}
 	virtual void SetState(int state);
 };

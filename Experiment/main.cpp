@@ -1,16 +1,10 @@
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
-void print(int *x)
-{
-	cout << "Dia chi cua bien trong ham: " << &x << endl;
-}
 
 void main()
 {
-	int a = 72;
-	cout << "Dia chi cua bien a: " << &a << endl;
-	
-	print(&a);
+	unordered_map<int, int>* a = new unordered_map<int, int>();
 }

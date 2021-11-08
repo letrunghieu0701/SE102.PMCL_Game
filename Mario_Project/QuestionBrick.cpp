@@ -1,5 +1,5 @@
 ﻿#include "QuestionBrick.h"
-
+#include "PlayScene.h"
 
 void CQuestionBrick::Render()
 {
@@ -27,6 +27,12 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y > default_pos_y)	// Nếu ? brick rớt xuống thâp hơn vị trí mặc định thì đặt lại vị trí mặt định, vy=0, ay=0
 	{
 		SetState(QUESTION_BRICK_STATE_IDLE_NO_MUSHROOM);
+		if (itemInsideId > -1)
+		{
+			unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			item_list->at(itemInsideId);
+			item_list->at(itemInsideId)->SetState(MUSHROOM_STATE_RISING);
+		}
 	}
 
 
