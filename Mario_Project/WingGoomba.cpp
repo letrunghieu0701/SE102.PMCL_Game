@@ -26,6 +26,12 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
+	if (GetState() == WING_GOOMBA_STATE_WALKING &&
+		x - startWalkingLocation > walkingDistance)
+	{
+		SetState(WING_GOOMBA_STATE_FLYING);
+	}
+
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	//DebugOutTitle(L"WingGoomba: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
 	DebugOutTitle(L"State: %d", state);
@@ -45,6 +51,16 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
+
+		// Nếu Wing Goomba rớt xuống mặt đất thì đặt lại startWalkingLocation để lát nữa Wing Goomba có thể bay
+		if (e->ny < 0 &&
+			// Phải đang ở state flying thì mới đặt lại thành walking được,
+			// vì nếu cứ chạm đất thì sẽ luôn đặt lại startWalkingLocation, mà như vậy thì khoảng cách mới và
+			// startWalkingLocation sẽ rất gần nhau nếu Wing Goomba di chuyển chậm, dẫn đến không thể chuyển sang state flying được
+			GetState() == WING_GOOMBA_STATE_FLYING)	
+		{
+			SetState(WING_GOOMBA_STATE_WALKING);
+		}
 	}
 	
 	if (e->nx != 0)
@@ -82,7 +98,13 @@ void CWingGoomba::SetState(int state)
 		break;
 	case WING_GOOMBA_STATE_WALKING:
 		vx = WING_GOOMBA_SPEED_WALKING;
+		ay = WING_GOOMBA_GRAVITY;
+		startWalkingLocation = x;
 		break;
+	case WING_GOOMBA_STATE_FLYING:
+		vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;
+		vy = -WING_GOOMBA_SPEED_FLYING;
+		ay = WING_GOOMBA_GRAVITY_WHEN_FLYING;
 	}
 }
 

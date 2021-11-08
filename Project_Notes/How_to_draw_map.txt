@@ -38,10 +38,13 @@ Cần phải hiểu rõ kiến trúc của framework và sau đó là cách code
 Cần làm sau khi hoàn thành Milestone 1:
 0. Nghĩ về cách làm sao cho Mario đang ở trạng thái untouchable, di chuyển va chạm với các Game object gây hại cho Mario (Goomba, Koopa,...) cho tới khi hết thời gian untouchable, thì làm sao để có thể cho Mario die khi đã hết thời gian, bởi vì Mario đã va chạm sẵn với Game object gây hại rồi thì làm sao mà phát hiện va chạm với SweptAABB được.
 
+0.5. Suy nghĩ về việc nên set state cho game object khi ở hàm Update hay hàm OnCollisionWith
+
 1. Thêm code để tùy chỉnh width và height của cửa sổ game trong file mario-sample.txt trong mục SETTINGS
 2. Sửa e->ny != 0 thành e->ny < 0 ở hàm OnCollisionWith() của CMario. Do Mario va chạm phía trên platform nên vector normal sẽ là (0, -1) thì mới đúng.
 3. Cố gắng nâng cấp hàm Update() của PlayScene (cũng có thể nên update cho những scene khác như Intro, World map khi chọn màng chơi) bằng phân hoạch không gian (Grid, Quad Tree,...)
-3. Đổi cái untouchable của Mario từ kiểu int thành bool
+4. Đổi cái untouchable của Mario từ kiểu int thành bool
+
 
 
 
@@ -59,7 +62,8 @@ Cần làm sau khi hoàn thành Milestone 1:
 
 
 
-
+Lưu ý:
+1. Khi muốn lấy ra state thì phải dùng hàm GetState khi ở trong file .cpp của game object, vì rất có thể là viết "=" thay vì "==", sẽ dẫn đến thay đổi state của object mà khó có thể nhận ra.
 
 
 
