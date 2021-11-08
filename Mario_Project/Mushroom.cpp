@@ -30,6 +30,9 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMushroom::Render()
 {
+	if (state == MUSHROOM_STATE_IDLE)
+		return;
+
 	CAnimations* animations = CAnimations::GetInstance();
 
 	int ani_id = ID_ANI_MUSHROOM;

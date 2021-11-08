@@ -53,9 +53,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
 		OnCollisionWithGoomba(e);
-	else if (dynamic_cast<CCoin*>(e->obj))
+	else if (e->obj->GetType() == OBJECT_TYPE_COIN)
 		OnCollisionWithCoin(e);
-	else if (dynamic_cast<CPortal*>(e->obj))
+	else if (e->obj->GetType() == OBJECT_TYPE_PORTAL)
 		OnCollisionWithPortal(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
 		OnCollisionWithInvisiblePlatform(e);
