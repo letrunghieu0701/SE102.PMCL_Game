@@ -137,6 +137,7 @@ void CWingGoomba::SetState(int state)
 		vy = -WING_GOOMBA_SPEED_FLYING;
 		vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;	// Giảm vận tốc vx để tạo cảm giác có lực cản không khí trên cao nên không thể di chuyển theo trục x nhanh được
 		ay = WING_GOOMBA_GRAVITY_WHEN_FLYING;	// Giảm gia tốc ay để tạo cảm giác hạ cánh từ từ
+		break;
 	}
 }
 

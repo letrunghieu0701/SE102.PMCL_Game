@@ -3,21 +3,8 @@
 CKoopa::CKoopa(float x, float y, int type) : CGameObject(x, y, type)
 {
 	ax = 0;
+	ay = KOOPA_SPEED_GRAVITY;
 	SetState(KOOPA_STATE_WALKING);
-}
-
-void CKoopa::SetState(int state)
-{
-	CGameObject::SetState(state);
-
-	switch (state)
-	{
-		case KOOPA_STATE_WALKING:
-		{
-			vx = KOOPA_SPEED_WALKING;
-			ay = KOOPA_SPEED_GRAVITY;
-		}
-	}
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -58,6 +45,34 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
+void CKoopa::SetState(int state)
+{
+	CGameObject::SetState(state);
+
+	switch (state)
+	{
+		case KOOPA_STATE_DIE:
+		{
+			vx = 0;
+			break;
+		}
+		case KOOPA_STATE_WALKING:
+		{
+			vx = KOOPA_SPEED_WALKING;
+			break;
+		}
+		case KOOPA_STATE_SHELLING:
+		{
+			vx = 0;
+			break;
+		}
+		case KOOPA_STATE_SPIN_SHELL:
+		{
+			vx = KOOPA_SPEED_SPINNING;
+			break;
+		}
+	}
+}
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
