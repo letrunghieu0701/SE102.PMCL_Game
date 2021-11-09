@@ -1,9 +1,18 @@
 #pragma once
 #include "GameObject.h"
 
+// Physical stat
+#define KOOPA_SPEED_GRAVITY 0.002f
+#define KOOPA_SPEED_WALKING 0.05f
+
+// Bounding Box
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 27
 
+// State
+#define KOOPA_STATE_WALKING 0
+
+// Animation ID
 #define ID_ANI_KOOPA_WALKING_LEFT 6000
 
 
