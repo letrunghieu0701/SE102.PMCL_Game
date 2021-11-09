@@ -146,7 +146,11 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 		if (wing_goomba->GetState() != WING_GOOMBA_STATE_DIE)
 		{
 			if (wing_goomba->GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING)	// Nếu Wing Goomba đang level "có cánh" thì hạ level xuống thành "không cánh"
-				wing_goomba->SetLevel(WING_GOOMBA_LEVEL_NO_WING);
+			{
+				wing_goomba->SetLevel(WING_GOOMBA_LEVEL_NO_WING);	// Set level "không cánh"
+				wing_goomba->SetState(WING_GOOMBA_STATE_WALKING);	// Vì đang là level "không cánh" nên chỉ có thể có chỉ số vật lý của state walking
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
 			else  // Nếu Wing Goomba đang level "không cánh" thì cho die luôn
 			{
 				wing_goomba->SetState(WING_GOOMBA_STATE_DIE);

@@ -27,7 +27,9 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
-	if (GetState() == WING_GOOMBA_STATE_WALKING &&
+	// Nếu level "có cánh" và đang state walking thì mới bật đo khoảng cách để flying
+	if (GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING &&
+		GetState() == WING_GOOMBA_STATE_WALKING &&
 		x - startWalkingLocation > walkingDistance)
 	{
 		SetState(WING_GOOMBA_STATE_FLYING);
