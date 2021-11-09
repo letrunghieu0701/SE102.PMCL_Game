@@ -97,14 +97,16 @@ void CWingGoomba::SetState(int state)
 		ay = 0;
 		break;
 	case WING_GOOMBA_STATE_WALKING:
+		startWalkingLocation = x;
+
+		// Đặt lại 2 thông số sau để thể hiện là Wing Goomba đang di chuyển bình thường trên mặt đất
 		vx = WING_GOOMBA_SPEED_WALKING;
 		ay = WING_GOOMBA_GRAVITY;
-		startWalkingLocation = x;
 		break;
 	case WING_GOOMBA_STATE_FLYING:
-		vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;
 		vy = -WING_GOOMBA_SPEED_FLYING;
-		ay = WING_GOOMBA_GRAVITY_WHEN_FLYING;
+		vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;	// Giảm vận tốc vx để tạo cảm giác có lực cản không khí trên cao nên không thể di chuyển theo trục x nhanh được
+		ay = WING_GOOMBA_GRAVITY_WHEN_FLYING;	// Giảm gia tốc ay để tạo cảm giác hạ cánh từ từ
 	}
 }
 

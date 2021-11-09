@@ -307,13 +307,18 @@ void CMario::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
-	if (state == MARIO_STATE_DIE)
+	if (state == MARIO_STATE_DIE)	// Mario đã DIE
 		aniId = ID_ANI_MARIO_DIE;
-	else if (level == MARIO_LEVEL_BIG)
-		aniId = GetAniIdBig();
-	else if (level == MARIO_LEVEL_SMALL)
-		aniId = GetAniIdSmall();
-
+	// Mario chưa DIE, vậy thì kiểm tra Level rồi lấy ra ani_id nằm trong những ani_id của level hiện tại,
+	// rồi lấy ra ani_id phù hợp với các chỉ số vật lý hiện tại như: ax, nx và isSitting
+	else
+	{
+		if (level == MARIO_LEVEL_BIG)
+			aniId = GetAniIdBig();
+		else if (level == MARIO_LEVEL_SMALL)
+			aniId = GetAniIdSmall();
+	}
+		
 	animations->Get(aniId)->Render(x, y);
 
 	RenderBoundingBox();
