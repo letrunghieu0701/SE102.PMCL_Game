@@ -1,20 +1,25 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # WALK Left
-80001	6	130	21	155	10
-80002	28	129	43	155	10
+80001	10	65	25	91	40
+80002	27	66	42	91	40
 
 # Walk Right
-#80011
-#80012
+80011	531	65	546	91	40
+80012	514	66	529	91	40
 
 # Shelling
-80021	50	139	64	154	10
+80021	10	121	25	136	40
 
 # Spin shell
-80031	50	138	64	154	10
-80032	71	139	88	154	10
+# Spin Left
+80031	61	121	76	136	40
+80032	44	121	59	136	40
+80033	27	121	42	136	40
 
+# Spin Right
+# Vì mỗi sprite đều có ID và đều được thêm vào database, nên không thể ghi sprite cho Spin Right được
+# Chỉ có thể đảo ngược thứ tự sprite khi ghi Ani ID mà thôi.
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -23,13 +28,20 @@
 6000	80001	100	80002	100
 
 # Walk Right
-#6001	80011	100	80012	100
+6001	80011	100	80012	100
 
 # Shelling
 6002	80021	100
 
 # Spin Shell
-6003	80031	100	80032	100
+# Spin Left
+6003	80031	100	80032	100	80033	100
+
+# Spin Right
+6004	80033	100	80032	100	80031	100
+
+
+
 
 
 

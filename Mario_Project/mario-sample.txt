@@ -21,3 +21,4 @@ height	240
 10	textures\enemies.png
 20	textures\misc.png
 30	textures\NES - Super Mario Bros 3 - Stage 1-1_No_items.png
+40	textures\SNES - Super Mario All-Stars Super Mario Bros 3 - Enemies_transparent.png

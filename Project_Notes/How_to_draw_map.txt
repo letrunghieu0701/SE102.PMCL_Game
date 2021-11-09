@@ -78,7 +78,7 @@ Lưu ý:
 -> Chọn Export as
 -> Thêm "transparent" vào cuối tên file để biết đây là file đã được chỉnh transparent
 -> Export
--> Ok
+-> Export
 -> Xong
 
 
