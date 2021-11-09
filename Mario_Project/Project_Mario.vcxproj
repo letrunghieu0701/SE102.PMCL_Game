@@ -150,6 +150,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ImageMap.cpp" />
+    <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="QuestionBrick.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="ImageMap.h" />
+    <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="QuestionBrick.h" />
     <ClInclude Include="Tile.h" />
