@@ -8,6 +8,7 @@ mushroom.txt
 cloud.txt
 goomba.txt
 wing_goomba.txt
+koopa.txt
 
 image_map.txt
 
@@ -23,20 +24,40 @@ image_map.txt
 
 # Brick
 # Question Brick's location
+# Extra settings: id of item inside ? Brick 
 7	176	330	0
 #7	192	330
 #7	208	330
 
+
 # Mushroom
-9	176	330	0
+# Extra settings: id of this mushroom, to connect with ? Brick
+#9	176	330	0
+
 
 #Goomba
 #2	220	330
 
+
 # Wing Goomba
-10	200	330	30
+#10	200	330	30
+
+
+# Koopa
+11	220	330
 
 
 #Platform
 # 1st ground (lower)
 5	0	416	16	16	39	51000	52000	53000
+
+
+
+
+
+
+
+
+
+
+

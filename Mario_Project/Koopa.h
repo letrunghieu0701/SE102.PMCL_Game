@@ -1,8 +1,11 @@
 #pragma once
 #include "GameObject.h"
 
-#define ID_ANI_KOOPA_WALKING 6000
-#define ID_ANI_KOOPA_DIE 6001
+#define KOOPA_BBOX_WIDTH 16
+#define KOOPA_BBOX_HEIGHT 27
+
+#define ID_ANI_KOOPA_WALKING_LEFT 6000
+
 
 class CKoopa: public CGameObject
 {
@@ -10,7 +13,7 @@ protected:
 	float ax;
 	float ay;
 
-	ULONGLONG shell_start;
+	ULONGLONG shell_start; 
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

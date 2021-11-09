@@ -12,6 +12,7 @@
 #include "InvisiblePlatform.h"
 #include "Mushroom.h"
 #include "WingGoomba.h"
+#include "Koopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -123,6 +124,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y, object_type); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y, object_type); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y, object_type); break;
+	case OBJECT_TYPE_KOOPA:
+	{
+		obj = new CKoopa(x, y, object_type);
+		break;
+	}
 	case OBJECT_TYPE_WING_GOOMBA:
 	{
 		float walking_distance = (float)atof(tokens[3].c_str());
