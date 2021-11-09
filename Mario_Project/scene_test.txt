@@ -49,6 +49,8 @@ image_map.txt
 # Nhớ sửa boundingbox cho đúng với từng kích cỡ của Koopa ở các state khác nhau
 
 
+# Blocking Brick
+1	500	400
 
 #Platform
 # 1st ground (lower)

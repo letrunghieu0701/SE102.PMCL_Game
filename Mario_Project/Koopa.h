@@ -11,10 +11,9 @@
 #define KOOPA_BBOX_HEIGHT 27
 
 // State
-#define KOOPA_STATE_DIE 0
-#define KOOPA_STATE_WALKING 1
-#define	KOOPA_STATE_SHELLING 2
-#define KOOPA_STATE_SPIN_SHELL 3
+#define KOOPA_STATE_WALKING 0
+#define	KOOPA_STATE_SHELLING 1
+#define KOOPA_STATE_SPIN_SHELL 2
 
 // Animation ID
 #define ID_ANI_KOOPA_WALKING_LEFT 6000
@@ -41,6 +40,9 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+
+	int GetAniIdWalk();
+	int GetAniIdSpinShell();
 
 public:
 	CKoopa(float x, float y, int type);

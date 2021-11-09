@@ -5,6 +5,10 @@ CKoopa::CKoopa(float x, float y, int type) : CGameObject(x, y, type)
 	ax = 0;
 	ay = KOOPA_SPEED_GRAVITY;
 	SetState(KOOPA_STATE_WALKING);
+	if (vx > 0)
+		nx = 1;
+	else
+		nx = -1;
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -13,12 +17,32 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
+	//DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
+	DebugOutTitle(L"Koopa: nx: %d", nx);
+}
+
+int CKoopa::GetAniIdWalk()
+{
+	int ani_id = -1;
+	return ani_id;
+}
+
+int CKoopa::GetAniIdSpinShell()
+{
+	int ani_id = -1;
+	return ani_id;
 }
 
 void CKoopa::Render()
 {
 	int ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
+
+	/*if (GetState() == KOOPA_STATE_WALKING)
+		ani_id = GetAniIdWalk();
+	else if (GetState() == KOOPA_STATE_SHELLING)
+		ani_id = ID_ANI_KOOPA_SHELLING;
+	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
+		ani_id = GetAniIdSpinShell();*/
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();
@@ -39,9 +63,10 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		this->vy = 0;
 	}
 
-	if (e->nx != 0) // Nếu va chạm với Blocking object theo trục x, thì quay đầu lại và đi tiếp
+	if (e->nx != 0) // Nếu va chạm với Blocking object theo trục x, thì quay đầu lại và đi tiếp (cho vận tốc và normal vector ngược dấu)
 	{
 		this->vx = -vx;
+		this->nx = -nx;
 	}
 }
 
@@ -51,14 +76,9 @@ void CKoopa::SetState(int state)
 
 	switch (state)
 	{
-		case KOOPA_STATE_DIE:
-		{
-			vx = 0;
-			break;
-		}
 		case KOOPA_STATE_WALKING:
 		{
-			vx = KOOPA_SPEED_WALKING;
+			vx = -KOOPA_SPEED_WALKING;
 			break;
 		}
 		case KOOPA_STATE_SHELLING:
