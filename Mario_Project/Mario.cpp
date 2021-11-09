@@ -101,7 +101,21 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
 	{
-		;
+		float mario_x, mario_y;
+		float koopa_x, koopa_y;
+		this->GetPosition(mario_x, mario_y);
+		koopa->GetPosition(koopa_x, koopa_y);
+
+		if (mario_x < koopa_x)	// Mario ở phía bên trái của Koopa
+		{
+			koopa->SetNormalDirectionX(DIRECTION_RIGHT);	// Cho xoay sang phải
+			koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có trị tuyệt đối rất lớn và cùng dấu (dương) với vectoc normal
+		}
+		else  // Mario ở phía bên phải của Koopa
+		{
+			koopa->SetNormalDirectionX(DIRECTION_LEFT);		// Cho xoay sang trái
+			koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có giá trị tuyệt đối rất lớn và cùng dấu (âm) với vector normal
+		}
 	}
 }
 

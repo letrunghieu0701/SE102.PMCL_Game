@@ -106,7 +106,11 @@ void CKoopa::SetState(int state)
 		}
 		case KOOPA_STATE_SPIN_SHELL:
 		{
-			vx = KOOPA_SPEED_SPINNING;
+			if (GetNormalDirectionX() == DIRECTION_RIGHT)
+				vx = KOOPA_SPEED_SPINNING;
+			else
+				vx = -KOOPA_SPEED_SPINNING;
+
 			break;
 		}
 	}
