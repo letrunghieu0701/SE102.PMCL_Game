@@ -73,18 +73,44 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
+
+int CWingGoomba::GetAniIdHaveWing()
+{
+	int ani_id = -1;
+
+	if (ay == WING_GOOMBA_GRAVITY_WHEN_FLYING)
+		ani_id = ID_ANI_WING_GOOMBA_HAVE_WING_FLYING;
+	else if (ay == WING_GOOMBA_GRAVITY)
+		ani_id = ID_ANI_WING_GOOMBA_HAVE_WING_WALKING;
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_WING_GOOMBA_HAVE_WING_WALKING;
+
+	return ani_id;
+}
+
+int CWingGoomba::GetAniIdNoWing()
+{
+	return ID_ANI_WING_GOOMBA_NO_WING_WALKING;
+}
+
 void CWingGoomba::Render()
 {
-	int ani_id = ID_ANI_WING_GOOMBA_WALKING;
+	int ani_id = ID_ANI_WING_GOOMBA_HAVE_WING_WALKING;
 
-	if (state == WING_GOOMBA_STATE_WALKING)
-		ani_id = ID_ANI_WING_GOOMBA_WALKING;
-	else if (state == WING_GOOMBA_STATE_FLYING)
-		ani_id = ID_ANI_WING_GOOMBA_FLYING;
-	else
+	if (state == WING_GOOMBA_STATE_DIE)
 		ani_id = ID_ANI_WING_GOOMBA_DIE;
+	else
+	{
+		if (GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING)
+			ani_id = GetAniIdHaveWing();
+		else
+			ani_id = GetAniIdNoWing();
+	}
+		
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
+	RenderBoundingBox();
 }
 
 void CWingGoomba::SetState(int state)

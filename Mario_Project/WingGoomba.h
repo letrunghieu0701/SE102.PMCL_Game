@@ -13,9 +13,10 @@
 
 #define WING_GOOMBA_DIE_TIMEOUT 500
 
-#define ID_ANI_WING_GOOMBA_WALKING 5500
-#define ID_ANI_WING_GOOMBA_FLYING 5510
-#define ID_ANI_WING_GOOMBA_DIE 5520
+#define ID_ANI_WING_GOOMBA_HAVE_WING_WALKING 5500
+#define ID_ANI_WING_GOOMBA_HAVE_WING_FLYING 5510
+#define ID_ANI_WING_GOOMBA_NO_WING_WALKING 5520
+#define ID_ANI_WING_GOOMBA_DIE 5530
 
 #define WING_GOOMBA_STATE_DIE 0
 #define WING_GOOMBA_STATE_WALKING 1
@@ -30,6 +31,9 @@ private:
 	int level;
 	float walkingDistance;
 	float startWalkingLocation;
+
+	int GetAniIdHaveWing();
+	int GetAniIdNoWing();
 
 protected:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

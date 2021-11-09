@@ -1,23 +1,30 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-# WALK
+# Have wing, WALK
 35001	64	11	83	29	10
 35002	87	11	106	29	10
 
-# Fly
+# Have wing, Fly
 35011	110	6	129	29	10
 35012	134	6	153	29	10
 
+# No wing, Walking
+35021	5	14	20	29	10
+35022	25	14	40	29	10
+
 # Die
-35021	45	21	60	29	10
+35031	45	21	60	29	10
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
-# Walk
+# Have wing, Walk
 5500	35001	100	35002	100
 
-# Fly
+# Have wing, Fly
 5510	35011	100	35012	100
 
+# No wing, Walking
+5520	35021	100	35022	100
+
 # Die
-5520	35021	100
+5530	35031	100
