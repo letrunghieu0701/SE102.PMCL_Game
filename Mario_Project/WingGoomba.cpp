@@ -152,8 +152,18 @@ int CWingGoomba::GetLevel()
 
 void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - WING_GOOMBA_BBOX_WIDTH / 2;
-	top = y - WING_GOOMBA_BBOX_HEIGHT / 2;
-	right = left + WING_GOOMBA_BBOX_WIDTH;
-	bottom = top + WING_GOOMBA_BBOX_HEIGHT;
+	if (GetState() == WING_GOOMBA_STATE_DIE)
+	{
+		left = x - WING_GOOMBA_BBOX_WIDTH / 2;
+		top = y - WING_GOOMBA_BBOX_HEIGHT_DIE / 2;
+		right = left + WING_GOOMBA_BBOX_WIDTH;
+		bottom = top + WING_GOOMBA_BBOX_HEIGHT_DIE;
+	}
+	else
+	{
+		left = x - WING_GOOMBA_BBOX_WIDTH / 2;
+		top = y - WING_GOOMBA_BBOX_HEIGHT / 2;
+		right = left + WING_GOOMBA_BBOX_WIDTH;
+		bottom = top + WING_GOOMBA_BBOX_HEIGHT;
+	}
 }
