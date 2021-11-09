@@ -65,7 +65,21 @@ Trả lời: có thể dùng Broad-Phase test giữa Mario và các object ở g
 
 Lưu ý:
 1. Khi muốn lấy ra state thì phải dùng hàm GetState khi ở trong file .cpp của game object, vì rất có thể là viết "=" thay vì "==", sẽ dẫn đến thay đổi state của object mà khó có thể nhận ra.
-
+2. Cách để làm một màu biến thành transparent trong GIMP:
+-> Mở ảnh bằng Gimp
+-> Chuột phải
+-> Color
+-> Color to Alpha
+-> Nhấn vào cái nút "Pick color from the image" ở ngay dòng Color
+-> Nhấn chuột trái vào màu muốn chuyển thành màu transparent
+-> Chỉnh Opacity threshold thành 0
+-> Nhấn Ok để lưu
+-> Nhấn File ở thanh menu
+-> Chọn Export as
+-> Thêm "transparent" vào cuối tên file để biết đây là file đã được chỉnh transparent
+-> Export
+-> Ok
+-> Xong
 
 
 

@@ -18,6 +18,9 @@
 
 // Animation ID
 #define ID_ANI_KOOPA_WALKING_LEFT 6000
+#define ID_ANI_KOOPA_WALKING_RIGHT 6000
+#define ID_ANI_KOOPA_SHELLING 6002
+#define ID_ANI_KOOPA_SPIN_SHELL 6003
 
 
 class CKoopa: public CGameObject

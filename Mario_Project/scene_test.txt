@@ -46,6 +46,9 @@ image_map.txt
 # Koopa
 11	220	330
 
+# Nhớ sửa boundingbox cho đúng với từng kích cỡ của Koopa ở các state khác nhau
+
+
 
 #Platform
 # 1st ground (lower)

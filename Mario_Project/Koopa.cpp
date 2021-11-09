@@ -18,7 +18,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
-	int ani_id = ID_ANI_KOOPA_WALKING_LEFT;
+	int ani_id = ID_ANI_KOOPA_SPIN_SHELL;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();
