@@ -84,7 +84,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 		else  // Mario va chạm theo các hướng còn lại
 		{
-			if (untouchable != 0)
+			if (untouchable == 0)
 			{
 				if (this->GetLevel() == MARIO_LEVEL_SMALL)
 				{
