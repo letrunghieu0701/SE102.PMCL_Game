@@ -145,8 +145,13 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 	{
 		if (wing_goomba->GetState() != WING_GOOMBA_STATE_DIE)
 		{
-			wing_goomba->SetState(WING_GOOMBA_STATE_DIE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (wing_goomba->GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING)	// Nếu Wing Goomba đang level "có cánh" thì hạ level xuống thành "không cánh"
+				wing_goomba->SetLevel(WING_GOOMBA_LEVEL_NO_WING);
+			else  // Nếu Wing Goomba đang level "không cánh" thì cho die luôn
+			{
+				wing_goomba->SetState(WING_GOOMBA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
 		}
 	}
 	else  // Mario bị đụng bởi Wing Goomba

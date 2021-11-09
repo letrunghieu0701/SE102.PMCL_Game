@@ -21,9 +21,13 @@
 #define WING_GOOMBA_STATE_WALKING 1
 #define WING_GOOMBA_STATE_FLYING 2
 
+#define WING_GOOMBA_LEVEL_HAVE_WING 0
+#define WING_GOOMBA_LEVEL_NO_WING 1
+
 class CWingGoomba: public CGoomba
 {
 private:
+	int level;
 	float walkingDistance;
 	float startWalkingLocation;
 
@@ -41,5 +45,8 @@ protected:
 public:
 	CWingGoomba(float x, float y, int type, float walking_distance);
 	virtual void SetState(int state);
+
+	void SetLevel(int l);
+	int GetLevel();
 };
 

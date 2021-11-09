@@ -5,6 +5,7 @@ CWingGoomba::CWingGoomba(float x, float y, int type, float walking_distance) : C
 	this->ax = 0;
 	this->ay = WING_GOOMBA_GRAVITY;
 
+	this->level = WING_GOOMBA_LEVEL_HAVE_WING;
 	this->walkingDistance = walking_distance;
 	this->startWalkingLocation = x;
 
@@ -34,7 +35,8 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	//DebugOutTitle(L"WingGoomba: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
-	DebugOutTitle(L"State: %d", state);
+	//DebugOutTitle(L"State: %d", state);
+	DebugOutTitle(L"Wing Goomba: %d", level);
 }
 
 
@@ -108,6 +110,16 @@ void CWingGoomba::SetState(int state)
 		vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;	// Giảm vận tốc vx để tạo cảm giác có lực cản không khí trên cao nên không thể di chuyển theo trục x nhanh được
 		ay = WING_GOOMBA_GRAVITY_WHEN_FLYING;	// Giảm gia tốc ay để tạo cảm giác hạ cánh từ từ
 	}
+}
+
+void CWingGoomba::SetLevel(int l)
+{
+	this->level = l;
+}
+
+int CWingGoomba::GetLevel()
+{
+	return this->level;
 }
 
 void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
