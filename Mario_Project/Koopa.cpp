@@ -24,12 +24,30 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 int CKoopa::GetAniIdWalk()
 {
 	int ani_id = -1;
+	
+	if (nx > 0)
+		ani_id = ID_ANI_KOOPA_WALKING_RIGHT;
+	else
+		ani_id = ID_ANI_KOOPA_WALKING_LEFT;
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_KOOPA_WALKING_RIGHT;
+
 	return ani_id;
 }
 
 int CKoopa::GetAniIdSpinShell()
 {
 	int ani_id = -1;
+
+	if (nx > 0)
+		ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
+	else
+		ani_id = ID_ANI_KOOPA_SPIN_SHELL_LEFT;
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
+
 	return ani_id;
 }
 
@@ -37,12 +55,12 @@ void CKoopa::Render()
 {
 	int ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
 
-	/*if (GetState() == KOOPA_STATE_WALKING)
+	if (GetState() == KOOPA_STATE_WALKING)
 		ani_id = GetAniIdWalk();
 	else if (GetState() == KOOPA_STATE_SHELLING)
 		ani_id = ID_ANI_KOOPA_SHELLING;
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
-		ani_id = GetAniIdSpinShell();*/
+		ani_id = GetAniIdSpinShell();
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();

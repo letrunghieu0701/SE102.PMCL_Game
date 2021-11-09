@@ -44,12 +44,13 @@ image_map.txt
 
 
 # Koopa
-11	220	330
+11	400	330
 
 # Nhớ sửa boundingbox cho đúng với từng kích cỡ của Koopa ở các state khác nhau
 
 
 # Blocking Brick
+1	300	400
 1	500	400
 
 #Platform
