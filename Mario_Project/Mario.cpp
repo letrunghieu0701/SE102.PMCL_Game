@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "QuestionBrick.h"
 #include "WingGoomba.h"
+#include "Koopa.h"
 
 #include "Collision.h"
 
@@ -66,6 +67,42 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCllisionWithQuestionBrick(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_MUSHROOM)
 		OnCollisionWithMushroom(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
+		OnCollisionWithKoopa(e);
+}
+
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (koopa->GetState() == KOOPA_STATE_WALKING)
+	{
+		if (e->ny < 0)	// Mario hit từ bên trên
+		{
+			koopa->SetState(KOOPA_STATE_SHELLING);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else  // Mario va chạm theo các hướng còn lại
+		{
+			if (untouchable != 0)
+			{
+				if (this->GetLevel() == MARIO_LEVEL_SMALL)
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					this->SetState(MARIO_STATE_DIE);
+				}
+				else if (this->GetLevel() == MARIO_LEVEL_BIG)
+				{
+					this->SetLevel(MARIO_LEVEL_SMALL);
+					StartUntouchable();
+				}
+			}
+		}
+	}
+	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
+	{
+		;
+	}
 }
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)

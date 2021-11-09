@@ -42,9 +42,14 @@ Trả lời: có thể dùng Broad-Phase test giữa Mario và các object ở g
 0.5. Suy nghĩ về việc nên set state cho game object khi ở hàm Update hay hàm OnCollisionWith
 
 1. Thêm code để tùy chỉnh width và height của cửa sổ game trong file mario-sample.txt trong mục SETTINGS
+
 2. Sửa e->ny != 0 thành e->ny < 0 ở hàm OnCollisionWith() của CMario. Do Mario va chạm phía trên platform nên vector normal sẽ là (0, -1) thì mới đúng.
+
 3. Cố gắng nâng cấp hàm Update() của PlayScene (cũng có thể nên update cho những scene khác như Intro, World map khi chọn màng chơi) bằng phân hoạch không gian (Grid, Quad Tree,...)
+
 4. Đổi cái untouchable của Mario từ kiểu int thành bool
+
+5. Sửa những chỗ lấy level ra để so sánh bằng cách dùng tạo thêm hàm GetLevel() để lấy level, phòng trường hợp thay vì so sánh mà lại gán level. (Sửa hết cho toàn bộ các game object)
 
 
 
