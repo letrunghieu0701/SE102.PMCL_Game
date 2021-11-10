@@ -45,9 +45,9 @@ image_map.txt
 
 
 # Change direction on platform
-12	300	330	1
+12	350	200	1
 # Koopa
-11	350	330	1
+11	300	200	1
 
 
 
@@ -57,7 +57,9 @@ image_map.txt
 
 #Platform
 # 1st ground (lower)
-5	0	416	16	16	100	51000	52000	53000
+5	0	416	16	16	39	51000	52000	53000
+
+#5	200	250	16	16	20	51000	52000	53000
 
 
 

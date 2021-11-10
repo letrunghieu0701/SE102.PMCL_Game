@@ -17,6 +17,15 @@ CKoopa::CKoopa(float x, float y, int type, int id_CDOP) : CGameObject(x, y, type
 		nx = DIRECTION_RIGHT;
 	else
 		nx = DIRECTION_LEFT;
+
+	// Đặt CDOP về trước mặt Koopa
+	unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+	CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+	if (CDOP == NULL)
+		return;
+
+	float new_CDOP_x = this->x + (this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR));
+	CDOP->SetPosition(new_CDOP_x, this->y);
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -24,19 +33,41 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	// Nếu Koopa đang trong state đi bộ thì mới có thể làm quay đầu khi đi tới rìa platform, vì nếu đang trong state spin shell mà lại
+	// có thể quay đầu được thì sẽ khiến game khá khó chịu nếu Koopa cứ xoay xoay hoài ở trên platform mà nó đang xoay
+	if (this->GetState() == KOOPA_STATE_WALKING)
+	{
+		unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+		if (CDOP == NULL)
+			return;
+
+		float CDOP_x, CDOP_y;
+		CDOP->GetPosition(CDOP_x, CDOP_y);
+
+		// Nếu chênh lệch độ cao quá lớn giữa Koopa và CDOP thì:
+		// Quay Koopa lại (đổi hướng di chuyển): đổi chiều vận tốc vx và vector normal nx
+		// Đặt CDOP về phía trước Koopa
+		if (abs(this->y - CDOP_y) > MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP)
+		{
+			this->vx = -vx;
+			this->SetNormalDirectionX(-GetNormalDirectionX());
+
+			float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
+			CDOP->SetPosition(new_CDOP_x, this->y);
+		}
+		// Nếu cả hai không cách quá xa nhau về độ cao, thì Koopa cứ đẩy CDOP theo hướng di chuyển hiện tại của Koopa thôi
+		else
+		{
+			float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
+			CDOP->SetPosition(new_CDOP_x, CDOP_y);
+		}
+	}
+	
+
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	//DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
 	//DebugOutTitle(L"Koopa: nx: %d", nx);
-
-	unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-	CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
-	if (CDOP == NULL)
-		return;
-
-	float CDOP_x, CDOP_y;
-	CDOP->GetPosition(CDOP_x, CDOP_y);
-	CDOP->SetPosition(this->x + (this->GetNormalDirectionX() * (KOOPA_BBOX_SHELL_WIDTH + BLOCK_PUSH_FACTOR))
-		, CDOP_y);
 }
 
 int CKoopa::GetAniIdWalk()
@@ -161,7 +192,7 @@ void CKoopa::SetState(int state)
 	{
 		case KOOPA_STATE_WALKING:
 		{
-			vx = -KOOPA_SPEED_WALKING;
+			vx = KOOPA_SPEED_WALKING;
 			break;
 		}
 		case KOOPA_STATE_SHELLING:
@@ -176,6 +207,13 @@ void CKoopa::SetState(int state)
 			else
 				vx = -KOOPA_SPEED_SPINNING;
 
+			// Nếu ở state spin shell thì xóa object CDOP luôn, vì Koopa sẽ không thể trở về state đi bộ được nữa nếu đang trong state spin shell
+
+			unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+			if (CDOP == NULL)
+				return;
+			CDOP->Delete();
 			break;
 		}
 	}
