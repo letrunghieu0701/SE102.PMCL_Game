@@ -9,6 +9,7 @@ cloud.txt
 goomba.txt
 wing_goomba.txt
 koopa.txt
+change_direction_on_platform.txt
 
 image_map.txt
 
@@ -40,13 +41,14 @@ image_map.txt
 
 
 # Wing Goomba
-10	450	330	30
+#10	450	330	30
 
 
 # Koopa
 11	400	330
 
-# Nhớ sửa boundingbox cho đúng với từng kích cỡ của Koopa ở các state khác nhau
+# Change direction on platform
+12	350	330
 
 
 # Blocking Brick
