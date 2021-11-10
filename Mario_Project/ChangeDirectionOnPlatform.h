@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "GameObject.h"
 
+// Physical stats
+#define CDOP_SPEED_GRAVITY 0.002f
+
 // Bounding Box
 #define CDOP_BBOX_WIDTH 16
 #define CDOP_BBOX_HEIGHT 16
@@ -12,6 +15,8 @@
 // Gọi class này là CDOP cho ngắn
 class CChangeDirectionOnPlatform: public CGameObject
 {
+private:
+	float ay;
 public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

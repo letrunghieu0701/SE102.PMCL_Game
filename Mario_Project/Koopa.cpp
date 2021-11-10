@@ -21,7 +21,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	//DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
-	DebugOutTitle(L"Koopa: nx: %d", nx);
+	//DebugOutTitle(L"Koopa: nx: %d", nx);
 }
 
 int CKoopa::GetAniIdWalk()
