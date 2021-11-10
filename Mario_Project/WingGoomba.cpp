@@ -27,17 +27,20 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
-	// Nếu level "có cánh" và đang state walking thì mới bật đo khoảng cách để flying
+	// Nếu level "có cánh" và 
+	// đang phải đang đi bộ (state walking) (vì nếu đang bay mà di chuyển lớn hơn quãng đường cần bay thì cũng có thể kích hoạt việc bay
+	// và phải đi hết một quãng đường quy định
+	// thì mới cho bay (state flying)
 	if (GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING &&
 		GetState() == WING_GOOMBA_STATE_WALKING &&
-		x - startWalkingLocation > walkingDistance)
+		abs(x - startWalkingLocation) > walkingDistance)
 	{
 		SetState(WING_GOOMBA_STATE_FLYING);
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	//DebugOutTitle(L"WingGoomba: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
-	DebugOutTitle(L"State: %d", state);
+	DebugOutTitle(L"Wing Goomba: State: %d Level: %d", state, level);
 	//DebugOutTitle(L"Wing Goomba: %d", level);
 }
 
@@ -50,10 +53,13 @@ void CWingGoomba::OnNoCollision(DWORD dt)
 
 void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->obj->IsBlocking() && 
-		e->ny != 0)
+	if (e->obj->IsBlocking())
 	{
-		vy = 0;
+		if (e->ny != 0)
+		{
+			vy = 0;
+		}
+		
 
 		// Nếu Wing Goomba rớt xuống mặt đất thì đặt lại startWalkingLocation để lát nữa Wing Goomba có thể bay
 		if (e->ny < 0 &&
@@ -64,11 +70,24 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 		{
 			SetState(WING_GOOMBA_STATE_WALKING);
 		}
-	}
-	
-	if (e->nx != 0)
-	{
-		vx = -vx;
+
+		/*if (e->ny < 0)
+		{
+			SetState(WING_GOOMBA_STATE_WALKING);
+		}*/
+
+		if (e->nx != 0)
+		{
+			vx = -vx;
+			if (vx > 0)
+			{
+				this->SetNormalDirectionX(DIRECTION_RIGHT);
+			}
+			else
+			{
+				this->SetNormalDirectionX(DIRECTION_LEFT);
+			}
+		}
 	}
 }
 
@@ -122,20 +141,36 @@ void CWingGoomba::SetState(int state)
 		die_start = GetTickCount64();
 		y += (WING_GOOMBA_BBOX_HEIGHT - WING_GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
-		vy = 0;
-		ay = 0;
 		break;
 	case WING_GOOMBA_STATE_WALKING:
-		startWalkingLocation = x;
+		// Nếu có cánh (level có-cánh) thì mới bắt đầu "tính khoảng cách" để lát nữa bay 
+		if (this->GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING)
+			startWalkingLocation = x;
 
 		// Đặt lại 2 thông số sau để thể hiện là Wing Goomba đang di chuyển bình thường trên mặt đất
-		vx = WING_GOOMBA_SPEED_WALKING;
+		if (this->GetNormalDirectionX() == DIRECTION_RIGHT)
+		{
+			vx = WING_GOOMBA_SPEED_WALKING;
+		}
+		else
+		{
+			vx = -WING_GOOMBA_SPEED_WALKING;
+		}
 		ay = WING_GOOMBA_GRAVITY;
 		break;
 	case WING_GOOMBA_STATE_FLYING:
 		vy = -WING_GOOMBA_SPEED_FLYING;
-		vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;	// Giảm vận tốc vx để tạo cảm giác có lực cản không khí trên cao nên không thể di chuyển theo trục x nhanh được
 		ay = WING_GOOMBA_GRAVITY_WHEN_FLYING;	// Giảm gia tốc ay để tạo cảm giác hạ cánh từ từ
+		// Giảm vận tốc vx để tạo cảm giác có lực cản không khí trên cao nên không thể di chuyển theo trục x nhanh được
+		if (this->GetNormalDirectionX() == DIRECTION_RIGHT)
+		{
+			vx = WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;
+		}
+		else
+		{
+			vx = -WING_GOOMBA_SPEED_WALKING_WHEN_FLYING;
+		}
+		
 		break;
 	}
 }

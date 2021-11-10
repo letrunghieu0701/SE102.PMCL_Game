@@ -4,7 +4,7 @@
 // Physical stat
 #define KOOPA_SPEED_GRAVITY 0.002f
 #define KOOPA_SPEED_WALKING 0.05f
-#define KOOPA_SPEED_SPINNING 0.6f
+#define KOOPA_SPEED_SPINNING 0.3f
 
 // Bounding Box
 #define KOOPA_BBOX_WIDTH 16

@@ -53,6 +53,14 @@ Trả lời: có thể dùng Broad-Phase test giữa Mario và các object ở g
 
 
 
+6. Suy nghĩ về phần xử lý va chạm của mỗi object (đặc biệt là Mario và Koopa), đó là nghĩ về có nên dùng một lệnh "if" và cả đống lệnh "else if", hay là dùng cả 2 lệnh "if" như trong sample code (vừa check object có phải blocking object hay không, vừa check tiếp object có thể collidable được hay không).
+Nói chung là suy nghĩ về liệu một object chỉ có thể "hoặc là blocking object hoặc là collidable object", hay một object có thể có cả 2 thứ đó hoặc không có thứ nào cả.
+
+7. Suy nghĩ về khi 2 object va chạm với nhau thì nên xử lý va chạm ở hàm OnCollisionWith của object này hay hàm OnCollisionWith của object kia.
+
+8. Cần phải xem lại vụ phạm vi của thuộc tính và phương thức (hàm) của các game object để nếu sau này chúng có được kế thừa bởi các lớp con, thì còn có thể được dùng hoặc không cho dùng.
+
+
 
 
 Điều cần làm hiện tại:
@@ -88,6 +96,7 @@ Lưu ý:
 
 
 
+Phát hiện va chạm trong sample code dùng hàm GetBoundingBox để lấy được khung của object, làm vậy để có thể thực hiện việc phát hiện va chạm, nên cần phải chú ý hàm GetBoundingBox của mỗi object nếu gặp hiện tượng lạ hoặc muốn cải thiện phát hiện va chạm bằng cách canh thật chuẩn boundingbox cho các state, level, animation khác nhau của từng object.
 
 
 

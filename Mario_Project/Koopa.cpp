@@ -9,9 +9,9 @@ CKoopa::CKoopa(float x, float y, int type) : CGameObject(x, y, type)
 	ay = KOOPA_SPEED_GRAVITY;
 	SetState(KOOPA_STATE_WALKING);
 	if (vx > 0)
-		nx = 1;
+		nx = DIRECTION_RIGHT;
 	else
-		nx = -1;
+		nx = DIRECTION_LEFT;
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
