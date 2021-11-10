@@ -32,7 +32,7 @@ image_map.txt
 
 # Mushroom
 # Extra settings: id of this mushroom, to connect with ? Brick
-#9	176	330	0
+9	176	330	0
 
 
 #Goomba

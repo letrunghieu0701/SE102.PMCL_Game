@@ -125,6 +125,12 @@ void CKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 			wing_goomba->SetLevel(WING_GOOMBA_LEVEL_NO_WING);
 			wing_goomba->SetState(WING_GOOMBA_STATE_WALKING);
 		}
+		// Nếu Wing Goomba chỉ còn 1 mạng (level không-cánh), thì cho die luôn
+		else if (wing_goomba->GetLevel() == WING_GOOMBA_LEVEL_NO_WING)
+		{
+			wing_goomba->SetState(WING_GOOMBA_STATE_DIE);
+		}
+		// Nếu Wing Goomba đã die rồi, thì thôi, không làm gì cả, vì nó DIE rồi mà
 	}
 }
 

@@ -104,5 +104,3 @@ Phát hiện va chạm trong sample code dùng hàm GetBoundingBox để lấy �
 
 
 
-
-

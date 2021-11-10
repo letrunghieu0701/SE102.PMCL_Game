@@ -141,6 +141,8 @@ void CWingGoomba::SetState(int state)
 		die_start = GetTickCount64();
 		y += (WING_GOOMBA_BBOX_HEIGHT - WING_GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
+		vy = 0;
+		ay = 0;
 		break;
 	case WING_GOOMBA_STATE_WALKING:
 		// Nếu có cánh (level có-cánh) thì mới bắt đầu "tính khoảng cách" để lát nữa bay 
