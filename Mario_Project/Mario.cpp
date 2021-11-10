@@ -117,6 +117,25 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có giá trị tuyệt đối rất lớn và cùng dấu (âm) với vector normal
 		}
 	}
+	else if (koopa->GetState() == KOOPA_STATE_SPIN_SHELL)
+	{
+		// Nếu Mario có thể bị đụng vào, thì mới xử lý va chạm. Còn nếu đang trong thời gian "không thể bị đụng vào" thì thôi, không làm gì cả
+		if (this->untouchable == 0)
+		{
+			// Nếu Mario có 2 mạng (level Big) thì giảm thành còn 1 mạng (level Small) rồi bắt đầu tính giờ cho untouchable
+			if (this->GetLevel() == MARIO_LEVEL_BIG)
+			{
+				this->SetLevel(MARIO_LEVEL_SMALL);
+				StartUntouchable();
+			}
+			// Còn nếu chỉ còn 1 mạng (level Small) thì cho Mario die luôn
+			else if (this->GetLevel() == MARIO_LEVEL_SMALL)
+			{
+				DebugOut(L">>> Marioo DIE >>> \n");
+				this->SetState(MARIO_STATE_DIE);
+			}
+		}
+	}
 }
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
