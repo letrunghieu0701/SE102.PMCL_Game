@@ -49,6 +49,8 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
+	
+
 public:
 	CWingGoomba(float x, float y, int type, float walking_distance);
 	virtual void SetState(int state);

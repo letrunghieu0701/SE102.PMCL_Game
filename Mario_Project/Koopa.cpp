@@ -1,5 +1,7 @@
 ﻿#include "Koopa.h"
 
+#include "Goomba.h"
+
 CKoopa::CKoopa(float x, float y, int type) : CGameObject(x, y, type)
 {
 	ax = 0;
@@ -74,17 +76,36 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-
-	if (e->ny != 0) // Va chạm với Blocking object theo trục y, thì đặt lại vy = 0 để mô phỏng vật lý cơ bản
+	if (e->obj->IsBlocking())
 	{
-		this->vy = 0;
+		if (e->ny != 0) // Va chạm với Blocking object theo trục y, thì đặt lại vy = 0 để mô phỏng vật lý cơ bản
+		{
+			this->vy = 0;
+		}
+		else if (e->nx != 0) // Nếu va chạm với Blocking object theo trục x, thì quay đầu lại và đi tiếp (cho vận tốc và normal vector ngược dấu)
+		{
+			this->vx = -vx;
+			this->nx = -nx;
+		}
 	}
 
-	if (e->nx != 0) // Nếu va chạm với Blocking object theo trục x, thì quay đầu lại và đi tiếp (cho vận tốc và normal vector ngược dấu)
+	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
+		OnCollisionWithGoomba(e);
+}
+
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	// Koopa đang ở state Spin Shell thì mới có thể tấn công Goomba được
+	if (this->GetState() == KOOPA_STATE_SPIN_SHELL)
 	{
-		this->vx = -vx;
-		this->nx = -nx;
+		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+		// Nếu Goomba đang ở trạng thái khác DIE, tức là Goomba còn sống, thì cho nó die luôn
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		{
+			goomba->SetState(GOOMBA_STATE_DIE);
+		}
+		// Còn nếu Goomba đang ở state DIE, thì thôi, không làm gì cả, vì nó đang ở state DIE rồi mà
 	}
 }
 

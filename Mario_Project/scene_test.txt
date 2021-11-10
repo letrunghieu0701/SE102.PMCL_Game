@@ -36,7 +36,7 @@ image_map.txt
 
 
 #Goomba
-#2	220	330
+2	470	330
 
 
 # Wing Goomba

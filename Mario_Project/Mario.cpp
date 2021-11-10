@@ -40,18 +40,19 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->obj->IsBlocking() &&
-		e->ny != 0)
+	if (e->obj->IsBlocking())
 	{
-		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
+		if (e->ny != 0)
+		{
+			vy = 0;
+			if (e->ny < 0) isOnPlatform = true;
+		}
+		else if (e->nx != 0)
+		{
+			vx = 0;
+		}
 	}
-	else 
-	if (e->obj->IsBlocking() &&
-		e->nx != 0)
-	{
-		vx = 0;
-	}
+
 
 	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
 		OnCollisionWithGoomba(e);

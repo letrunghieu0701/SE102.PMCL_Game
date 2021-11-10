@@ -50,9 +50,8 @@ void CWingGoomba::OnNoCollision(DWORD dt)
 
 void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-
-	if (e->ny != 0)
+	if (e->obj->IsBlocking() && 
+		e->ny != 0)
 	{
 		vy = 0;
 
