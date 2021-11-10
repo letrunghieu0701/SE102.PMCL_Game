@@ -1,6 +1,7 @@
 ﻿#include "Koopa.h"
 
 #include "Goomba.h"
+#include "WingGoomba.h"
 
 CKoopa::CKoopa(float x, float y, int type) : CGameObject(x, y, type)
 {
@@ -91,6 +92,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
 		OnCollisionWithGoomba(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_WING_GOOMBA)
+		OnCollisionWithWingGoomba(e);
 }
 
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -106,6 +109,22 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			goomba->SetState(GOOMBA_STATE_DIE);
 		}
 		// Còn nếu Goomba đang ở state DIE, thì thôi, không làm gì cả, vì nó đang ở state DIE rồi mà
+	}
+}
+
+void CKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
+{
+	// Koopa đang ở state Spin Shell thì mới có thể tấn công Wing Goomba được
+	if (this->GetState() == KOOPA_STATE_SPIN_SHELL)
+	{
+		CWingGoomba* wing_goomba = dynamic_cast<CWingGoomba*>(e->obj);
+
+		// Nếu Wing Goomba còn 2 mạng (level có-cánh), thì giảm một mạng (level thành không-cánh) và gắn state thành WALKING (vì đâu có còn cánh đâu mà bay)
+		if (wing_goomba->GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING)
+		{
+			wing_goomba->SetLevel(WING_GOOMBA_LEVEL_NO_WING);
+			wing_goomba->SetState(WING_GOOMBA_STATE_WALKING);
+		}
 	}
 }
 

@@ -41,6 +41,7 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 
 	int GetAniIdWalk();
 	int GetAniIdSpinShell();

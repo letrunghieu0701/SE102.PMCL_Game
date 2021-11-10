@@ -36,11 +36,11 @@ image_map.txt
 
 
 #Goomba
-2	470	330
+#2	470	330
 
 
 # Wing Goomba
-#10	200	330	30
+10	450	330	30
 
 
 # Koopa
