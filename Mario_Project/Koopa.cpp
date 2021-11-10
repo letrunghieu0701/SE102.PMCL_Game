@@ -2,11 +2,16 @@
 
 #include "Goomba.h"
 #include "WingGoomba.h"
+#include "ChangeDirectionOnPlatform.h"
 
-CKoopa::CKoopa(float x, float y, int type) : CGameObject(x, y, type)
+#include "PlayScene.h"
+
+CKoopa::CKoopa(float x, float y, int type, int id_CDOP) : CGameObject(x, y, type)
 {
 	ax = 0;
 	ay = KOOPA_SPEED_GRAVITY;
+	this->id_CDOP = id_CDOP;
+
 	SetState(KOOPA_STATE_WALKING);
 	if (vx > 0)
 		nx = DIRECTION_RIGHT;
@@ -22,6 +27,16 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	//DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
 	//DebugOutTitle(L"Koopa: nx: %d", nx);
+
+	unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+	CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+	if (CDOP == NULL)
+		return;
+
+	float CDOP_x, CDOP_y;
+	CDOP->GetPosition(CDOP_x, CDOP_y);
+	CDOP->SetPosition(this->x + (this->GetNormalDirectionX() * (KOOPA_BBOX_SHELL_WIDTH + BLOCK_PUSH_FACTOR))
+		, CDOP_y);
 }
 
 int CKoopa::GetAniIdWalk()
@@ -132,6 +147,10 @@ void CKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 		}
 		// Nếu Wing Goomba đã die rồi, thì thôi, không làm gì cả, vì nó DIE rồi mà
 	}
+}
+
+void CKoopa::OnCollisionWithCDOP(LPCOLLISIONEVENT e)
+{
 }
 
 void CKoopa::SetState(int state)

@@ -60,6 +60,8 @@ Nói chung là suy nghĩ về liệu một object chỉ có thể "hoặc là bl
 
 8. Cần phải xem lại vụ phạm vi của thuộc tính và phương thức (hàm) của các game object để nếu sau này chúng có được kế thừa bởi các lớp con, thì còn có thể được dùng hoặc không cho dùng.
 
+9. Sửa lại mấy chỗ so sánh nx, ny với 0, 1 thành các hằng số DIRECTION LEFT, RIGHT, UP và DOWN được định nghĩa trong file GameObject.h
+
 
 
 

@@ -17,6 +17,9 @@ class CChangeDirectionOnPlatform: public CGameObject
 {
 private:
 	float ay;
+	bool isOnPlatform;
+
+	int id;
 public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -24,11 +27,14 @@ public:
 
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
+
+	bool IsOnPlatform() { return isOnPlatform; }
+
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
-	CChangeDirectionOnPlatform(float x, float y, int type);
-	virtual void SetState(int state);
+	CChangeDirectionOnPlatform(float x, float y, int type, int id);
 };
 

@@ -31,7 +31,11 @@ protected:
 	float ax;
 	float ay;
 
-	ULONGLONG shell_start; 
+	ULONGLONG shell_start;
+
+	int id_CDOP;
+
+	bool touched_CDOP;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -44,12 +48,13 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithCDOP(LPCOLLISIONEVENT e);
 
 	int GetAniIdWalk();
 	int GetAniIdSpinShell();
 
 public:
-	CKoopa(float x, float y, int type);
+	CKoopa(float x, float y, int type, int id_CDOP);
 	virtual void SetState(int state);
 };
 

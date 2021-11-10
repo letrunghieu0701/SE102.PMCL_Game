@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <d3dx10.h>
@@ -16,6 +16,9 @@ using namespace std;
 
 #define DIRECTION_LEFT -1
 #define DIRECTION_RIGHT 1
+#define DIRECTION_UP -1
+#define DIRECTION_DOWN 1
+#define NO_COLLISION_ON_THIS_AXIS 0	// "No" ở đây nghĩa là không có va chạm theo hướng nào hết, đối với mỗi trục x và y luôn
 
 class CGameObject;
 typedef CGameObject* LPGAMEOBJECT;

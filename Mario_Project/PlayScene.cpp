@@ -127,12 +127,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y, object_type); break;
 	case OBJECT_TYPE_KOOPA:
 	{
-		obj = new CKoopa(x, y, object_type);
+		int id_CDOP = atoi(tokens[3].c_str());
+		obj = new CKoopa(x, y, object_type, id_CDOP);
 		break;
 	}
 	case OBJECT_TYPE_CDOP:
 	{
-		obj = new CChangeDirectionOnPlatform(x, y, object_type);
+		int id = atoi(tokens[3].c_str());
+		obj = new CChangeDirectionOnPlatform(x, y, object_type, id);
+
+		itemsInside->insert(make_pair(id, obj));
 		break;
 	}
 	case OBJECT_TYPE_WING_GOOMBA:

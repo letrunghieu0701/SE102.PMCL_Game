@@ -30,10 +30,10 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (itemInsideId > -1)
 		{
 			unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-			CGameObject* a = (item_list->at(itemInsideId));
-			if (a == NULL)
+			CGameObject* item = (item_list->at(itemInsideId));
+			if (item == NULL)
 				return;
-			item_list->at(itemInsideId)->SetState(MUSHROOM_STATE_RISING);
+			item->SetState(MUSHROOM_STATE_RISING);
 		}
 	}
 

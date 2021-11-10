@@ -44,20 +44,20 @@ image_map.txt
 #10	450	330	30
 
 
-# Koopa
-11	400	330
-
 # Change direction on platform
-12	350	330
+12	300	330	1
+# Koopa
+11	350	330	1
+
 
 
 # Blocking Brick
-1	300	400
-1	500	400
+#1	300	400
+#1	500	400
 
 #Platform
 # 1st ground (lower)
-5	0	416	16	16	39	51000	52000	53000
+5	0	416	16	16	100	51000	52000	53000
 
 
 

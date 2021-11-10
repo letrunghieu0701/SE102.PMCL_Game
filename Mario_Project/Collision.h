@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <vector>
@@ -24,15 +24,18 @@ struct CCollisionEvent
 	
 	float t, nx, ny;
 
+	DWORD dt;	// Thời gian chênh lệch giữa frame trong quá khứ và frame hiện tại
+
 	float dx, dy;				// *RELATIVE* movement distance between this object and obj
 	bool isDeleted;		
 
-	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, 
+	CCollisionEvent(float t, float nx, float ny, DWORD dt, float dx = 0, float dy = 0, 
 		LPGAMEOBJECT obj = NULL, LPGAMEOBJECT src_obj = NULL)
 	{
 		this->t = t;
 		this->nx = nx;
 		this->ny = ny;
+		this->dt = dt;
 		this->dx = dx;
 		this->dy = dy;
 		this->obj = obj;
