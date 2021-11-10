@@ -164,8 +164,18 @@ void CKoopa::SetState(int state)
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - KOOPA_BBOX_WIDTH / 2;
-	top = y - KOOPA_BBOX_HEIGHT / 2;
-	right = left + KOOPA_BBOX_WIDTH;
-	bottom = top + KOOPA_BBOX_HEIGHT;
+	if (this->GetState() == KOOPA_STATE_WALKING)
+	{
+		left = x - KOOPA_BBOX_WALKING_WIDTH / 2;
+		top = y - KOOPA_BBOX_WALKING_HEIGHT / 2;
+		right = left + KOOPA_BBOX_WALKING_WIDTH;
+		bottom = top + KOOPA_BBOX_WALKING_HEIGHT;
+	}
+	else
+	{
+		left = x - KOOPA_BBOX_SHELL_WIDTH / 2;
+		top = y - KOOPA_BBOX_SHELL_HEIGHT / 2;
+		right = left + KOOPA_BBOX_SHELL_WIDTH;
+		bottom = top + KOOPA_BBOX_SHELL_HEIGHT;
+	}
 }
