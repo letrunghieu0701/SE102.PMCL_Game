@@ -7,12 +7,12 @@ void CBrick::Render()
 	RenderBoundingBox();
 }
 
-void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
+void CBrick::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	l = x - BRICK_BBOX_WIDTH/2;
-	t = y - BRICK_BBOX_HEIGHT/2;
-	r = l + BRICK_BBOX_WIDTH;
-	b = t + BRICK_BBOX_HEIGHT;
+	left = x - BRICK_BBOX_WIDTH/2;
+	top = y - BRICK_BBOX_HEIGHT/2;
+	right = left + BRICK_BBOX_WIDTH;
+	bottom = top + BRICK_BBOX_HEIGHT;
 }
 
 void CBrick::SetState(int state)

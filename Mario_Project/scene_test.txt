@@ -10,6 +10,7 @@ goomba.txt
 wing_goomba.txt
 koopa.txt
 change_direction_on_platform.txt
+pipe.txt
 
 image_map.txt
 
@@ -24,6 +25,9 @@ image_map.txt
 
 
 # Brick
+1	353	400
+
+
 # Question Brick's location
 # Extra settings: id of item inside ? Brick 
 7	176	330	0
@@ -49,6 +53,9 @@ image_map.txt
 # Koopa
 11	300	200	1
 
+
+# Pipe
+13	200	384
 
 
 # Blocking Brick
