@@ -230,8 +230,7 @@ void CCollision::Filter(LPGAMEOBJECT objSrc,
 			// Các hướng còn lại thì bỏ hết, bỏ sạch luôn, nên chỉ cần lệnh if này là có thể thực hiện platform có thể nhảy từ dưới lên (One-way platform)
 			if ((c->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM) && !(c->ny == -1))
 				continue;
-			// Kiểm tra blocking sau vì nếu kiểm tra blocking trước thì tất cả hướng va chạm với InviPlat đều được giữ lại và xử lý
-			// Nên cần phải kiểm tra blocking sau InviPlat
+			// Giữ lại blocking object
 			if (!c->obj->IsBlocking())
 				continue;
 		}

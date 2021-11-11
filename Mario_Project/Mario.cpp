@@ -428,15 +428,6 @@ void CMario::Render()
 	/*DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);*/
 	
 	//DebugOutTitle(L"Coins: %d", coin);
-
-	if (vy > 0)
-	{
-		DebugOutTitle(L"Vy dương");
-	}
-	else
-	{
-		DebugOutTitle(L"Vy âm");
-	}
 }
 
 void CMario::SetState(int state)
