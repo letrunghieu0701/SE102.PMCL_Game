@@ -407,22 +407,27 @@ int CMario::GetAniIdBig()
 
 void CMario::Render()
 {
-	CAnimations* animations = CAnimations::GetInstance();
-	int aniId = -1;
+	int ani_id = -1;
 
 	if (state == MARIO_STATE_DIE)	// Mario đã DIE
-		aniId = ID_ANI_MARIO_DIE;
+		ani_id = ID_ANI_MARIO_DIE;
 	// Mario chưa DIE, vậy thì kiểm tra Level rồi lấy ra ani_id nằm trong những ani_id của level hiện tại,
 	// rồi lấy ra ani_id phù hợp với các chỉ số vật lý hiện tại như: ax, nx và isSitting
 	else
 	{
 		if (level == MARIO_LEVEL_BIG)
-			aniId = GetAniIdBig();
+			ani_id = GetAniIdBig();
 		else if (level == MARIO_LEVEL_SMALL)
-			aniId = GetAniIdSmall();
+			ani_id = GetAniIdSmall();
 	}
 		
-	animations->Get(aniId)->Render(x, y);
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
+	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 
 	RenderBoundingBox();
 	/*DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);*/
@@ -516,23 +521,23 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		if (isSitting)
 		{
-			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
-			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
+			left = x;
+			top = y;
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
 		else 
 		{
-			left = x - MARIO_BIG_BBOX_WIDTH/2;
-			top = y - MARIO_BIG_BBOX_HEIGHT/2;
+			left = x;
+			top = y;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
 	else
 	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
-		top = y - MARIO_SMALL_BBOX_HEIGHT/2;
+		left = x;
+		top = y;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}

@@ -111,7 +111,13 @@ void CKoopa::Render()
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
 
-	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
+	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -226,15 +232,15 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	if (this->GetState() == KOOPA_STATE_WALKING)
 	{
-		left = x - KOOPA_BBOX_WALKING_WIDTH / 2;
-		top = y - KOOPA_BBOX_WALKING_HEIGHT / 2;
+		left = x;
+		top = y;
 		right = left + KOOPA_BBOX_WALKING_WIDTH;
 		bottom = top + KOOPA_BBOX_WALKING_HEIGHT;
 	}
 	else
 	{
-		left = x - KOOPA_BBOX_SHELL_WIDTH / 2;
-		top = y - KOOPA_BBOX_SHELL_HEIGHT / 2;
+		left = x;
+		top = y;
 		right = left + KOOPA_BBOX_SHELL_WIDTH;
 		bottom = top + KOOPA_BBOX_SHELL_HEIGHT;
 	}

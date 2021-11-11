@@ -11,7 +11,13 @@ void CQuestionBrick::Render()
 	else
 		ani_id = ID_ANI_QUESTION_BRICK_NO_QUESTION_MARK_MOVING;
 
-	animations->Get(ani_id)->Render(x, y);
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
+	//animations->Get(ani_id)->Render(x, y);
 
 	RenderBoundingBox();
 }
@@ -41,14 +47,6 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOutTitle(L"? Brick: y: %0.2f", y);
 }
 
-void CQuestionBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
-{
-	l = x - QUESTION_BRICK_BBOX_WIDTH / 2;
-	t = y - QUESTION_BRICK_BBOX_HEIGHT / 2;
-	r = l + QUESTION_BRICK_BBOX_WIDTH;
-	b = t + QUESTION_BRICK_BBOX_HEIGHT;
-}
-
 void CQuestionBrick::SetState(int state)
 {
 	CBrick::SetState(state);
@@ -69,4 +67,12 @@ void CQuestionBrick::SetState(int state)
 		y = default_pos_y;
 		break;
 	}
+}
+
+void CQuestionBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
+{
+	l = x;
+	t = y;
+	r = l + QUESTION_BRICK_BBOX_WIDTH;
+	b = t + QUESTION_BRICK_BBOX_HEIGHT;
 }

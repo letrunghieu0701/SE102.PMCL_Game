@@ -7,8 +7,8 @@ void CInvisiblePlatform::Update(DWORD dt)
 
 void CInvisiblePlatform::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - (width / 2);
-	t = y - (height / 2);
+	l = x;
+	t = y;
 	r = l + width;
 	b = t + height;
 }
@@ -37,7 +37,5 @@ void CInvisiblePlatform::RenderBoundingBox()
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
-	float xx = x - this->width / 2 + rect.right / 2;
-
-	CGame::GetInstance()->Draw(xx - cx, y - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
+	CGame::GetInstance()->Draw(x + this->width/2 - cx, y + this->height/2 - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }

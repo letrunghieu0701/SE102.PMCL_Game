@@ -77,10 +77,16 @@ void CChangeDirectionOnPlatform::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 void CChangeDirectionOnPlatform::Render()
 {
-	/*int ani_id = ID_ANI_CDOP;
+	int ani_id = ID_ANI_CDOP;
 
-	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
-	RenderBoundingBox();*/
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
+	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
+	RenderBoundingBox();
 }
 
 void CChangeDirectionOnPlatform::GetBoundingBox(float& left, float& top, float& right, float& bottom)

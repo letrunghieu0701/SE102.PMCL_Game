@@ -1,16 +1,22 @@
 #include "Brick.h"
+#include "debug.h"
 
 void CBrick::Render()
 {
-	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_BRICK)->Render(x, y);
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ID_ANI_BRICK)->Render(x + width/2, y + height/2);
+	//CAnimations::GetInstance()->Get(ID_ANI_BRICK)->Render(x + BRICK_BBOX_WIDTH / 2, y + BRICK_BBOX_HEIGHT / 2);
 	RenderBoundingBox();
 }
 
 void CBrick::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - BRICK_BBOX_WIDTH/2;
-	top = y - BRICK_BBOX_HEIGHT/2;
+	left = x;
+	top = y;
 	right = left + BRICK_BBOX_WIDTH;
 	bottom = top + BRICK_BBOX_HEIGHT;
 }

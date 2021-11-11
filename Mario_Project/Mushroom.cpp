@@ -1,12 +1,5 @@
 ﻿#include "Mushroom.h"
 
-void CMushroom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
-{
-	left = x - MUSHROOM_BBOX_WIDTH / 2;
-	top = y - MUSHROOM_BBOX_HEIGHT / 2;
-	right = left + MUSHROOM_BBOX_WIDTH;
-	bottom = top + MUSHROOM_BBOX_HEIGHT;
-}
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -37,7 +30,13 @@ void CMushroom::Render()
 
 	int ani_id = ID_ANI_MUSHROOM;
 
-	animations->Get(ani_id)->Render(x, y);
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
+	//animations->Get(ani_id)->Render(x, y);
 
 	RenderBoundingBox();
 }
@@ -82,4 +81,12 @@ void CMushroom::SetState(int state)
 			ay = MUSHROOM_GRAVITY;
 			break;
 	}
+}
+
+void CMushroom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x;
+	top = y;
+	right = left + MUSHROOM_BBOX_WIDTH;
+	bottom = top + MUSHROOM_BBOX_HEIGHT;
 }

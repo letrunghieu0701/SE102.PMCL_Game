@@ -126,8 +126,13 @@ void CWingGoomba::Render()
 			ani_id = GetAniIdNoWing();
 	}
 		
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
 
-	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
+	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -191,15 +196,15 @@ void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 {
 	if (GetState() == WING_GOOMBA_STATE_DIE)
 	{
-		left = x - WING_GOOMBA_BBOX_WIDTH / 2;
-		top = y - WING_GOOMBA_BBOX_HEIGHT_DIE / 2;
+		left = x;
+		top = y;
 		right = left + WING_GOOMBA_BBOX_WIDTH;
 		bottom = top + WING_GOOMBA_BBOX_HEIGHT_DIE;
 	}
 	else
 	{
-		left = x - WING_GOOMBA_BBOX_WIDTH / 2;
-		top = y - WING_GOOMBA_BBOX_HEIGHT / 2;
+		left = x;
+		top = y;
 		right = left + WING_GOOMBA_BBOX_WIDTH;
 		bottom = top + WING_GOOMBA_BBOX_HEIGHT;
 	}

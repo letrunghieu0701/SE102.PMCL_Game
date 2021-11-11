@@ -2,7 +2,14 @@
 
 void CPipe::Render()
 {
-	CAnimations::GetInstance()->Get(ID_ANI_PIPE)->Render(x, y);
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	CAnimations::GetInstance()->Get(ID_ANI_PIPE)->Render(x + width / 2, y + height / 2);
+	//CAnimations::GetInstance()->Get(ID_ANI_PIPE)->Render(x, y);
+	RenderBoundingBox();
 }
 
 void CPipe::Update(DWORD dt)
@@ -11,8 +18,8 @@ void CPipe::Update(DWORD dt)
 
 void CPipe::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - PIPE_BBOX_WIDTH / 2;
-	top = y - PIPE_BBOX_HEIGHT / 2;
+	left = x;
+	top = y;
 	right = left + PIPE_BBOX_WIDTH;
 	bottom = top + PIPE_BBOX_HEIGHT;
 }
