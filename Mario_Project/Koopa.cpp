@@ -208,6 +208,9 @@ void CKoopa::SetState(int state)
 				vx = -KOOPA_SPEED_SPINNING;
 
 			// Nếu ở state spin shell thì xóa object CDOP luôn, vì Koopa sẽ không thể trở về state đi bộ được nữa nếu đang trong state spin shell
+			// Hiện tại Milestone-01 không có yêu cầu sau đây, nhưng nếu Mario va chạm trên đầu Koopa đang trong state spin shell thì có thể khiến Koopa trở về state shell,
+			// Sau đó Koopa có thể chui ra khỏi shell và đi bộ (trở lại state walking)
+			// To-do: cần suy nghĩ xem chuyện gì sẽ xảy ra với CDOP khi thêm feature này vào game
 
 			unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
 			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));

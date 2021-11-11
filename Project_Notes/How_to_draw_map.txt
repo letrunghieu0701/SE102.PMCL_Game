@@ -102,7 +102,10 @@ Phát hiện va chạm trong sample code dùng hàm GetBoundingBox để lấy �
 
 
 
-
+float CDOP_x, CDOP_y;
+		CDOP->GetPosition(CDOP_x, CDOP_y);
+		CDOP->SetPosition(this->x + (this->GetNormalDirectionX() * (KOOPA_BBOX_SHELL_WIDTH + BLOCK_PUSH_FACTOR))
+			, CDOP_y);
 
 
 

@@ -1,11 +1,31 @@
 # list of object assets to load in this scene
 [ASSETS]
+// Player
 mario.txt
+
+// Item
 coin.txt
+mushroom.txt
+
+// Bricks  and Blocking object
 brick.txt
 question_brick.txt
 cloud.txt
+
+
+// Enemy
+goomba.txt
+wing_goomba.txt
+koopa.txt
+
+// Support
+change_direction_on_platform.txt
+
+// Map
 image_map.txt
+
+
+
 
 #
 [OBJECTS]
@@ -33,16 +53,23 @@ image_map.txt
 
 # Brick
 # Question Brick's location
-7	176	352
+7	176	352	0
 7	192	352
 
-1	224	304
-1	240	304
+7	224	304
+7	240	304
 
-1	656	384
-1	704	352
+7	416	320
 
-1	1472	368
+7	656	384
+
+7	704	352
+
+7	1472	368
+
+# Mushroom
+# Extra settings: id of this mushroom, to connect with ? Brick
+9	176	352	0
 
 # Normal Brick's location
 1	1504	336
@@ -99,6 +126,25 @@ image_map.txt
 
 
 
+#Goomba
+2	190	385
+2	430	390
+
+
+1	353	400
+1	353	384
+
+# Wing Goomba
+10	460	390	30
+
+
+# Change direction on platform
+12	350	200	1
+# Koopa
+11	540	356	1
+
+
+
 #Platform
 # 1st ground (lower)
 5	0	416	16	16	39	51000	52000	53000
@@ -122,12 +168,18 @@ image_map.txt
 8	240	368	48	8
 # 2nd (Blue)
 8	272	336	48	8
+
 # 3rd (Green)
 8	400	368	80	8
+5	400	368	16	16	5	51000	52000	53000
+
 # 4th (Pink)
 8	464	336	64	8
+
 # 5th (Green)
-8	512	384	96	8
+#8	512	384	96	8
+5	510	383	16	16	6	51000	52000	53000
+
 # 6th (White)
 8	512	304	64	8
 
