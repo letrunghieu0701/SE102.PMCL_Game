@@ -79,8 +79,8 @@ void CChangeDirectionOnPlatform::Render()
 {
 	/*int ani_id = ID_ANI_CDOP;
 
-	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);*/
-	//RenderBoundingBox();
+	CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
+	RenderBoundingBox();*/
 }
 
 void CChangeDirectionOnPlatform::GetBoundingBox(float& left, float& top, float& right, float& bottom)

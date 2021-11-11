@@ -1,9 +1,8 @@
 #include "InvisiblePlatform.h"
 
-void CInvisiblePlatform::Render()
+void CInvisiblePlatform::Update(DWORD dt)
 {
 	/*DebugOutTitle(L"Invis: %0.2f, %0.2f", x, y);*/
-	RenderBoundingBox();
 }
 
 void CInvisiblePlatform::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -12,6 +11,13 @@ void CInvisiblePlatform::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y - (height / 2);
 	r = l + width;
 	b = t + height;
+}
+
+
+void CInvisiblePlatform::Render()
+{
+
+	RenderBoundingBox();
 }
 
 void CInvisiblePlatform::RenderBoundingBox()

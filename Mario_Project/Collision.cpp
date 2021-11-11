@@ -211,12 +211,29 @@ void CCollision::Filter(LPGAMEOBJECT objSrc,
 		}*/
 
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 &&
-			(!c->obj->IsBlocking() /* ||
-				!(c->nx==0 && c->ny<0 &&	// This condition make platform object can't be touch from x-axis
-				c->obj->GetType()==OBJECT_TYPE_INVISIBLE_PLATFORM)*/))	// This condition make platform object can't be touch, thus Mario fall off the platform
+		// Giữ lại đoạn code này để có thể debug, mục đích là có thể nó sẽ giúp ích giải thích các hiện tượng lạ (bug) khác
+		//if (filterBlock == 1 &&
+		//	(!c->obj->IsBlocking() /* ||
+		//		!(c->nx==0 && c->ny<0 &&	// This condition make platform object can't be touch from x-axis
+		//		c->obj->GetType()==OBJECT_TYPE_INVISIBLE_PLATFORM)*/))	// This condition make platform object can't be touch, thus Mario fall off the platform
+		//{
+		//	continue;
+		//}
+
+		// Filter (giữ lại) event này nếu:
+		// 1. Đây là blocking object
+		// 2.1. Đây là Invisible platform object
+		// 2.2. Source object va chạm với top của Invisible platform
+		if (filterBlock == 1)
 		{
-			continue;
+			// Khi va chạm với InviPlat thì chỉ giữ lại event va chạm với top của InviPlat để xử lý push back mà thôi
+			// Các hướng còn lại thì bỏ hết, bỏ sạch luôn, nên chỉ cần lệnh if này là có thể thực hiện platform có thể nhảy từ dưới lên (One-way platform)
+			if ((c->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM) && !(c->ny == -1))
+				continue;
+			// Kiểm tra blocking sau vì nếu kiểm tra blocking trước thì tất cả hướng va chạm với InviPlat đều được giữ lại và xử lý
+			// Nên cần phải kiểm tra blocking sau InviPlat
+			if (!c->obj->IsBlocking())
+				continue;
 		}
 
 		if (filterX == 1 &&
@@ -352,6 +369,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 			x += dx;
 			y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
 			objSrc->OnCollisionWith(colY);
+			
 		}
 		else // both colX & colY are NULL 
 		{

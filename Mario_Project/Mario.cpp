@@ -38,10 +38,42 @@ void CMario::OnNoCollision(DWORD dt)
 	y += vy * dt;
 }
 
+void CMario::OnCollisionWithInvisiblePlatform(LPCOLLISIONEVENT e)
+{
+	//if (e->ny < 0)	// Mario đang đứng trên Invisible Platform
+	//{
+	//	this->y += (this->vy * e->dt) * e->t +
+	//		e->ny * BLOCK_PUSH_FACTOR;		// Đẩy Mario ra khỏi va chạm
+
+	//	this->vy = 0;												// Vì cũng là đang đứng trên platform, nên phải đặt lại bằng 0
+	//	this->isOnPlatform = true;
+	//}
+}
+
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (e->obj->IsBlocking())
 	{
+		/*if (e->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
+		{
+			if (e->ny == -1)
+			{
+				vy = 0;
+				isOnPlatform = true;
+			}
+		}
+		else
+		{
+			if (e->ny != 0)
+			{
+				vy = 0;
+				if (e->ny < 0) isOnPlatform = true;
+			}
+			else if (e->nx != 0)
+			{
+				vx = 0;
+			}
+		}*/
 		if (e->ny != 0)
 		{
 			vy = 0;
@@ -51,6 +83,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		{
 			vx = 0;
 		}
+		
 	}
 
 
@@ -161,16 +194,6 @@ void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
 		e->obj->GetState() == QUESTION_BRICK_STATE_IDLE_HAVE_MUSHROOM)
 	{
 		e->obj->SetState(QUESTION_BRICK_STATE_BOUNCING_UP);
-	}
-}
-
-void CMario::OnCollisionWithInvisiblePlatform(LPCOLLISIONEVENT e)
-{
-	if (e->ny < 0)	// Mario đang đứng trên Invisible Platform
-	{
-		this->y += this->vy * e->t + e->ny * BLOCK_PUSH_FACTOR;		// Đẩy Mario ra khỏi va chạm
-		this->vy = 0;												// Vì cũng là đang đứng trên platform, nên phải đặt lại bằng 0
-		this->isOnPlatform = true;
 	}
 }
 
@@ -404,7 +427,16 @@ void CMario::Render()
 	RenderBoundingBox();
 	/*DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);*/
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
+
+	if (vy > 0)
+	{
+		DebugOutTitle(L"Vy dương");
+	}
+	else
+	{
+		DebugOutTitle(L"Vy âm");
+	}
 }
 
 void CMario::SetState(int state)
