@@ -95,4 +95,8 @@ void CChangeDirectionOnPlatform::GetBoundingBox(float& left, float& top, float& 
 	top = y - CDOP_BBOX_HEIGHT / 2;
 	right = left + CDOP_BBOX_WIDTH;
 	bottom = top + CDOP_BBOX_HEIGHT;
+	/*left = x;
+	top = y;
+	right = left + CDOP_BBOX_WIDTH;
+	bottom = top + CDOP_BBOX_HEIGHT;*/
 }
