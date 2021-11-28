@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GameObject.h"
 
 #include "Animation.h"
@@ -36,6 +36,7 @@
 
 #pragma region ANIMATION_ID
 
+// Big Mario
 #define ID_ANI_MARIO_IDLE_RIGHT 400
 #define ID_ANI_MARIO_IDLE_LEFT 401
 
@@ -78,8 +79,14 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
 
+// Raccon Mario
+#define	ID_ANI_MARIO_RACCON_IDLE_LEFT 1700
+#define ID_ANI_MARIO_RACCON_IDLE_RIGHT 1701
+
 #pragma endregion
 
+
+// Cần xem xét sau
 #define GROUND_Y 160.0f
 
 
@@ -87,9 +94,10 @@
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
+#define MARIO_LEVEL_RACCON	3
 
 #define MARIO_BIG_BBOX_WIDTH  14
-#define MARIO_BIG_BBOX_HEIGHT 24
+#define MARIO_BIG_BBOX_HEIGHT 27
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
 #define MARIO_BIG_SITTING_BBOX_HEIGHT 16
 
@@ -130,6 +138,7 @@ private:
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
+	int GetAniRaccon();
 
 public:
 	CMario(float x, float y, int type) : CGameObject(x, y, type)
@@ -139,7 +148,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_BIG;
+		level = MARIO_LEVEL_RACCON;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;

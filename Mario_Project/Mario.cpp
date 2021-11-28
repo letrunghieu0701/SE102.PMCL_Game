@@ -343,6 +343,20 @@ int CMario::GetAniIdSmall()
 	return aniId;
 }
 
+int CMario::GetAniRaccon()
+{
+	int ani_id = -1;
+
+	if (nx >= 0)
+		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+	else
+		ani_id = ID_ANI_MARIO_RACCON_IDLE_LEFT;
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+	return ani_id;
+}
+
 
 //
 // Get animdation ID for big Mario
@@ -419,6 +433,8 @@ void CMario::Render()
 			ani_id = GetAniIdBig();
 		else if (level == MARIO_LEVEL_SMALL)
 			ani_id = GetAniIdSmall();
+		else if (level == MARIO_LEVEL_RACCON)
+			ani_id = GetAniRaccon();
 	}
 		
 	float left, top, right, bottom;
@@ -534,12 +550,19 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
-	else
+	else if (level == MARIO_LEVEL_SMALL)
 	{
 		left = x;
 		top = y;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
+	}
+	else if (level == MARIO_LEVEL_RACCON)
+	{
+		left = x - 7;
+		top = y;
+		right = left + MARIO_BIG_BBOX_WIDTH;
+		bottom = top + MARIO_BIG_BBOX_HEIGHT;
 	}
 }
 
