@@ -347,13 +347,55 @@ int CMario::GetAniRaccon()
 {
 	int ani_id = -1;
 
-	if (nx >= 0)
+	/*if (nx >= 0)
 		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
 	else
-		ani_id = ID_ANI_MARIO_RACCON_IDLE_LEFT;
+		ani_id = ID_ANI_MARIO_RACCON_IDLE_LEFT;*/
+
+	if (!isOnPlatform)	// Đang trong không trung
+	{
+		;
+	}
+	else
+	{
+		if (isSitting)	// Đang ngồi
+		{
+			;
+		}
+		else  // Đang không ngồi == Đang đứng yên, đi bộ, hoặc chạy
+		{
+			if (vx == 0)  // Đang đứng yên
+			{
+				if (nx >= 0)
+					ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+				else
+					ani_id = ID_ANI_MARIO_RACCON_IDLE_LEFT;
+			}
+			else if (vx > 0)	// Đang chạy sang bên phải
+			{
+				if (ax < 0)		// Đang thắng
+					;
+				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
+					;
+				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_RIGHT;
+
+			}
+			else  // Đang chạy sang bên trái
+			{
+				if (ax > 0)		// Đang thắng
+					;
+				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
+					;
+				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
+					ani_id = ID_ANI_MARIO_RACCON_WALLKING_LEFT;
+			}
+		}
+	}
 
 	if (ani_id == -1)
 		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+
 	return ani_id;
 }
 

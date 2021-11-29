@@ -50,8 +50,30 @@
 14121	243	634	264	661	0
 
 # walk left
+14211	152	634	173	661	0
+14212	122	634	143	661	0
 
 # walk right
+14221	272	634	293	661	0
+14222	303	634	324	661	0
+
+# RUNNING RIGHT
+
+
+# RUNNING LEFT
+
+
+# JUMP WALK RIGHT
+
+
+# JUMP RUN RIGHT & LEFT
+
+
+# SIT RIGHT & LEFT 
+
+
+# BRACE RIGHT & LEFT 
+
 
 ############ SMALL ################
  #IDLE
@@ -127,6 +149,13 @@
 1700	14111	100
 # idle right
 1701	14121	100
+
+# walk right
+1800	14221	100	14222	100
+# walk left
+1801	14211	100	14212	100
+
+
 
 ################### SMALL #################
 1100	12121	100
