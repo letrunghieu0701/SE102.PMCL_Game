@@ -43,11 +43,6 @@ void CChangeDirectionOnPlatform::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
 	{
 		OnCollisionWithKoopa(e);
-		DebugOut(L"Phát hiện va chạm giữa CDOP và Koopa \n");
-	}
-	else
-	{
-		DebugOut(L">>> Không phát hiện va chạm >>> \n");
 	}
 		
 }

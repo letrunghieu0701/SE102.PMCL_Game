@@ -559,11 +559,13 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if (level == MARIO_LEVEL_RACCON)
 	{
-		left = x - 7;
+		left = x ;
 		top = y;
-		right = left + MARIO_BIG_BBOX_WIDTH;
-		bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		right = left + 21 /*MARIO_BIG_BBOX_WIDTH*/;
+		bottom = top + 28 /*MARIO_BIG_BBOX_HEIGHT*/;
 	}
+
+	DebugOutTitle(L"Mario: %0.2f, %0.2f   BBox: %0.2f, %0.2f", x, y, top, left);
 }
 
 void CMario::SetLevel(int l)
