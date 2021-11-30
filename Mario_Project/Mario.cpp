@@ -374,7 +374,7 @@ int CMario::GetAniRaccon()
 			else if (vx > 0)	// Đang chạy sang bên phải
 			{
 				if (ax < 0)		// Đang thắng
-					;
+					ani_id = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
 					ani_id = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
@@ -384,7 +384,7 @@ int CMario::GetAniRaccon()
 			else  // Đang chạy sang bên trái
 			{
 				if (ax > 0)		// Đang thắng
-					;
+					ani_id = ID_ANI_MARIO_RACCON_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
 					ani_id = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
