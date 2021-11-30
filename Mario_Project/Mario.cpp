@@ -360,7 +360,10 @@ int CMario::GetAniRaccon()
 	{
 		if (isSitting)	// Đang ngồi
 		{
-			;
+			if (nx > 0)	// Đang quay mặt sang bên phải
+				ani_id = ID_ANI_MARIO_RACCON_SIT_RIGHT;
+			else        // Đang quay mặt sang bên trái
+				ani_id = ID_ANI_MARIO_RACCON_SIT_LEFT;
 		}
 		else  // Đang không ngồi == Đang đứng yên, đi bộ, hoặc chạy
 		{
@@ -544,7 +547,7 @@ void CMario::SetState(int state)
 		{
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
-			vx = 0; vy = 0.0f;
+			vx = 0;
 			y +=MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
@@ -601,10 +604,20 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if (level == MARIO_LEVEL_RACCON)
 	{
-		left = x ;
-		top = y;
-		right = left + 21 /*MARIO_BIG_BBOX_WIDTH*/;
-		bottom = top + 28 /*MARIO_BIG_BBOX_HEIGHT*/;
+		if (isSitting)
+		{
+			left = x;
+			top = y;
+			right = x + MARIO_BIG_SITTING_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_SITTING_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x;
+			top = y;
+			right = left + 21 /*MARIO_BIG_BBOX_WIDTH*/;
+			bottom = top + 27 /*MARIO_BIG_BBOX_HEIGHT*/;
+		}
 	}
 
 	DebugOutTitle(L"Mario: %0.2f, %0.2f   BBox: %0.2f, %0.2f", x, y, top, left);
