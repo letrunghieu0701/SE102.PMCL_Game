@@ -354,7 +354,20 @@ int CMario::GetAniRaccon()
 
 	if (!isOnPlatform)	// Đang trong không trung
 	{
-		;
+		if (ax == MARIO_ACCEL_RUN_X) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
+		{
+			if (nx > 0) // Đang quay mặt sang bên phải
+				;
+			else        // Đang quay mặt sang bên trái
+				;
+		}
+		else  // Đang di chuyển với tốc độ bình thường (gia tốc đi bộ) trong không trung
+		{
+			if (nx > 0) // Đang quay mặt sang bên phải
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_RIGHT;
+			else  // Đang quay mặt sang bên trái
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_LEFT;
+		}
 	}
 	else
 	{

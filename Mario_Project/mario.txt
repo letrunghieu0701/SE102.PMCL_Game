@@ -1,6 +1,6 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-#####  BIG ###############
+###################  BIG  ###############################
 #IDLE
 11121	246	154	259	181	0
 11111	186	154	199	181	0
@@ -69,8 +69,9 @@
 14312	61	634	84	661	0
 14313	32	634	53	661	0
 
-# JUMP WALK RIGHT
-
+# Jump Walk Right & Left
+14417	392	754	415	781	0
+14413	31	754	54	781	0
 
 # JUMP RUN RIGHT & LEFT
 
@@ -170,8 +171,9 @@
 # Running Left
 1901	14311	75	14312	75	14313	75
 
-# JUMP WALK RIGHT
-
+# Jump Walk Right & Left
+2000	14417	100
+2001	14413	100
 
 # JUMP RUN RIGHT & LEFT
 
