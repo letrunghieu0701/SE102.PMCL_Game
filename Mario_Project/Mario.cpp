@@ -290,7 +290,7 @@ int CMario::GetAniIdSmall()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (abs(vx) == MARIO_RUNNING_SPEED)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
@@ -354,12 +354,12 @@ int CMario::GetAniRaccon()
 
 	if (!isOnPlatform)	// Đang trong không trung
 	{
-		if (ax == MARIO_ACCEL_RUN_X) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
+		if (abs(vx) == MARIO_RUNNING_SPEED) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
 		{
 			if (nx > 0) // Đang quay mặt sang bên phải
-				;
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
 			else        // Đang quay mặt sang bên trái
-				;
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
 		}
 		else  // Đang di chuyển với tốc độ bình thường (gia tốc đi bộ) trong không trung
 		{
@@ -424,7 +424,7 @@ int CMario::GetAniIdBig()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (abs(vx) == MARIO_RUNNING_SPEED)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
@@ -518,12 +518,16 @@ void CMario::SetState(int state)
 	{
 	case MARIO_STATE_RUNNING_RIGHT:
 		if (isSitting) break;
+		// To-do:
+		// Phải xét nếu Mario có đang đứng trên platform hay blocking object hay không, nếu có thì mới cho tăng tốc độ di chuyển (maxVx và ax) được (vật lý)
 		maxVx = MARIO_RUNNING_SPEED;
 		ax = MARIO_ACCEL_RUN_X;
 		nx = 1;
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
 		if (isSitting) break;
+		// To-do:
+		// Phải xét nếu Mario có đang đứng trên platform hay blocking object hay không, nếu có thì mới cho tăng tốc độ di chuyển (maxVx và ax) được (vật lý)
 		maxVx = -MARIO_RUNNING_SPEED;
 		ax = -MARIO_ACCEL_RUN_X;
 		nx = -1;

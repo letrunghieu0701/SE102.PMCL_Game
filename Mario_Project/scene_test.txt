@@ -25,7 +25,7 @@ image_map.txt
 
 
 # Brick
-1	353	400
+#1	353	400
 
 
 # Question Brick's location
@@ -48,13 +48,13 @@ image_map.txt
 
 
 # Change direction on platform
-12	350	200	1
+#12	350	200	1
 # Koopa
 #11	300	200	1
 
 
 # Pipe
-13	200	384
+#13	200	384
 
 # Blocking Brick
 #1	300	400
@@ -62,7 +62,7 @@ image_map.txt
 
 #Platform
 # 1st ground (lower)
-5	0	416	16	16	39	51000	52000	53000
+5	0	416	16	16	60	51000	52000	53000
 
 #5	200	250	16	16	20	51000	52000	53000
 
