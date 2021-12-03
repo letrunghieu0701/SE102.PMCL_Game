@@ -6,6 +6,8 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != MUSHROOM_STATE_IDLE)
 	{
 		vy += ay * dt;
+		if (vy >= MUSHROOM_SPEED_MAX_FALL_DOWN)
+			vy = MUSHROOM_SPEED_MAX_FALL_DOWN;
 
 		// Kiểm tra xem mushroom đã hết overlap với ? brick hay chưa
 		// để có thể làm cho mushroom khỏi trồi lên nữa, sau đó sẽ cho mushroom di chuyển
@@ -23,8 +25,8 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMushroom::Render()
 {
-	if (state == MUSHROOM_STATE_IDLE)
-		return;
+	/*if (state == MUSHROOM_STATE_IDLE)
+		return;*/
 
 	CAnimations* animations = CAnimations::GetInstance();
 
@@ -43,7 +45,7 @@ void CMushroom::Render()
 
 void CMushroom::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
+	//x += vx * dt;
 	y += vy * dt;
 }
 

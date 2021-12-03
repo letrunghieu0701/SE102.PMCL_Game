@@ -19,6 +19,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
+	if (vy == MARIO_SPEED_MAX_FALL_DOWN) vy = MARIO_SPEED_MAX_FALL_DOWN;
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -347,11 +348,6 @@ int CMario::GetAniRaccon()
 {
 	int ani_id = -1;
 
-	/*if (nx >= 0)
-		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
-	else
-		ani_id = ID_ANI_MARIO_RACCON_IDLE_LEFT;*/
-
 	if (!isOnPlatform)	// Đang trong không trung
 	{
 		if (abs(vx) == MARIO_RUNNING_SPEED) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
@@ -414,7 +410,7 @@ int CMario::GetAniRaccon()
 
 	return ani_id;
 }
-
+ 
 
 //
 // Get animdation ID for big Mario
@@ -647,6 +643,10 @@ void CMario::SetLevel(int l)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
+	/*if (l == MARIO_LEVEL_BIG ||
+		l == MARIO_LEVEL_RACCON)
+		vy = MARIO_JUMP_DEFLECT_WHEN_BECOME_BIG;*/
+
 	level = l;
 }
 

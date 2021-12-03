@@ -25,7 +25,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
-	itemsInside = new unordered_map<int, LPGAMEOBJECT>();
+	//itemsInside = new unordered_map<int, LPGAMEOBJECT>();
 }
 
 
@@ -142,7 +142,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int id = atoi(tokens[3].c_str());
 		obj = new CChangeDirectionOnPlatform(x, y, object_type, id);
 
-		itemsInside->insert(make_pair(id, obj));
+		itemsInside.insert(make_pair(id, obj));
 		break;
 	}
 	case OBJECT_TYPE_WING_GOOMBA:
@@ -170,11 +170,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int mushroom_id = atoi(tokens[3].c_str());
 		obj = new CMushroom(x, y, object_type, mushroom_id);
 
-		itemsInside->insert(make_pair(mushroom_id, obj));
+		itemsInside.insert(make_pair(mushroom_id, obj));
 		break;
 	}
 	case OBJECT_TYPE_PLATFORM:
 	{
+		bool base = false;
+		if (tokens.size() > 9)	// Nếu đây là platform base - camera không dịch chuyển theo trục y khi Mario đứng trên platform này (giúp player không bị chóng mặt)
+			base = true;
 
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
@@ -184,11 +187,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_end = atoi(tokens[8].c_str());
 
 		obj = new CPlatform(
-			x, y, object_type,
+			x, y, object_type, base,
 			cell_width, cell_height, length,
 			sprite_begin, sprite_middle, sprite_end
 		);
 
+		if (base == true)
+		{
+			int base_platform_ID = atoi(tokens[10].c_str());
+			itemsInside.insert(make_pair(base_platform_ID, obj));
+		}
 		break;
 	}
 	case OBJECT_TYPE_INVISIBLE_PLATFORM:
@@ -333,7 +341,13 @@ void CPlayScene::Update(DWORD dt)
 
 		CGame* game = CGame::GetInstance();
 		cx -= game->GetBackBufferWidth() / 2;
-		cy -= game->GetBackBufferHeight() / 2;
+		//cy -= game->GetBackBufferHeight() / 2;
+
+		CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
+		float base_platform_x;
+		float base_platform_y;
+		base_platform->GetPosition(base_platform_x, base_platform_y);
+		cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
 
 		if (cx < 0) cx = 0;
 
@@ -374,8 +388,12 @@ void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
-
 	objects.clear();
+
+	// Các item trong itemsInside đã được xóa cùng với các game object khác khi xóa các game object trong objects
+	// Nên bây giờ chỉ cần clear itemsInside mà thôi
+	itemsInside.clear();
+
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);

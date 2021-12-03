@@ -10,6 +10,8 @@
 //#include "Koopas.h"
 #include "ImageMap.h"
 
+#define DEFAULT_ID_BASE_PLATFORM 100
+
 class CPlayScene: public CScene
 {
 protected: 
@@ -21,7 +23,7 @@ protected:
 	// Chứa những cặp (id, game object) của những game object để liên kết với những game object khác,
 	// làm vậy để có thể kích hoạt các sự kiện, ví dụ như khi Mario va chạm ? brick từ bên dưới, thì lát nữa kích hoạt sự kiện Mushroom trồi lên
 	// VD: một cặp (mushroom_id, mushroom) dùng để liên kết với một ? brick
-	unordered_map<int, LPGAMEOBJECT>* itemsInside;	
+	unordered_map<int, LPGAMEOBJECT> itemsInside;	
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -40,7 +42,7 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
-	unordered_map<int, LPGAMEOBJECT>* GetItemList() { return itemsInside; }
+	unordered_map<int, LPGAMEOBJECT> GetItemList() { return itemsInside; }
 
 	void Clear();
 	void PurgeDeletedObjects();

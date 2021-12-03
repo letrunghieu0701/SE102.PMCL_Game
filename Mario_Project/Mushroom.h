@@ -6,6 +6,7 @@
 
 #define MUSHROOM_RISING_UP_SPEED 0.01f
 #define MUSHROOM_GRAVITY 0.002f
+#define MUSHROOM_SPEED_MAX_FALL_DOWN 0.2f
 #define MUSHROOM_WALKING_SPEED 0.05f
 
 #define MUSHROOM_BBOX_WIDTH 16
@@ -45,7 +46,7 @@ public:
 		ay = 0;
 		default_pos_y = y;
 		id = mushroom_id;
-		SetState(MUSHROOM_STATE_IDLE);
+		SetState(MUSHROOM_STATE_MOVING);
 	}
 	virtual void SetState(int state);
 };

@@ -22,22 +22,25 @@ image_map.txt
 
 # MARIO
 0	176	380
+9	176	280	0
 
 
 # Brick
 #1	353	400
 
 
-# Question Brick's location
+# ? Brick's location
 # Extra settings: id of item inside ? Brick 
-7	176	330	0
-#7	192	330
-#7	208	330
+#7	170	330	0
+#7	220	330	1
+#7	270	330	2
 
 
 # Mushroom
 # Extra settings: id of this mushroom, to connect with ? Brick
-9	176	330	0
+#9	170	330	0
+#9	220	330	1
+#9	270	330	2
 
 #Goomba
 #2	470	330
@@ -48,9 +51,12 @@ image_map.txt
 
 
 # Change direction on platform
-#12	350	200	1
+# Type	x	y	CDOP's ID
+#12	350	200	21
+
 # Koopa
-#11	300	200	1
+# Type	x	y	CDOP's ID
+#11	300	200	21
 
 
 # Pipe
@@ -61,8 +67,12 @@ image_map.txt
 #1	500	400
 
 #Platform
+# 2 giá trị cuối là quyết định đây là platform thường hay là base platform
+# Giá trị đầu tiên là quyết định đây là base platform hay không
+# Giá trị 1 nghĩa là có, còn không có giá trị nào thì đây không phải là base platform
+# Giá trị tiếp theo là ID để thêm vào list items (hiện tại là itemsInside)
 # 1st ground (lower)
-5	0	416	16	16	60	51000	52000	53000
+5	0	416	16	16	60	51000	52000	53000	1	100
 
 #5	200	250	16	16	20	51000	52000	53000
 

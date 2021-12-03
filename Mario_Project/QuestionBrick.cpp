@@ -35,8 +35,8 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(QUESTION_BRICK_STATE_IDLE_NO_MUSHROOM);
 		if (itemInsideId > -1)
 		{
-			unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-			CGameObject* item = (item_list->at(itemInsideId));
+			unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			CGameObject* item = item_list[itemInsideId];
 			if (item == NULL)
 				return;
 			item->SetState(MUSHROOM_STATE_RISING);

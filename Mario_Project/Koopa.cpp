@@ -19,8 +19,8 @@ CKoopa::CKoopa(float x, float y, int type, int id_CDOP) : CGameObject(x, y, type
 		nx = DIRECTION_LEFT;
 
 	// Đặt CDOP về trước mặt Koopa
-	unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-	CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+	unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+	CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
 	if (CDOP == NULL)
 		return;
 
@@ -37,8 +37,8 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// có thể quay đầu được thì sẽ khiến game khá khó chịu nếu Koopa cứ xoay xoay hoài ở trên platform mà nó đang xoay
 	if (this->GetState() == KOOPA_STATE_WALKING)
 	{
-		unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+		unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
 		if (CDOP == NULL)
 			return;
 
@@ -218,8 +218,8 @@ void CKoopa::SetState(int state)
 			// Sau đó Koopa có thể chui ra khỏi shell và đi bộ (trở lại state walking)
 			// To-do: cần suy nghĩ xem chuyện gì sẽ xảy ra với CDOP khi thêm feature này vào game
 
-			unordered_map<int, LPGAMEOBJECT>* item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list->at(this->id_CDOP));
+			unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
 			if (CDOP == NULL)
 				return;
 			CDOP->Delete();

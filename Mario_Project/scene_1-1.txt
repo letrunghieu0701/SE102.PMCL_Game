@@ -148,7 +148,7 @@ image_map.txt
 
 #Platform
 # 1st ground (lower)
-5	0	416	16	16	39	51000	52000	53000
+5	0	416	16	16	39	51000	52000	53000	1	100
 # 2nd ground (higher)
 5	625	400	16	16	29	51000	52000	53000
 # 3rd ground (lower)
