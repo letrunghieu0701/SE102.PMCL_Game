@@ -3,7 +3,7 @@
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state != MUSHROOM_STATE_IDLE)
+	//if (state != MUSHROOM_STATE_IDLE)
 	{
 		vy += ay * dt;
 		if (vy >= MUSHROOM_SPEED_MAX_FALL_DOWN)
@@ -51,15 +51,17 @@ void CMushroom::OnNoCollision(DWORD dt)
 
 void CMushroom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-
-	if (e->ny != 0)
+	//if (!e->obj->IsBlocking()) return;
+	if (e->obj->IsBlocking())
 	{
-		vy = 0;
-	}
-	else if (e->nx != 0)
-	{
-		vx = -vx;
+		if (e->ny != 0)
+		{
+			vy = 0;
+		}
+		else if (e->nx != 0)
+		{
+			vx = -vx;
+		}
 	}
 }
 

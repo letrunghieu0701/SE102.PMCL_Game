@@ -271,6 +271,8 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		Scan(objSrc, dt, coObjects, coEvents);
 	}
 
+	
+
 	// No collision detected
 	if (coEvents.size() == 0)
 	{
@@ -285,8 +287,6 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		objSrc->GetSpeed(vx, vy);
 		dx = vx * dt;
 		dy = vy * dt;
-
-
 
 		if (colX != NULL && colY != NULL)
 		{

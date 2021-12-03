@@ -180,6 +180,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	// và bị delete mặc dù Mushroom vẫn chưa trồi lên
 	if (e->obj->GetState() != MUSHROOM_STATE_IDLE)
 	{
+		DebugOutTitle(L"Mario and Mushroom collided");
 		e->obj->Delete();
 
 		if (level == MARIO_LEVEL_SMALL)
@@ -633,20 +634,18 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		}
 	}
 
-	DebugOutTitle(L"Mario: %0.2f, %0.2f   BBox: %0.2f, %0.2f", x, y, top, left);
+	//DebugOutTitle(L"Mario: %0.2f, %0.2f   BBox: %0.2f, %0.2f", x, y, top, left);
 }
 
 void CMario::SetLevel(int l)
 {
 	// Adjust position to avoid falling off platform
-	if (this->level == MARIO_LEVEL_SMALL)
+	// Nếu đang ở dạng Small, thì khi chuyển sang các dạng lớn hơn thì điều chỉnh lại vị trí bằng khoảng chênh lệch giữ dạng Small và dạng Big
+	if (this->level == MARIO_LEVEL_SMALL &&
+		l != MARIO_LEVEL_SMALL)
 	{
 		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
-		y -= (MARIO_BIG_BBOX_HEIGHT + 5 - MARIO_SMALL_BBOX_HEIGHT);
-	}
-	else
-	{
-		y -= (MARIO_BIG_BBOX_HEIGHT + 5 - MARIO_SMALL_BBOX_HEIGHT);
+		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
 	}
 
 	level = l;

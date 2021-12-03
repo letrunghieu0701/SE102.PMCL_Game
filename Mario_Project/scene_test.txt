@@ -21,7 +21,7 @@ image_map.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	176	380
+0	176	370
 9	176	280	0
 
 
