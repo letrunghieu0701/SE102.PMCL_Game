@@ -641,11 +641,13 @@ void CMario::SetLevel(int l)
 	// Adjust position to avoid falling off platform
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+		y -= (MARIO_BIG_BBOX_HEIGHT + 5 - MARIO_SMALL_BBOX_HEIGHT);
 	}
-	/*if (l == MARIO_LEVEL_BIG ||
-		l == MARIO_LEVEL_RACCON)
-		vy = MARIO_JUMP_DEFLECT_WHEN_BECOME_BIG;*/
+	else
+	{
+		y -= (MARIO_BIG_BBOX_HEIGHT + 5 - MARIO_SMALL_BBOX_HEIGHT);
+	}
 
 	level = l;
 }
