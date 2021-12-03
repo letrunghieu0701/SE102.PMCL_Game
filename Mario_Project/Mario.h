@@ -15,8 +15,10 @@
 #define MARIO_JUMP_SPEED_Y		0.6f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
 
-#define MARIO_GRAVITY			0.002f
-#define MARIO_SPEED_MAX_FALL_DOWN 0.4f
+#define MARIO_GRAVITY				0.002f
+#define MARIO_SPEED_MAX_FALL_DOWN	0.3f
+#define MARIO_SPEED_FALL_SLOW		0.0002f	
+#define MARIO_GRAVITY_FALL_SLOW		0.0002f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
 #define MARIO_JUMP_DEFLECT_WHEN_BECOME_BIG 0.1f
@@ -28,6 +30,8 @@
 
 #define MARIO_STATE_JUMP			300
 #define MARIO_STATE_RELEASE_JUMP    301
+
+#define MARIO_STATE_FALL_SLOW		350
 
 #define MARIO_STATE_RUNNING_RIGHT	400
 #define MARIO_STATE_RUNNING_LEFT	500
@@ -127,7 +131,8 @@
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
 
-#define MARIO_UNTOUCHABLE_TIME 2500
+#define MARIO_UNTOUCHABLE_TIME	2500
+#define MARIO_FALL_SLOW_TIME	100
 
 class CMario : public CGameObject
 {
@@ -144,6 +149,7 @@ private:
 	int coin;
 
 	bool isStopUpdate;
+	DWORD fallSlow_start;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -175,6 +181,7 @@ public:
 		coin = 0;
 
 		isStopUpdate = false;
+		fallSlow_start = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

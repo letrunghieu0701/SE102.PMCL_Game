@@ -28,6 +28,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
+	if (GetTickCount64() - fallSlow_start > MARIO_FALL_SLOW_TIME)
+	{
+		ay = MARIO_GRAVITY;
+		fallSlow_start = 0;
+	}
+
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -55,26 +61,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (e->obj->IsBlocking())
 	{
-		/*if (e->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
-		{
-			if (e->ny == -1)
-			{
-				vy = 0;
-				isOnPlatform = true;
-			}
-		}
-		else
-		{
-			if (e->ny != 0)
-			{
-				vy = 0;
-				if (e->ny < 0) isOnPlatform = true;
-			}
-			else if (e->nx != 0)
-			{
-				vx = 0;
-			}
-		}*/
 		if (e->ny != 0)
 		{
 			vy = 0;
@@ -548,10 +534,21 @@ void CMario::SetState(int state)
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
-				vy = -MARIO_JUMP_SPEED_Y;
+			{
+				vy = -MARIO_JUMP_SPEED_Y;	
+			}		
+		}
+		else // Đang ở giữ không trung
+		{
+			if (this->GetLevel() == MARIO_LEVEL_RACCON) // Nếu là level Raccon thì cho rơi chậm hơn khi nhấn phím nhảy
+			{
+				ay = MARIO_GRAVITY_FALL_SLOW;
+				vy = MARIO_SPEED_FALL_SLOW;
+
+				fallSlow_start = GetTickCount64();
+			}
 		}
 		break;
-
 	case MARIO_STATE_RELEASE_JUMP:
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
 		break;
