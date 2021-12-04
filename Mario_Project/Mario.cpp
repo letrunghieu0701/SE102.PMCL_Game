@@ -13,7 +13,7 @@
 
 #include "Collision.h"
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
@@ -22,7 +22,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (vy >= MARIO_SPEED_MAX_FALL_DOWN_Y) vy = MARIO_SPEED_MAX_FALL_DOWN_Y;
 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -32,20 +32,23 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		GetTickCount64() - fallSlow_start <= MARIO_FALL_SLOW_TIME)
 	{
 		if (nx > 0)
-			vx = MARIO_SPEED_FALL_SLOW_X;
+			maxVx = MARIO_SPEED_MAX_FALL_SLOW_X;
 		else
-			vx = -MARIO_SPEED_FALL_SLOW_X;
+			maxVx = -MARIO_SPEED_MAX_FALL_SLOW_X;
 		vy = MARIO_SPEED_FALL_SLOW_Y;
 	}
 	else if (GetTickCount64() - fallSlow_start > MARIO_FALL_SLOW_TIME)
 	{
 		//ay = MARIO_GRAVITY;
+
 		fallSlow_start = 0;
 	}
 
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+
+	
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -79,7 +82,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		{
 			vx = 0;
 		}
-		
+
 	}
 
 
@@ -347,7 +350,7 @@ int CMario::GetAniRaccon()
 	if (!isOnPlatform)	// Đang trong không trung
 	{
 		// Đang dùng đuôi để rơi chậm hơn
-		if (abs(vx) == MARIO_SPEED_FALL_SLOW_X &&
+		if (abs(maxVx) == MARIO_SPEED_MAX_FALL_SLOW_X &&
 			vy == MARIO_SPEED_FALL_SLOW_Y)
 		{
 			if (nx > 0)	// Đang quay mặt sang bên phải
@@ -415,7 +418,7 @@ int CMario::GetAniRaccon()
 
 	return ani_id;
 }
- 
+
 
 //
 // Get animdation ID for big Mario
@@ -495,7 +498,7 @@ void CMario::Render()
 		else if (level == MARIO_LEVEL_RACCON)
 			ani_id = GetAniRaccon();
 	}
-		
+
 	float left, top, right, bottom;
 	this->GetBoundingBox(left, top, right, bottom);
 	float width = right - left;
@@ -506,14 +509,14 @@ void CMario::Render()
 
 	RenderBoundingBox();
 	/*DebugOutTitle(L"Mario: %0.2f, %0.2f", x, y);*/
-	
+
 	//DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -553,29 +556,39 @@ void CMario::SetState(int state)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
 			{
-				vy = -MARIO_JUMP_SPEED_Y;	
-			}		
+				vy = -MARIO_JUMP_SPEED_Y;
+			}
 		}
 		else // Đang ở giữ không trung
 		{
-			this->SetState(MARIO_STATE_FALL_SLOW);
+			// Nếu là level Raccon thì mới cho rơi chậm và bay
+			if (this->GetLevel() == MARIO_LEVEL_RACCON)
+			{
+				if (abs(vx) == MARIO_RUNNING_SPEED)
+					this->SetState(MARIO_STATE_FLYING);
+				else
+					this->SetState(MARIO_STATE_FALL_SLOW);
+			}
 		}
 		break;
 
+	case MARIO_STATE_FLYING:
+		;
+		break;
+
 	case MARIO_STATE_FALL_SLOW:
-		if (this->GetLevel() == MARIO_LEVEL_RACCON) // Nếu là level Raccon thì cho rơi chậm hơn khi nhấn phím nhảy
-		{
-			//ay = MARIO_GRAVITY_FALL_SLOW_Y;
+		//ay = MARIO_GRAVITY_FALL_SLOW_Y;
 
-			if (nx > 0)
-				vx = MARIO_SPEED_FALL_SLOW_X;
-			else
-				vx = -MARIO_SPEED_FALL_SLOW_X;
+		if (nx > 0)
+			maxVx = MARIO_SPEED_MAX_FALL_SLOW_X;
+		else
+			maxVx = -MARIO_SPEED_MAX_FALL_SLOW_X;
 
-			vy = MARIO_SPEED_FALL_SLOW_Y;
+		vy = MARIO_SPEED_FALL_SLOW_Y;
 
-			fallSlow_start = GetTickCount64();
-		}
+		fallSlow_start = GetTickCount64();
+		DebugOut(L"Mario vx = %0.2f max_vx = %0.2f \n", vx, maxVx);
+		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
@@ -587,7 +600,7 @@ void CMario::SetState(int state)
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
 			vx = 0;
-			y +=MARIO_SIT_HEIGHT_ADJUST;
+			y += MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
 
@@ -615,9 +628,9 @@ void CMario::SetState(int state)
 	CGameObject::SetState(state);
 }
 
-void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (level==MARIO_LEVEL_BIG)
+	if (level == MARIO_LEVEL_BIG)
 	{
 		if (isSitting)
 		{
@@ -626,7 +639,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else 
+		else
 		{
 			left = x;
 			top = y;
