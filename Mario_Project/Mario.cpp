@@ -19,7 +19,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
-	if (vy == MARIO_SPEED_MAX_FALL_DOWN) vy = MARIO_SPEED_MAX_FALL_DOWN;
+	if (vy >= MARIO_SPEED_MAX_FALL_DOWN_Y) vy = MARIO_SPEED_MAX_FALL_DOWN_Y;
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -28,9 +28,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
-	if (GetTickCount64() - fallSlow_start > MARIO_FALL_SLOW_TIME)
+	if (0 <= GetTickCount64() - fallSlow_start &&
+		GetTickCount64() - fallSlow_start <= MARIO_FALL_SLOW_TIME)
 	{
-		ay = MARIO_GRAVITY;
+		if (nx > 0)
+			vx = MARIO_SPEED_FALL_SLOW_X;
+		else
+			vx = -MARIO_SPEED_FALL_SLOW_X;
+		vy = MARIO_SPEED_FALL_SLOW_Y;
+	}
+	else if (GetTickCount64() - fallSlow_start > MARIO_FALL_SLOW_TIME)
+	{
+		//ay = MARIO_GRAVITY;
 		fallSlow_start = 0;
 	}
 
@@ -337,7 +346,16 @@ int CMario::GetAniRaccon()
 
 	if (!isOnPlatform)	// Đang trong không trung
 	{
-		if (abs(vx) == MARIO_RUNNING_SPEED) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
+		// Đang dùng đuôi để rơi chậm hơn
+		if (abs(vx) == MARIO_SPEED_FALL_SLOW_X &&
+			vy == MARIO_SPEED_FALL_SLOW_Y)
+		{
+			if (nx > 0)	// Đang quay mặt sang bên phải
+				ani_id = ID_ANI_MARIO_RACCON_FALL_SLOW_RIGHT;
+			else  // Đang quay mặt sang bên trái
+				ani_id = ID_ANI_MARIO_RACCON_FALL_SLOW_LEFT;
+		}
+		else if (abs(vx) == MARIO_RUNNING_SPEED) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
 		{
 			if (nx > 0) // Đang quay mặt sang bên phải
 				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
@@ -540,15 +558,25 @@ void CMario::SetState(int state)
 		}
 		else // Đang ở giữ không trung
 		{
-			if (this->GetLevel() == MARIO_LEVEL_RACCON) // Nếu là level Raccon thì cho rơi chậm hơn khi nhấn phím nhảy
-			{
-				ay = MARIO_GRAVITY_FALL_SLOW;
-				vy = MARIO_SPEED_FALL_SLOW;
-
-				fallSlow_start = GetTickCount64();
-			}
+			this->SetState(MARIO_STATE_FALL_SLOW);
 		}
 		break;
+
+	case MARIO_STATE_FALL_SLOW:
+		if (this->GetLevel() == MARIO_LEVEL_RACCON) // Nếu là level Raccon thì cho rơi chậm hơn khi nhấn phím nhảy
+		{
+			//ay = MARIO_GRAVITY_FALL_SLOW_Y;
+
+			if (nx > 0)
+				vx = MARIO_SPEED_FALL_SLOW_X;
+			else
+				vx = -MARIO_SPEED_FALL_SLOW_X;
+
+			vy = MARIO_SPEED_FALL_SLOW_Y;
+
+			fallSlow_start = GetTickCount64();
+		}
+
 	case MARIO_STATE_RELEASE_JUMP:
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
 		break;
