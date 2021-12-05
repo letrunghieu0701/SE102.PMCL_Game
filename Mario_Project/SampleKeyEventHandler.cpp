@@ -9,7 +9,7 @@
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	switch (KeyCode)
 	{
@@ -17,7 +17,24 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_SIT);
 		break;
 	case DIK_S:
-		mario->SetState(MARIO_STATE_JUMP);
+		float vx, vy;
+		mario->GetSpeed(vx, vy);
+
+		if (mario->GetLevel() == MARIO_LEVEL_RACCON &&
+			abs(vx) == MARIO_RUNNING_SPEED &&
+			mario->IsOnPlatform() == false &&
+			mario->GetFlyingStart() == 0)
+		{
+			mario->SetState(MARIO_STATE_FLYING);
+			mario->StartCanFly(GetTickCount64());
+
+		}
+		else if (mario->CanContinueFly())
+		{
+			mario->SetState(MARIO_STATE_FLYING);
+		}
+		else
+			mario->SetState(MARIO_STATE_JUMP);
 		break;
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
@@ -53,7 +70,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	}
 }
 
-void CSampleKeyHandler::KeyState(BYTE *states)
+void CSampleKeyHandler::KeyState(BYTE* states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();

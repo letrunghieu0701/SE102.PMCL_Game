@@ -343,15 +343,23 @@ void CPlayScene::Update(DWORD dt)
 		cx -= game->GetBackBufferWidth() / 2;
 		//cy -= game->GetBackBufferHeight() / 2;
 
+
 		CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
 		float base_platform_x;
 		float base_platform_y;
 		base_platform->GetPosition(base_platform_x, base_platform_y);
-		cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
+
+		// Nếu Mario vẫn nằm trong khoảng giữa base platform và screen height, thì giữ nguyên camera cách base platform một khoảng bằng screen height
+		if (((base_platform_y - game->GetBackBufferHeight()) <= cy) &&
+			(cy <= base_platform_y))
+			cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
+		else
+			//cy -= game->GetBackBufferHeight() / 2;
+			;
 
 		if (cx < 0) cx = 0;
 
-		CGame::GetInstance()->SetCamPos(cx, /*0.0f*/ cy);
+		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 		/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
 
 		PurgeDeletedObjects();

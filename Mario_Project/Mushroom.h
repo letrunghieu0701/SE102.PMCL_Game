@@ -46,7 +46,7 @@ public:
 		ay = 0;
 		default_pos_y = y;
 		id = mushroom_id;
-		SetState(MUSHROOM_STATE_MOVING);
+		SetState(MUSHROOM_STATE_IDLE);
 	}
 	virtual void SetState(int state);
 };

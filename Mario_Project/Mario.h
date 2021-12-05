@@ -17,19 +17,26 @@
 #define MARIO_JUMP_RUN_SPEED_Y		0.6f
 
 #define MARIO_GRAVITY				0.002f
-#define MARIO_FALL_DOWN_SPEED_Y		0.3f
+#define MARIO_FALL_DOWN_SPEED_Y		0.25f
 
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
 
 // Raccon khi rơi chậm
-// Lực cản không khí theo trục x khi bay
+// Lực cản không khí theo trục x khi di chuyển với tốc độ bình thường (đi bộ)
 #define MARIO_AIR_FORCE_X				MARIO_WALKING_SPEED * 0.5f
+// Lực cản không khí theo trục x khi di chuyển với tốc độ nhanh (chạy)
+#define MARIO_AIR_FORCE_RUN_X			MARIO_RUNNING_SPEED * 0.5f
+
 // Phản lực theo trục y, để rơi chậm hơn
 #define MARIO_JET_FORCE_USING_TAIL_Y	MARIO_FALL_DOWN_SPEED_Y * 0.75f
+// Lực cản không khí theo trục y, để không bay-lên-được-một-khoảng-cao
+#define MARIO_AIR_FORCE_FLYING_Y		MARIO_JUMP_RUN_SPEED_Y * 0.2f
 
 #define MARIO_SPEED_FALL_SLOW_X			(MARIO_WALKING_SPEED - MARIO_AIR_FORCE_X)
 #define MARIO_SPEED_FALL_SLOW_Y			(MARIO_FALL_DOWN_SPEED_Y - MARIO_JET_FORCE_USING_TAIL_Y)
 
+#define	MARIO_SPEED_FLYING_X			MARIO_SPEED_FALL_SLOW_X //(MARIO_RUNNING_SPEED - MARIO_AIR_FORCE_RUN_X)
+#define MARIO_SPEED_FLYING_Y			(MARIO_JUMP_RUN_SPEED_Y - MARIO_AIR_FORCE_FLYING_Y)
 
 
 
@@ -127,6 +134,9 @@
 #define ID_ANI_MARIO_RACCON_FALL_SLOW_RIGHT	2400
 #define ID_ANI_MARIO_RACCON_FALL_SLOW_LEFT	2401
 
+#define	ID_ANI_MARIO_RACCON_FLYING_RIGHT	2500
+#define ID_ANI_MARIO_RACCON_FLYING_LEFT		2501
+
 #pragma endregion
 
 
@@ -164,8 +174,10 @@
 
 // Các giới hạn thời gian
 #define MARIO_UNTOUCHABLE_TIME	2500
+
 #define MARIO_FALL_SLOW_TIME	200
 
+#define MARIO_FLYING_TIME		2000
 
 
 class CMario : public CGameObject
@@ -183,7 +195,9 @@ private:
 	int coin;
 
 	bool isStopUpdate;
-	DWORD fallSlow_start;
+	ULONGLONG fallSlow_start;
+	ULONGLONG flying_start;
+
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -233,6 +247,17 @@ public:
 
 	void SetLevel(int l);
 	int GetLevel() { return this->level; }
+	
+	void StartCanFly(ULONGLONG time) { this->flying_start = time; }
+	ULONGLONG GetFlyingStart() { return this->flying_start; }
+
+	bool CanContinueFly() {
+		return ((0 <= (GetTickCount64() - this->GetFlyingStart())) &&
+			((GetTickCount64() - this->GetFlyingStart()) <= MARIO_FLYING_TIME));
+	}
+
+	BOOLEAN IsOnPlatform() { return this->isOnPlatform; }
+
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

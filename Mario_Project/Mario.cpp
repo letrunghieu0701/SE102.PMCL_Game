@@ -19,7 +19,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
-	if (vy >= MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
+	if (vy > MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
+
+	
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
@@ -27,6 +29,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+
 
 	// Nếu vẫn còn trong thời gian rơi chậm
 	// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
@@ -42,18 +45,43 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		DebugOut(L"Kich hoat fallSlow_start\n");
 	}
 	// Hoặc nếu thời gian rơi chậm đã hết
-	// Thì không cho rơi chậm nữa, 
+	// Thì không cho rơi chậm nữa
 	else if ((GetTickCount64() - fallSlow_start) > MARIO_FALL_SLOW_TIME)
 	{
+
 		fallSlow_start = 0;
 
-		DebugOut(L"Tat fallSlow_start\n");
+		//DebugOut(L"Tat fallSlow_start\n");
 	}
+
+
+	// Nếu vẫn đang trong thời gian bay
+	// Thì sử dụng tốc độ di chuyển (theo trục x) đã được trừ đi lực cản không khí theo trục x
+	if (this->CanContinueFly())
+	{
+		if (nx > 0)
+			maxVx = MARIO_SPEED_FLYING_X;
+		else
+			maxVx = -MARIO_SPEED_FLYING_X;
+
+		DebugOut(L"Đang bay\n");
+	}
+	// Nếu không
+	// Thì không cho khả năng bay khi nhấm phím nhảy nữa
+	else
+	{
+		flying_start = 0;
+
+		//DebugOut(L"Đang không bay\n");
+	}
+	//DebugOutTitle(L"Mario flying speed: vx = %0.2f vy = %0.2f max_vx = %0.2f", vx, vy, maxVx);
+
 
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
+	//this->SetState(MARIO_STATE_FLYING);
 	
 }
 
@@ -184,7 +212,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	// và bị delete mặc dù Mushroom vẫn chưa trồi lên
 	if (e->obj->GetState() != MUSHROOM_STATE_IDLE)
 	{
-		DebugOutTitle(L"Mario and Mushroom collided");
+		//DebugOutTitle(L"Mario and Mushroom collided");
 		e->obj->Delete();
 
 		if (level == MARIO_LEVEL_SMALL)
@@ -355,27 +383,46 @@ int CMario::GetAniRaccon()
 
 	if (!isOnPlatform)	// Đang trong không trung
 	{
+		// Nếu đang trong thời gian bay
+		if (this->CanContinueFly())
+		{
+			if (this->vy < 0)
+			{
+				if (nx > 0)
+					ani_id = ID_ANI_MARIO_RACCON_FLYING_RIGHT;
+				else
+					ani_id = ID_ANI_MARIO_RACCON_FLYING_LEFT;
+			}
+			else if (abs(maxVx) == MARIO_SPEED_FLYING_X)
+			{
+				if (nx > 0)
+					ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
+				else
+					ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
+			}	
+		}
+		
 		// Đang dùng đuôi để rơi chậm hơn
-		if (abs(maxVx) == MARIO_SPEED_FALL_SLOW_X &&
+		else if (abs(maxVx) == MARIO_SPEED_FALL_SLOW_X &&
 			vy == MARIO_SPEED_FALL_SLOW_Y)
 		{
-			if (nx > 0)	// Đang quay mặt sang bên phải
+			if (nx > 0)
 				ani_id = ID_ANI_MARIO_RACCON_FALL_SLOW_RIGHT;
-			else  // Đang quay mặt sang bên trái
+			else
 				ani_id = ID_ANI_MARIO_RACCON_FALL_SLOW_LEFT;
 		}
 		else if (abs(vx) == MARIO_RUNNING_SPEED) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
 		{
-			if (nx > 0) // Đang quay mặt sang bên phải
+			if (nx > 0)
 				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
-			else        // Đang quay mặt sang bên trái
+			else
 				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
 		}
 		else  // Đang di chuyển với tốc độ bình thường (gia tốc đi bộ) trong không trung
 		{
-			if (nx > 0) // Đang quay mặt sang bên phải
+			if (nx > 0)
 				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_RIGHT;
-			else  // Đang quay mặt sang bên trái
+			else
 				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_LEFT;
 		}
 	}
@@ -388,7 +435,7 @@ int CMario::GetAniRaccon()
 			else        // Đang quay mặt sang bên trái
 				ani_id = ID_ANI_MARIO_RACCON_SIT_LEFT;
 		}
-		else  // Đang không ngồi == Đang đứng yên, đi bộ, hoặc chạy
+		else  // Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
 		{
 			if (vx == 0)  // Đang đứng yên
 			{
@@ -565,21 +612,29 @@ void CMario::SetState(int state)
 				vy = -MARIO_JUMP_SPEED_Y;
 			}
 		}
-		else // Đang ở giữ không trung
+		else // Đang ở giữa không trung
 		{
 			// Nếu là level Raccon thì mới cho rơi chậm và bay
 			if (this->GetLevel() == MARIO_LEVEL_RACCON)
 			{
-				if (abs(vx) == MARIO_RUNNING_SPEED)
+				/*if (abs(vx) == MARIO_RUNNING_SPEED)
 					this->SetState(MARIO_STATE_FLYING);
-				else
+				else*/
 					this->SetState(MARIO_STATE_FALL_SLOW);
 			}
 		}
 		break;
 
 	case MARIO_STATE_FLYING:
-		;
+		// Lực nhảy mạnh (khi chạy nhanh) của lần đầu nhấn nhảy thì đã có ở state jump rồi
+		// Bây giờ là đang ở trên cao, nên chỉ cần cho Mario một lực bay nhỏ để bay lên mà thôi
+
+		if (nx > 0)
+			maxVx = MARIO_SPEED_FLYING_X;
+		else
+			maxVx = -MARIO_SPEED_FLYING_X;
+
+		vy = -MARIO_SPEED_FLYING_Y;
 		break;
 
 	case MARIO_STATE_FALL_SLOW:
