@@ -19,7 +19,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
-	if (vy >= MARIO_SPEED_MAX_FALL_DOWN_Y) vy = MARIO_SPEED_MAX_FALL_DOWN_Y;
+	if (vy >= MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
@@ -28,20 +28,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	if (0 <= GetTickCount64() - fallSlow_start &&
-		GetTickCount64() - fallSlow_start <= MARIO_FALL_SLOW_TIME)
+	// Nếu vẫn còn trong thời gian rơi chậm
+	// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
+	if ((0 <= (GetTickCount64() - fallSlow_start)) &&
+		((GetTickCount64() - fallSlow_start) <= MARIO_FALL_SLOW_TIME))
 	{
 		if (nx > 0)
-			maxVx = MARIO_SPEED_MAX_FALL_SLOW_X;
+			maxVx = MARIO_SPEED_FALL_SLOW_X;
 		else
-			maxVx = -MARIO_SPEED_MAX_FALL_SLOW_X;
+			maxVx = -MARIO_SPEED_FALL_SLOW_X;
 		vy = MARIO_SPEED_FALL_SLOW_Y;
-	}
-	else if (GetTickCount64() - fallSlow_start > MARIO_FALL_SLOW_TIME)
-	{
-		//ay = MARIO_GRAVITY;
 
+		DebugOut(L"Kich hoat fallSlow_start\n");
+	}
+	// Hoặc nếu thời gian rơi chậm đã hết
+	// Thì không cho rơi chậm nữa, 
+	else if ((GetTickCount64() - fallSlow_start) > MARIO_FALL_SLOW_TIME)
+	{
 		fallSlow_start = 0;
+
+		DebugOut(L"Tat fallSlow_start\n");
 	}
 
 	isOnPlatform = false;
@@ -350,7 +356,7 @@ int CMario::GetAniRaccon()
 	if (!isOnPlatform)	// Đang trong không trung
 	{
 		// Đang dùng đuôi để rơi chậm hơn
-		if (abs(maxVx) == MARIO_SPEED_MAX_FALL_SLOW_X &&
+		if (abs(maxVx) == MARIO_SPEED_FALL_SLOW_X &&
 			vy == MARIO_SPEED_FALL_SLOW_Y)
 		{
 			if (nx > 0)	// Đang quay mặt sang bên phải
@@ -577,17 +583,14 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_FALL_SLOW:
-		//ay = MARIO_GRAVITY_FALL_SLOW_Y;
-
 		if (nx > 0)
-			maxVx = MARIO_SPEED_MAX_FALL_SLOW_X;
+			maxVx = MARIO_SPEED_FALL_SLOW_X;
 		else
-			maxVx = -MARIO_SPEED_MAX_FALL_SLOW_X;
+			maxVx = -MARIO_SPEED_FALL_SLOW_X;
 
 		vy = MARIO_SPEED_FALL_SLOW_Y;
 
 		fallSlow_start = GetTickCount64();
-		DebugOut(L"Mario vx = %0.2f max_vx = %0.2f \n", vx, maxVx);
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
