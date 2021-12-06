@@ -12,7 +12,8 @@ CKoopa::CKoopa(float x, float y, int type, int id_CDOP) : CGameObject(x, y, type
 	ay = KOOPA_SPEED_GRAVITY;
 	this->id_CDOP = id_CDOP;
 
-	SetState(KOOPA_STATE_WALKING);
+	current_state = KOOPA_STATE_WALKING;
+	SetState(current_state);
 	if (vx > 0)
 		nx = DIRECTION_RIGHT;
 	else
@@ -62,6 +63,12 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
 			CDOP->SetPosition(new_CDOP_x, CDOP_y);
 		}
+	}
+	else if (this->GetState() == KOOPA_STATE_SHELLING)
+	{
+		// Nếu Koopa đã trốn trong mai rùa quá lâu thì cho Koopa chui ra
+		if (GetTickCount64() - shell_start > KOOPA_TIME_SHELLING)
+			this->SetState(KOOPA_STATE_WALKING);
 	}
 	
 
@@ -198,12 +205,24 @@ void CKoopa::SetState(int state)
 	{
 		case KOOPA_STATE_WALKING:
 		{
-			vx = KOOPA_SPEED_WALKING;
+			// Nếu đang ở trong mai rùa và giờ chui ra để đi bộ
+			// Thì phải set lại vị trí để không rơi khỏi platform
+			if (current_state == KOOPA_STATE_SHELLING)
+			{
+				this->y -= KOOPA_SHELL_2_WALK_HEIGHT_ADJUST;
+			}
+
+			if (nx > 0)
+				vx = KOOPA_SPEED_WALKING;
+			else
+				vx = -KOOPA_SPEED_WALKING;
 			break;
 		}
 		case KOOPA_STATE_SHELLING:
 		{
 			vx = 0;
+
+			shell_start = GetTickCount64();
 			break;
 		}
 		case KOOPA_STATE_SPIN_SHELL:
@@ -213,19 +232,19 @@ void CKoopa::SetState(int state)
 			else
 				vx = -KOOPA_SPEED_SPINNING;
 
-			// Nếu ở state spin shell thì xóa object CDOP luôn, vì Koopa sẽ không thể trở về state đi bộ được nữa nếu đang trong state spin shell
-			// Hiện tại Milestone-01 không có yêu cầu sau đây, nhưng nếu Mario va chạm trên đầu Koopa đang trong state spin shell thì có thể khiến Koopa trở về state shell,
+			// Nếu Mario va chạm trên đầu Koopa đang trong state spin shell thì có thể khiến Koopa trở về state shell,
 			// Sau đó Koopa có thể chui ra khỏi shell và đi bộ (trở lại state walking)
 			// To-do: cần suy nghĩ xem chuyện gì sẽ xảy ra với CDOP khi thêm feature này vào game
 
-			unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			/*unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
 			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
 			if (CDOP == NULL)
 				return;
-			CDOP->Delete();
+			CDOP->Delete();*/
 			break;
 		}
 	}
+	current_state = state;
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)

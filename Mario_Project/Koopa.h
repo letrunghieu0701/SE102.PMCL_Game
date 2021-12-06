@@ -1,10 +1,10 @@
-#pragma once
+﻿#pragma once
 #include "GameObject.h"
 
 // Physical stat
 #define KOOPA_SPEED_GRAVITY 0.002f
 #define KOOPA_SPEED_WALKING 0.05f
-#define KOOPA_SPEED_SPINNING 0.3f
+#define KOOPA_SPEED_SPINNING 0.1f
 
 // Extra settings
 #define MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP 20
@@ -28,6 +28,14 @@
 #define ID_ANI_KOOPA_SPIN_SHELL_RIGHT 6004
 
 
+//Điều chỉnh độ cao khi chui ra khỏi mai rùa
+#define KOOPA_SHELL_2_WALK_HEIGHT_ADJUST (KOOPA_BBOX_WALKING_HEIGHT - KOOPA_BBOX_SHELL_HEIGHT)
+
+
+// Time
+#define KOOPA_TIME_SHELLING 5000
+
+
 class CKoopa: public CGameObject
 {
 protected:
@@ -38,7 +46,7 @@ protected:
 
 	int id_CDOP;
 
-	bool touched_CDOP;
+	int current_state;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

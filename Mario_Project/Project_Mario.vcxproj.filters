@@ -64,6 +64,15 @@
     <Filter Include="Game Objects\Solid Objects\Platforms">
       <UniqueIdentifier>{51330212-d048-4ecb-97a2-7df372e8ba4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Objects\Enemies\Goomba">
+      <UniqueIdentifier>{18bea120-6997-4e3a-85cf-690de8b72a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Enemies\Koopa">
+      <UniqueIdentifier>{d7bc3564-8f7f-43f4-8465-98c8a3cb0b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Enemies\Goomba\Wing Goomba">
+      <UniqueIdentifier>{dd238f55-efab-4aad-a919-d1e85a9b8610}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -75,13 +84,7 @@
     <ClCompile Include="Mario.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Game Objects\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="Koopa.cpp">
-      <Filter>Game Objects\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="WingGoomba.cpp">
       <Filter>Game Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
@@ -171,19 +174,16 @@
     <ClCompile Include="Pipe.cpp">
       <Filter>Game Objects\Solid Objects\Pipe</Filter>
     </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Game Objects\Enemies\Goomba</Filter>
+    </ClCompile>
+    <ClCompile Include="WingGoomba.cpp">
+      <Filter>Game Objects\Enemies\Goomba\Wing Goomba</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mario.h">
       <Filter>Game Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Game Objects\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Koopa.h">
-      <Filter>Game Objects\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="WingGoomba.h">
-      <Filter>Game Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
@@ -283,6 +283,15 @@
     </ClInclude>
     <ClInclude Include="Pipe.h">
       <Filter>Game Objects\Solid Objects\Pipe</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Game Objects\Enemies\Goomba</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopa.h">
+      <Filter>Game Objects\Enemies\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="WingGoomba.h">
+      <Filter>Game Objects\Enemies\Goomba\Wing Goomba</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
