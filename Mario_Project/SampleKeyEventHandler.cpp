@@ -16,6 +16,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT);
 		break;
+	case DIK_D:
+		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
+			mario->AttackWithTail();
+		break;
 	case DIK_S:
 		float vx, vy;
 		mario->GetSpeed(vx, vy);

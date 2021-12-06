@@ -137,6 +137,9 @@
 #define	ID_ANI_MARIO_RACCON_FLYING_RIGHT	2500
 #define ID_ANI_MARIO_RACCON_FLYING_LEFT		2501
 
+#define ID_ANI_MARIO_RACCON_ATTACK_TAIL_RIGHT	2600
+#define ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT	2601
+
 #pragma endregion
 
 
@@ -179,6 +182,8 @@
 
 #define MARIO_FLYING_TIME		2000
 
+#define MARIO_ATTACK_TAIL_TIME	200
+
 
 class CMario : public CGameObject
 {
@@ -195,8 +200,13 @@ private:
 	int coin;
 
 	bool isStopUpdate;
+
 	ULONGLONG fallSlow_start;
+
 	ULONGLONG flying_start;
+
+	bool isTailAttacking;
+	ULONGLONG attackTail_start;
 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -229,7 +239,14 @@ public:
 		coin = 0;
 
 		isStopUpdate = false;
+
 		fallSlow_start = 0;
+
+		flying_start = 0;
+
+		isTailAttacking = false;
+
+		attackTail_start = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -262,6 +279,17 @@ public:
 			
 		return ((0 <= (GetTickCount64() - this->GetFlyingStart())) &&
 			((GetTickCount64() - this->GetFlyingStart()) <= MARIO_FLYING_TIME));
+	}
+
+	void AttackWithTail()
+	{ 
+		this->attackTail_start = GetTickCount64();
+	}
+
+	bool IsTailAttacking()
+	{
+		return ((0 <= (GetTickCount64() - this->attackTail_start)) &&
+			((GetTickCount64() - this->attackTail_start) <= MARIO_ATTACK_TAIL_TIME));
 	}
 
 	BOOLEAN IsOnPlatform() { return this->isOnPlatform; }

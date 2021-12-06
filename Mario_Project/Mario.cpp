@@ -30,6 +30,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
+	if (GetTickCount64() - attackTail_start > MARIO_ATTACK_TAIL_TIME)
+		attackTail_start = 0;
 
 	// Nếu vẫn còn trong thời gian rơi chậm
 	// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
@@ -387,6 +389,14 @@ int CMario::GetAniIdSmall()
 int CMario::GetAniRaccon()
 {
 	int ani_id = -1;
+
+	if (this->IsTailAttacking())
+	{
+		if (nx > 0)
+			return ID_ANI_MARIO_RACCON_ATTACK_TAIL_RIGHT;
+		else
+			return ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT;
+	}
 
 	if (!isOnPlatform)	// Đang trong không trung
 	{
