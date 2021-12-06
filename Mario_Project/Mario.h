@@ -252,6 +252,14 @@ public:
 	ULONGLONG GetFlyingStart() { return this->flying_start; }
 
 	bool CanContinueFly() {
+		// Nếu đã tiếp đất rồi thì không cho bay nữa
+		if (this->isOnPlatform)
+		{
+			flying_start = 0;
+
+			return false;
+		}
+			
 		return ((0 <= (GetTickCount64() - this->GetFlyingStart())) &&
 			((GetTickCount64() - this->GetFlyingStart()) <= MARIO_FLYING_TIME));
 	}

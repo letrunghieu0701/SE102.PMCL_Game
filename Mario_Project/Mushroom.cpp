@@ -3,7 +3,7 @@
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//if (state != MUSHROOM_STATE_IDLE)
+	if (state != MUSHROOM_STATE_IDLE)
 	{
 		vy += ay * dt;
 		if (vy >= MUSHROOM_SPEED_MAX_FALL_DOWN)
@@ -19,6 +19,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CCollision::GetInstance()->Process(this, dt, coObjects);
 	}
 	
+	//DebugOutTitle(L"Mushroom: x: %0.2f y: %0.2f", x, y);
 	//DebugOutTitle(L"Mushroom: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
 	//DebugOutTitle(L"State: %d", state);
 }
@@ -38,20 +39,18 @@ void CMushroom::Render()
 	float height = bottom - top;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
-	//animations->Get(ani_id)->Render(x, y);
 
 	RenderBoundingBox();
 }
 
 void CMushroom::OnNoCollision(DWORD dt)
 {
-	//x += vx * dt;
+	x += vx * dt;
 	y += vy * dt;
 }
 
 void CMushroom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//if (!e->obj->IsBlocking()) return;
 	if (e->obj->IsBlocking())
 	{
 		if (e->ny != 0)
@@ -79,8 +78,6 @@ void CMushroom::SetState(int state)
 			vy = -MUSHROOM_RISING_UP_SPEED;
 			break;
 		case MUSHROOM_STATE_MOVING:
-			//CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
 			vx = MUSHROOM_WALKING_SPEED;
 			ay = MUSHROOM_GRAVITY;
 			break;

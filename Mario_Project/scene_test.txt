@@ -17,12 +17,12 @@ image_map.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, , 8 = invisible platform
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, 8 = invisible platform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
 0	176	370
-9	176	280	0
+#9	176	280	0
 
 
 # Brick
@@ -31,14 +31,14 @@ image_map.txt
 
 # ? Brick's location
 # Extra settings: id of item inside ? Brick 
-#7	170	330	0
-#7	220	330	1
-#7	270	330	2
+7	170	330	0
+7	220	330	1
+7	270	330	2
 
 
 # Mushroom
 # Extra settings: id of this mushroom, to connect with ? Brick
-#9	170	330	0
+9	170	350	0
 #9	220	330	1
 #9	270	330	2
 
