@@ -189,9 +189,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		// Nếu Mario nhảy lên đầu Koopa khi Koopa đang xoay thì có thể khiến nó ngừng xoay
 		if (e->ny == DIRECTION_UP)
 		{
-			/*koopa->SetState(KOOPA_STATE_SHELLING);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;*/
-			;
+			koopa->SetState(KOOPA_STATE_SHELLING);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 		// Mario va chạm với Koopa theo các hướng còn lại (trái, phải và bên trên của Mario)
 		// Nếu Mario có thể bị đụng vào, thì mới xử lý va chạm. Còn nếu đang trong thời gian "không thể bị đụng vào" thì thôi, không làm gì cả
