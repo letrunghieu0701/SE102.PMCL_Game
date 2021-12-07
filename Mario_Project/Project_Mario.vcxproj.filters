@@ -180,6 +180,9 @@
     <ClCompile Include="WingGoomba.cpp">
       <Filter>Game Objects\Enemies\Goomba\Wing Goomba</Filter>
     </ClCompile>
+    <ClCompile Include="BreakableBrick.cpp">
+      <Filter>Game Objects\Solid Objects\Bricks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mario.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="WingGoomba.h">
       <Filter>Game Objects\Enemies\Goomba\Wing Goomba</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrick.h">
+      <Filter>Game Objects\Solid Objects\Bricks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BreakableBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="ChangeDirectionOnPlatform.cpp" />
     <ClCompile Include="InvisiblePlatform.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
+    <ClInclude Include="BreakableBrick.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="ChangeDirectionOnPlatform.h" />
     <ClInclude Include="InvisiblePlatform.h" />

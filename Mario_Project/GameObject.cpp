@@ -1,4 +1,4 @@
-#include <d3dx9.h>
+﻿#include <d3dx9.h>
 #include <algorithm>
 
 
@@ -19,6 +19,13 @@ CGameObject::CGameObject()
 
 void CGameObject::RenderBoundingBox()
 {
+	// Hàm này dùng GetBounding để lấy kích thước cần thiết của vật thể, kích thước này sẽ là kích thước của bbox luôn
+	// VD của kích thước cần thiết:
+	// + Mario Big: lấy hết cả width và height của sprite luôn, cũng đồng thời là kích thước thật sự cần thiết của Mario
+	// + Mario Racccoon: Bỏ phần kích thước dư của đuôi, chỉ lấy phần kích thước của Mario mà thôi
+
+	// Còn vị trí vẽ bbox vẫn là vị trí của vật thể, do là tất cả sprite bị vẽ từ center của sprite
+	// nên cần vẽ bbox (sprite) ở vị trí center của object để có thể trùng với vị trí của animation (nên vẽ ra giấy để dễ hình dung)
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
@@ -35,7 +42,11 @@ void CGameObject::RenderBoundingBox()
 	float cx, cy; 
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
-	CGame::GetInstance()->Draw(x + rect.right/2 - cx, y + rect.bottom/2 - cy, bbox, &rect, BBOX_ALPHA);
+	float draw_pos_x = x + rect.right / 2 - cx;
+	float draw_pos_y = y + rect.bottom / 2 - cy;
+		
+	CGame::GetInstance()->Draw(draw_pos_x, draw_pos_y, bbox, &rect, BBOX_ALPHA);
+
 }
 
 CGameObject::~CGameObject()

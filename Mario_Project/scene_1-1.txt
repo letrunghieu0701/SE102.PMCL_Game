@@ -11,6 +11,7 @@ mushroom.txt
 pipe.txt
 brick.txt
 question_brick.txt
+breakable_brick.txt
 cloud.txt
 
 

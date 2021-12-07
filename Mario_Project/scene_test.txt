@@ -2,14 +2,20 @@
 [ASSETS]
 mario.txt
 
+mushroom.txt
+
 brick.txt
 question_brick.txt
-mushroom.txt
+breakable_brick.txt
+
 cloud.txt
+
 goomba.txt
 wing_goomba.txt
 koopa.txt
+
 change_direction_on_platform.txt
+
 pipe.txt
 
 image_map.txt
@@ -26,19 +32,23 @@ image_map.txt
 
 
 # Brick
-#1	353	400
+1	200	400
 
 
-# ? Brick's location
+# ? Brick
 # Extra settings: id of item inside ? Brick 
 7	170	330	0
-7	220	330	1
-7	270	330	2
+#7	220	330	1
+#7	270	330	2
+
+
+# Breakable Brick
+14	150	400
 
 
 # Mushroom
 # Extra settings: id of this mushroom, to connect with ? Brick
-9	170	350	0
+#9	170	350	0
 #9	220	330	1
 #9	270	330	2
 

@@ -126,6 +126,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y, object_type); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y, object_type); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y, object_type); break;
+	case OBJECT_TYPE_BREAKABLE_BRICK:
+	{
+		obj = new CBreakableBrick(x, y, object_type);
+		break;
+	}
 	case OBJECT_TYPE_PIPE:
 	{
 		obj = new CPipe(x, y, object_type);
@@ -359,7 +364,7 @@ void CPlayScene::Update(DWORD dt)
 
 		if (cx < 0) cx = 0;
 
-		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+		CGame::GetInstance()->SetCamPos(cx, /*0.0f*/ cy);
 		/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
 
 		PurgeDeletedObjects();
