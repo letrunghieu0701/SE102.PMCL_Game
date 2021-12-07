@@ -17,19 +17,19 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 		LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
 		vector<CBreakableBrick*> bbricks = play_scene->GetBreakableBricks();
-		for (size_t i = 0; i < bbricks.size(); i++)
+
+		for (int i = 0; i < bbricks.size(); i++)
 		{
 			float x, y;
 			bbricks[i]->GetPosition(x, y);
 			int life_time = bbricks[i]->GetCoinLifeTime();
 			CCoin* coin = new CCoin(x, y, OBJECT_TYPE_COIN, true, life_time);
+			coin->StartLiving();
 
 			play_scene->AddGameObject(coin);
-
 			bbricks[i]->Delete();
 		}
-
-		bbricks.clear();
+		play_scene->ClearBreakableBricks();
 		break;
 	}
 	case DIK_DOWN:

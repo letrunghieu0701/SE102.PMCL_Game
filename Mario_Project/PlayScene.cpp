@@ -25,7 +25,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
-	//itemsInside = new unordered_map<int, LPGAMEOBJECT>();
 }
 
 
