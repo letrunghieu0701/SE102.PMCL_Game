@@ -8,16 +8,19 @@
 
 class CBreakableBrick: public CBrick
 {
-
+private:
+	int coinLifeTime;
 public:
-	CBreakableBrick(float x, float y, int type) :CBrick(x, y, type)
+	CBreakableBrick(float x, float y, int type, int time) :CBrick(x, y, type)
 	{
-		;
+		this->coinLifeTime = time;
 	}
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	void virtual SetState(int state);
+
+	int GetCoinLifeTime() { return this->coinLifeTime; }
 };
 

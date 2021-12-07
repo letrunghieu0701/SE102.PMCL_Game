@@ -3,9 +3,13 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "GameObject.h"
+
 #include "Brick.h"
 #include "QuestionBrick.h"
 #include "BreakableBrick.h"
+
+#include "Coin.h"
+
 #include "Mario.h"
 #include "Goomba.h"
 //#include "Koopas.h"
@@ -20,6 +24,8 @@ protected:
 	LPGAMEOBJECT player;					
 
 	vector<LPGAMEOBJECT> objects;
+
+	vector<CBreakableBrick*> breakable_bricks;
 
 	// Chứa những cặp (id, game object) của những game object để liên kết với những game object khác,
 	// làm vậy để có thể kích hoạt các sự kiện, ví dụ như khi Mario va chạm ? brick từ bên dưới, thì lát nữa kích hoạt sự kiện Mushroom trồi lên
@@ -44,6 +50,9 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	unordered_map<int, LPGAMEOBJECT> GetItemList() { return itemsInside; }
+	vector<CBreakableBrick*> GetBreakableBricks() { return this->breakable_bricks; }
+
+	void AddGameObject(LPGAMEOBJECT obj) { this->objects.push_back(obj); }
 
 	void Clear();
 	void PurgeDeletedObjects();

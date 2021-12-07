@@ -3,6 +3,7 @@
 mario.txt
 
 mushroom.txt
+coin.txt
 
 brick.txt
 question_brick.txt
@@ -28,11 +29,12 @@ image_map.txt
 
 # MARIO
 0	176	370
-#9	176	280	0
 
+# Coin
+4	200	350
 
 # Brick
-1	200	400
+#1	200	400
 
 
 # ? Brick
@@ -43,12 +45,15 @@ image_map.txt
 
 
 # Breakable Brick
-14	150	400
+14	220	400	200	2000
+
+#14	240	400	201
+#14	260	400	202
 
 
 # Mushroom
 # Extra settings: id of this mushroom, to connect with ? Brick
-#9	170	350	0
+9	170	330	0
 #9	220	330	1
 #9	270	330	2
 
