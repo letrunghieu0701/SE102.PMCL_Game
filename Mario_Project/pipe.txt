@@ -1,7 +1,15 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+# Pipe Green
 90001	5	86	36	117	50
+
+# Pipe Green bị lật ngược
+90010	350	131	381	162	50
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+# Pipe Green
 14000	90001	1000
+
+# Pipe Green bị lật ngược
+14010	90010	1000

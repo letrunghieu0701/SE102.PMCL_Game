@@ -8,7 +8,6 @@ void CPipe::Render()
 	float height = bottom - top;
 
 	CAnimations::GetInstance()->Get(ID_ANI_PIPE)->Render(x + width / 2, y + height / 2);
-	//CAnimations::GetInstance()->Get(ID_ANI_PIPE)->Render(x, y);
 	RenderBoundingBox();
 }
 

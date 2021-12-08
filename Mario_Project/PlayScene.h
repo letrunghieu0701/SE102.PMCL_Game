@@ -8,6 +8,9 @@
 #include "QuestionBrick.h"
 #include "BreakableBrick.h"
 
+#include "Pipe.h"
+#include "PipeGate.h"
+
 #include "Coin.h"
 
 #include "Mario.h"

@@ -155,6 +155,7 @@
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PipeGate.cpp" />
     <ClCompile Include="QuestionBrick.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileLayer.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="PipeGate.h" />
     <ClInclude Include="QuestionBrick.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileLayer.h" />

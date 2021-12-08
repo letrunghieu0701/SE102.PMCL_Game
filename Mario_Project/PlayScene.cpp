@@ -14,7 +14,6 @@
 #include "WingGoomba.h"
 #include "Koopa.h"
 #include "ChangeDirectionOnPlatform.h"
-#include "Pipe.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -140,6 +139,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE:
 	{
 		obj = new CPipe(x, y, object_type);
+		break;
+	}
+	case OBJECT_TYPE_PIPE_GATE:
+	{
+		int pipe_des_id = atoi(tokens[3].c_str());
+
+		obj = new CPipeGate(x, y, object_type, pipe_des_id);
+		
 		break;
 	}
 	case OBJECT_TYPE_KOOPA:
@@ -370,7 +377,7 @@ void CPlayScene::Update(DWORD dt)
 
 		if (cx < 0) cx = 0;
 
-		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+		CGame::GetInstance()->SetCamPos(cx, 330.0f /*cy*/);
 		/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
 
 		PurgeDeletedObjects();

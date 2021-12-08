@@ -73,6 +73,9 @@
     <Filter Include="Game Objects\Enemies\Goomba\Wing Goomba">
       <UniqueIdentifier>{dd238f55-efab-4aad-a919-d1e85a9b8610}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Objects\Solid Objects\Pipe\Pipe Hidden Zone">
+      <UniqueIdentifier>{f8132873-e365-4fb8-a5a7-e63169562103}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="BreakableBrick.cpp">
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeGate.cpp">
+      <Filter>Game Objects\Solid Objects\Pipe\Pipe Hidden Zone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="BreakableBrick.h">
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeGate.h">
+      <Filter>Game Objects\Solid Objects\Pipe\Pipe Hidden Zone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

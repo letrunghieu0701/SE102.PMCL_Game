@@ -30,8 +30,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	if (GetTickCount64() - attackTail_start > MARIO_ATTACK_TAIL_TIME)
-		attackTail_start = 0;
+	/*if (GetTickCount64() - attackTail_start > MARIO_ATTACK_TAIL_TIME)
+		attackTail_start = 0;*/
 
 	// Nếu vẫn còn trong thời gian rơi chậm
 	// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
@@ -44,7 +44,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			maxVx = -MARIO_SPEED_FALL_SLOW_X;
 		vy = MARIO_SPEED_FALL_SLOW_Y;
 
-		DebugOut(L"Kich hoat fallSlow_start\n");
+		//DebugOut(L"Kich hoat fallSlow_start\n");
 	}
 	// Hoặc nếu thời gian rơi chậm đã hết
 	// Thì không cho rơi chậm nữa
@@ -66,7 +66,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 			maxVx = -MARIO_SPEED_FLYING_X;
 
-		DebugOut(L"Đang bay\n");
+		//DebugOut(L"Đang bay\n");
 	}
 	// Nếu không
 	// Thì không cho khả năng bay khi nhấm phím nhảy nữa
