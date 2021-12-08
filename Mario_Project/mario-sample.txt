@@ -10,8 +10,9 @@ height	240
 1	scene01.txt
 2	scene02.txt
 3	scene_1-1.txt
-4	scene_test.txt
-5	scene0005.txt
+4	scene_1-1_hidden_coin_area.txt
+5	scene_test.txt
+6	scene0005.txt
 
 # id	file 
 [TEXTURES]
