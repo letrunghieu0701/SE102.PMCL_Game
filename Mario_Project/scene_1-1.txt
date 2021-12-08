@@ -308,10 +308,12 @@ image_map.txt
 # 3rd
 13	1856	384
 
-# Pipe Gate in Hidden Zone
+# Pipe Gate: to get in Hidden Zone
 15	2096	384	300
 
-
+# Pipe Teleport Destination: door in of Hidden Zone
+# extra info: 1 means this pipe slow down Mario, 0 not slow down Mario
+16	2095	433	300	0
 
 
 #Image map

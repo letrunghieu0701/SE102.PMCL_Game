@@ -12,6 +12,7 @@
 #include "Koopa.h"
 
 #include "Collision.h"
+#include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -21,6 +22,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (vy > MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
 
+	if (this->isGoingIntoPipeGate)
+	{
+		this->vy = MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
+		this->vx = 0;
+
+		float left, top, right, bottom;
+		GetBoundingBox(left, top, right, bottom);
+		float current_height = bottom - top;
+		if (this->y - this->oldPos_y >= current_height)
+		{
+			this->isGoingIntoPipeGate = false;
+
+			int pipe_des_id = this->current_pipegate->GetPipeDesID();
+			unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			CPipeTeleportDestination* pipe_des = dynamic_cast<CPipeTeleportDestination*>(item_list[pipe_des_id]);
+			float pipeDes_x, pipeDes_y;
+			pipe_des->GetPosition(pipeDes_x, pipeDes_y);
+
+			// Đẩy sang ngang để tránh Mario đứng trên các brick ở bức tường bên trái trong Hidden Zone
+			this->SetPosition(pipeDes_x + MARIO_PUSH_HORIZONTAL, pipeDes_y);
+		}
+	}
 
 
 	// reset untouchable timer if untouchable time has passed
@@ -79,12 +102,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOutTitle(L"Mario flying speed: vx = %0.2f vy = %0.2f max_vx = %0.2f", vx, vy, maxVx);
 
 
-	isOnPlatform = false;
+	this->isOnPlatform = false;
+	this->isOnPipeGate = false;
 
-	CCollision::GetInstance()->Process(this, dt, coObjects);
-
-	//this->SetState(MARIO_STATE_FLYING);
-
+	if (this->IsTurningOffCollision() == false)
+	{
+		this->turnOffCollision_start = 0;
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+	}
+	else
+	{
+		OnNoCollision(dt);
+	}	
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -93,17 +122,6 @@ void CMario::OnNoCollision(DWORD dt)
 	y += vy * dt;
 }
 
-void CMario::OnCollisionWithInvisiblePlatform(LPCOLLISIONEVENT e)
-{
-	//if (e->ny < 0)	// Mario đang đứng trên Invisible Platform
-	//{
-	//	this->y += (this->vy * e->dt) * e->t +
-	//		e->ny * BLOCK_PUSH_FACTOR;		// Đẩy Mario ra khỏi va chạm
-
-	//	this->vy = 0;												// Vì cũng là đang đứng trên platform, nên phải đặt lại bằng 0
-	//	this->isOnPlatform = true;
-	//}
-}
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
@@ -112,13 +130,21 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (e->ny != 0)
 		{
 			vy = 0;
-			if (e->ny < 0) isOnPlatform = true;
+			if (e->ny < 0)
+			{
+				isOnPlatform = true;
+
+				if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
+				{
+					this->isOnPipeGate = true;
+					DebugOut(L"Đang đứng trên PipeGate\n");
+				}	
+			}
 		}
 		else if (e->nx != 0)
 		{
 			vx = 0;
 		}
-
 	}
 
 
@@ -130,14 +156,28 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_PORTAL)
 		OnCollisionWithPortal(e);
-	else if (e->obj->GetType() == OBJECT_TYPE_INVISIBLE_PLATFORM)
-		OnCollisionWithInvisiblePlatform(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
 		OnCllisionWithQuestionBrick(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_MUSHROOM)
 		OnCollisionWithMushroom(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
 		OnCollisionWithKoopa(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
+		OnCollisionWithPipeGate(e);
+}
+
+void CMario::OnCollisionWithPipeGate(LPCOLLISIONEVENT e)
+{
+	if (this->IsOnPipeGate() && this->CanGoIntoPipeGate())
+	{
+		this->StartTurnOffCollision();
+		this->isGoingIntoPipeGate = true;
+		this->oldPos_y = this->y;
+
+		this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
+
+		DebugOut(L"Tiến vào Pipe Gate\n");
+	}
 }
 
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -213,6 +253,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 	}
 }
+
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {

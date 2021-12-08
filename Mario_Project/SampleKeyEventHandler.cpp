@@ -11,6 +11,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
+
 	switch (KeyCode)
 	{
 	case DIK_P:
@@ -32,9 +33,19 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		play_scene->ClearBreakableBricks();
 		break;
 	}
+
 	case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT);
+	{
+		if (mario->IsOnPipeGate())
+		{
+			mario->ReadyToGoIntoPipeGate(true);
+			DebugOut(L"Sẵn sàng vào PipeGate\n");
+		}
+			
+		else
+			mario->SetState(MARIO_STATE_SIT);
 		break;
+	}	
 	case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 			mario->AttackWithTail();
@@ -88,6 +99,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
 	case DIK_DOWN:
+			
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
 	}

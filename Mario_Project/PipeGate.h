@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "Pipe.h"
 
-#define ID_ANI_PIPE_GATE 14010
-
 class CPipeGate: public CPipe
 {
 private:
@@ -14,5 +12,7 @@ public:
 	}
 	void Render();
 	void Update(DWORD dt) {};
+
+	int GetPipeDesID() { return this->pipe_des_id; }
 };
 

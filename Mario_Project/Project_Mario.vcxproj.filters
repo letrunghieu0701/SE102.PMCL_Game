@@ -76,6 +76,9 @@
     <Filter Include="Game Objects\Solid Objects\Pipe\Pipe Hidden Zone">
       <UniqueIdentifier>{f8132873-e365-4fb8-a5a7-e63169562103}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Objects\Solid Objects\Pipe\Pipe Teleport Destination">
+      <UniqueIdentifier>{4351c1ac-1652-4e03-87d5-e51a916a9c6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -86,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Game Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopa.cpp">
-      <Filter>Game Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
@@ -188,6 +188,12 @@
     </ClCompile>
     <ClCompile Include="PipeGate.cpp">
       <Filter>Game Objects\Solid Objects\Pipe\Pipe Hidden Zone</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeTeleportDestination.cpp">
+      <Filter>Game Objects\Solid Objects\Pipe\Pipe Teleport Destination</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
+      <Filter>Game Objects\Enemies\Koopa</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="PipeGate.h">
       <Filter>Game Objects\Solid Objects\Pipe\Pipe Hidden Zone</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeTeleportDestination.h">
+      <Filter>Game Objects\Solid Objects\Pipe\Pipe Teleport Destination</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

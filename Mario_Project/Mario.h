@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "GameObject.h"
+#include "PipeGate.h"
+#include "PipeTeleportDestination.h"
 
 #include "Animation.h"
 #include "Animations.h"
@@ -18,6 +20,7 @@
 
 #define MARIO_GRAVITY				0.002f
 #define MARIO_FALL_DOWN_SPEED_Y		0.25f
+#define MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y 0.02f
 
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
 
@@ -147,6 +150,10 @@
 #define GROUND_Y 160.0f
 
 
+#define MARIO_PUSH_DOWN 26
+#define MARIO_PUSH_HORIZONTAL 12
+
+
 
 // Level
 #define	MARIO_LEVEL_SMALL	1
@@ -184,6 +191,8 @@
 
 #define MARIO_ATTACK_TAIL_TIME	200
 
+#define MARIO_TURN_OFF_COLLISION_TIME 50
+
 
 class CMario : public CGameObject
 {
@@ -197,28 +206,35 @@ private:
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
+	bool isOnPipeGate;
+	bool canGoIntoPipeGate;
+	bool turn_off_collision;
+
 	int coin;
 
 	bool isStopUpdate;
 
 	ULONGLONG fallSlow_start;
-
 	ULONGLONG flying_start;
 
 	bool isTailAttacking;
 	ULONGLONG attackTail_start;
 
+	ULONGLONG turnOffCollision_start;
+
+	bool isGoingIntoPipeGate;
+	float oldPos_y;
+	CPipeGate* current_pipegate;
+
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
-
-	void OnCollisionWithInvisiblePlatform(LPCOLLISIONEVENT e);
-	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithPipeGate(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -236,6 +252,16 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
+		isOnPipeGate = false;
+		canGoIntoPipeGate = false;
+
+		turn_off_collision = false;
+		turnOffCollision_start = 0;
+		 
+		isGoingIntoPipeGate = false;
+		oldPos_y = 0;
+		current_pipegate = nullptr;
+
 		coin = 0;
 
 		isStopUpdate = false;
@@ -294,7 +320,24 @@ public:
 
 	BOOLEAN IsOnPlatform() { return this->isOnPlatform; }
 
+	bool IsOnPipeGate() { return this->isOnPipeGate; }
+
+	void ReadyToGoIntoPipeGate(bool isReady) { this->canGoIntoPipeGate = isReady; }
+	bool CanGoIntoPipeGate() { return this->canGoIntoPipeGate; }
+
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	void StartTurnOffCollision() {
+		this->ReadyToGoIntoPipeGate(false);
+		this->turn_off_collision = true;
+		this->turnOffCollision_start = GetTickCount64();
+		DebugOut(L"Tắt collision\n");
+	}
+	bool IsTurningOffCollision()
+	{
+		ULONGLONG time_passed = GetTickCount64() - this->turnOffCollision_start;
+		return (0 <= time_passed &&
+					time_passed <= MARIO_TURN_OFF_COLLISION_TIME);
+	}
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 

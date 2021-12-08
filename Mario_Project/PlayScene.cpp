@@ -149,6 +149,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		
 		break;
 	}
+	case OBJECT_TYPE_PIPE_TELEPORT_DESTINATION:
+	{
+		int id = atoi(tokens[3].c_str());
+		int slow_down_mario = atoi(tokens[3].c_str());
+
+		if (slow_down_mario == PIPE_TELE_DES_SLOW_DOWN_MARIO)
+			obj = new CPipeTeleportDestination(x, y, object_type, id, true);
+		else
+			obj = new CPipeTeleportDestination(x, y, object_type, id, false);
+
+		itemsInside.insert(make_pair(id, obj));
+
+		break;
+	}
 	case OBJECT_TYPE_KOOPA:
 	{
 		int id_CDOP = atoi(tokens[3].c_str());

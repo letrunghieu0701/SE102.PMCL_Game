@@ -10,6 +10,7 @@
 
 #include "Pipe.h"
 #include "PipeGate.h"
+#include "PipeTeleportDestination.h"
 
 #include "Coin.h"
 
