@@ -1,20 +1,19 @@
-#pragma once
+﻿#pragma once
 #include "Pipe.h"
 
-#define PIPE_TELE_DES_SLOW_DOWN_MARIO 1
+#define PIPE_TELE_DES_BACK_TO_SURFACE 1
 
-#define ID_ANI_PIPE_TELE_DES 14010
 
 class CPipeTeleportDestination: public CPipe
 {
 private:
 	int id;
-	bool slow_down_mario;
+	bool gate_out;	// Đây là Pipe ở trên mặt đất trong scene 1-1, để Mario trở về mặt đất
 public:
-	CPipeTeleportDestination(float x, float y, int type, int id, bool isSlowDown) : CPipe(x, y, type)
+	CPipeTeleportDestination(float x, float y, int type, int id, bool is_gate_out) : CPipe(x, y, type)
 	{
 		this->id = id;
-		this->slow_down_mario = isSlowDown;
+		this->gate_out = is_gate_out;
 	}
 	void Render();
 	void Update(DWORD dt) {};

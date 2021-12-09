@@ -144,19 +144,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE_GATE:
 	{
 		int pipe_des_id = atoi(tokens[3].c_str());
+		int is_gate_in = atoi(tokens[4].c_str());
 
-		obj = new CPipeGate(x, y, object_type, pipe_des_id);
+		if (is_gate_in == PIPE_GATE_WAY_IN)
+			obj = new CPipeGate(x, y, object_type, pipe_des_id, true);
+		else
+			obj = new CPipeGate(x, y, object_type, pipe_des_id, false);
 		
 		break;
 	}
 	case OBJECT_TYPE_PIPE_TELEPORT_DESTINATION:
 	{
 		int id = atoi(tokens[3].c_str());
-		int slow_down_mario = atoi(tokens[3].c_str());
+		int is_gate_out = atoi(tokens[4].c_str());
 
-		if (slow_down_mario == PIPE_TELE_DES_SLOW_DOWN_MARIO)
+		// Pipe nằm trên mặt đất, là lối ra để về mặt đất
+		if (is_gate_out == PIPE_TELE_DES_BACK_TO_SURFACE)
 			obj = new CPipeTeleportDestination(x, y, object_type, id, true);
 		else
+		// Pipe trong Hidden Zone, thả rơi Mario
 			obj = new CPipeTeleportDestination(x, y, object_type, id, false);
 
 		itemsInside.insert(make_pair(id, obj));

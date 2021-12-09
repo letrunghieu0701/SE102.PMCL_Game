@@ -99,7 +99,6 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
 	case DIK_DOWN:
-			
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
 	}

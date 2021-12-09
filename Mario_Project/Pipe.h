@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
 #include "Animation.h"
@@ -9,7 +9,10 @@
 #define PIPE_BBOX_HEIGHT 32
 
 // Animation ID
+// Pipe hướng lên trên
 #define ID_ANI_PIPE 14000
+// Pipe hướng xuóng
+#define ID_ANI_PIPE_DOWN 14010
 
 
 class CPipe: public CGameObject

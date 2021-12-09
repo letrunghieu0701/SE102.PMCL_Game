@@ -309,11 +309,21 @@ image_map.txt
 13	1856	384
 
 # Pipe Gate: to get in Hidden Zone
-15	2096	384	300
+# extra info: pipe_des_id, is_gate_in
+# pipe_des_id: id of pipe_des to teleport to
+# is_gate_in: 1 means this pipe_gate is door into hidden zone, 0 means this pipe_gate is door to get back to the surface of scene 1-1
+// Pipe Gate to Hidden Zone
+15	2096	384	300	1
+// Pipe Gate to surface of Scene 1-1
+15	2318	433	301	0
 
 # Pipe Teleport Destination: door in of Hidden Zone
-# extra info: 1 means this pipe slow down Mario, 0 not slow down Mario
+# extra info: 1 means this pipe slow down Mario and inside Hidden Zone
+# 0 measn not slow down Mario and placed in the surface of scene 1-1
+// Door in of Hidden Zone, drop Mario
 16	2095	433	300	0
+// Door out of Hidden Zone, push Mario up
+16	2320	384	3001	1
 
 
 #Image map
