@@ -39,13 +39,13 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		if (mario->IsOnPipeGate())
 		{
 			mario->ReadyToGoIntoPipeGate(true);
-			DebugOut(L"Sẵn sàng vào PipeGate\n");
+			DebugOut(L"Sẵn sàng vào Pipe Gate In\n");
 		}
-			
+
 		else
 			mario->SetState(MARIO_STATE_SIT);
 		break;
-	}	
+	}
 	case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 			mario->AttackWithTail();
@@ -109,6 +109,8 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
+	mario->IsPressingUpButton(false);
+
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (game->IsKeyDown(DIK_A))
@@ -122,6 +124,11 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 			mario->SetState(MARIO_STATE_RUNNING_LEFT);
 		else
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
+	}
+	else if (game->IsKeyDown(DIK_UP))
+	{
+		mario->IsPressingUpButton(true);
+		DebugOut(L"Đang bấm phím mũi tên UP\n");
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);

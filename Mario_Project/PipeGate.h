@@ -18,5 +18,6 @@ public:
 	void Update(DWORD dt) {};
 
 	int GetPipeDesID() { return this->pipe_des_id; }
+	bool IsGateIn() { return this->gate_in; }
 };
 

@@ -17,5 +17,7 @@ public:
 	}
 	void Render();
 	void Update(DWORD dt) {};
+	bool IsGateOut() { return this->gate_out; }
+	float GetPosY() { return this->y; }
 };
 

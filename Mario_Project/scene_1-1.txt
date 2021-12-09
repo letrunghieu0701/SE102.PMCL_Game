@@ -323,7 +323,7 @@ image_map.txt
 // Door in of Hidden Zone, drop Mario
 16	2095	433	300	0
 // Door out of Hidden Zone, push Mario up
-16	2320	384	3001	1
+16	2320	384	301	1
 
 
 #Image map

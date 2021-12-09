@@ -22,26 +22,83 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (vy > MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
 
-	if (this->isGoingIntoPipeGate)
+	if (this->isGettingOutPipeDesOut)
 	{
-		this->vy = MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
+		this->vy = -MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
 		this->vx = 0;
 
 		float left, top, right, bottom;
 		GetBoundingBox(left, top, right, bottom);
 		float current_height = bottom - top;
-		if (this->y - this->oldPos_y >= current_height)
+
+		DebugOutTitle(L"Mario_y = %0.2f PipeDes_y = %0.2f", y, this->current_pipedes->GetPosY());
+
+		// Nếu đã chui ra xong
+		// thì trả lại quyền điều khiển Mario cho player
+		if (this->current_pipedes->GetPosY() - this->y > current_height)
 		{
-			this->isGoingIntoPipeGate = false;
+			this->isGettingOutPipeDesOut = false;
+		}
+	}
 
-			int pipe_des_id = this->current_pipegate->GetPipeDesID();
-			unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-			CPipeTeleportDestination* pipe_des = dynamic_cast<CPipeTeleportDestination*>(item_list[pipe_des_id]);
-			float pipeDes_x, pipeDes_y;
-			pipe_des->GetPosition(pipeDes_x, pipeDes_y);
+	if (this->isGoingIntoPipeGate)
+	{
+		// Đang chui vào lối vào của Hidden Zone
+		if (this->current_pipegate->IsGateIn())
+		{
+			this->vy = MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
+			this->vx = 0;
 
-			// Đẩy sang ngang để tránh Mario đứng trên các brick ở bức tường bên trái trong Hidden Zone
-			this->SetPosition(pipeDes_x + MARIO_PUSH_HORIZONTAL, pipeDes_y);
+			float left, top, right, bottom;
+			GetBoundingBox(left, top, right, bottom);
+			float current_height = bottom - top;
+			if (this->y - this->oldPos_y >= current_height)
+			{
+				this->isGoingIntoPipeGate = false;
+
+				int pipe_des_id = this->current_pipegate->GetPipeDesID();
+				unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+				CPipeTeleportDestination* pipe_des = dynamic_cast<CPipeTeleportDestination*>(item_list[pipe_des_id]);
+				float pipeDes_x, pipeDes_y;
+				pipe_des->GetPosition(pipeDes_x, pipeDes_y);
+
+				this->current_pipegate = nullptr;
+
+				// Đẩy sang ngang để tránh Mario đứng trên các brick ở bức tường bên trái trong Hidden Zone
+				this->SetPosition(pipeDes_x + MARIO_PUSH_HORIZONTAL, pipeDes_y);
+			}
+		}
+		// Đang chui vào lối ra của Hidden Zone
+		else
+		{
+			this->vy = -MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
+			this->vx = 0;
+
+			float left, top, right, bottom;
+			GetBoundingBox(left, top, right, bottom);
+			float current_height = bottom - top;
+
+			if (this->oldPos_y - this->y >= current_height)
+			{
+				this->isGoingIntoPipeGate = false;
+
+				int pipe_des_id = this->current_pipegate->GetPipeDesID();
+				unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+				CPipeTeleportDestination* pipe_des = dynamic_cast<CPipeTeleportDestination*>(item_list[pipe_des_id]);
+				float pipeDes_x, pipeDes_y;
+				pipe_des->GetPosition(pipeDes_x, pipeDes_y);
+
+				this->current_pipegate = nullptr;
+
+				// Đánh dấu pipe_des để có thể so sánh vị trí khi đang chui ra khỏi pipe_des_out để về mặt đất
+				this->current_pipedes = pipe_des;
+
+				// Đẩy sang ngang để tránh Mario đứng trên các brick ở bức tường bên trái trong Hidden Zone
+				this->SetPosition(pipeDes_x + MARIO_PUSH_HORIZONTAL, pipeDes_y);
+
+				// Báo hiệu đang chui ra khỏi pipe_des_out để ra khỏi Hidden Zone
+				this->isGettingOutPipeDesOut = true;
+			}
 		}
 	}
 
@@ -113,7 +170,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else
 	{
 		OnNoCollision(dt);
-	}	
+	}
+
+	//DebugOutTitle(L"Chạm vào đáy của PipeGate lối ra: %d", this->isHitPipeGateFromBottom);
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -136,9 +195,28 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 				if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
 				{
-					this->isOnPipeGate = true;
-					DebugOut(L"Đang đứng trên PipeGate\n");
+					CPipeGate* pipe_gate = dynamic_cast<CPipeGate*>(e->obj);
+
+					// Nếu là pipe gate In
+					if (pipe_gate->IsGateIn())
+					{
+						this->isOnPipeGate = true;
+						DebugOut(L"Đang đứng trên Pipe Gate In\n");
+					}				
 				}	
+			}
+			else
+			{
+				if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
+				{
+					CPipeGate* pipe_gate = dynamic_cast<CPipeGate*>(e->obj);
+
+					// Nếu là pipe gate để thoát khỏi Hidden Zone
+					if (!pipe_gate->IsGateIn())
+					{
+						DebugOut(L"Đã chạm vào đáy của Pipe Gate Out\n");
+					}				
+				}
 			}
 		}
 		else if (e->nx != 0)
@@ -164,20 +242,47 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
 		OnCollisionWithPipeGate(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_PIPE_TELEPORT_DESTINATION);
 }
 
 void CMario::OnCollisionWithPipeGate(LPCOLLISIONEVENT e)
 {
-	if (this->IsOnPipeGate() && this->CanGoIntoPipeGate())
+	CPipeGate* pipe_gate = dynamic_cast<CPipeGate*>(e->obj);
+
+	// Nếu đây là pipe để vào Hidden Zone
+	if (pipe_gate->IsGateIn())
 	{
-		this->StartTurnOffCollision();
-		this->isGoingIntoPipeGate = true;
-		this->oldPos_y = this->y;
+		if (this->IsOnPipeGate() && this->CanGoIntoPipeGate())
+		{
+			this->StartTurnOffCollision();
+			this->isGoingIntoPipeGate = true;
+			this->oldPos_y = this->y;
+			this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
 
-		this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
-
-		DebugOut(L"Tiến vào Pipe Gate\n");
+			DebugOut(L"Tiến vào Pipe Gate vào Hidden Zone\n");
+		}
 	}
+	// Nếu đây là pipe để ra khỏi Hidden Zone
+	else 
+	{
+		if (e->ny == DIRECTION_DOWN && this->is_pressing_up_button)
+		{
+			this->StartTurnOffCollision();
+			this->isGoingIntoPipeGate = true;
+			this->oldPos_y = this->y;
+			this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
+
+			DebugOut(L"Tiến vào Pipe Gate để ra khỏi Hidden Zone\n");
+		}
+	}
+}
+
+void CMario::OnCollisionWithPipeTeleDes(LPCOLLISIONEVENT e)
+{
+	/*if (e->ny == DIRECTION_DOWN)
+	{
+		CPipeTeleportDestination* pipe_des = 
+	}*/
 }
 
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)

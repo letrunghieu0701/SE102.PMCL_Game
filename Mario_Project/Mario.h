@@ -206,9 +206,6 @@ private:
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	bool isOnPipeGate;
-	bool canGoIntoPipeGate;
-	bool turn_off_collision;
 
 	int coin;
 
@@ -220,11 +217,19 @@ private:
 	bool isTailAttacking;
 	ULONGLONG attackTail_start;
 
+	bool isOnPipeGate;
+	bool canGoIntoPipeGate;
+	bool is_pressing_up_button;
+	bool turn_off_collision;
+
 	ULONGLONG turnOffCollision_start;
 
 	bool isGoingIntoPipeGate;
 	float oldPos_y;
 	CPipeGate* current_pipegate;
+
+	bool isGettingOutPipeDesOut; // Có phải là đang chui ra khỏi pipe_des ở mặt đất hay không
+	CPipeTeleportDestination* current_pipedes;
 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -235,6 +240,7 @@ private:
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPipeGate(LPCOLLISIONEVENT e);
+	void OnCollisionWithPipeTeleDes(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -252,27 +258,31 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		isOnPipeGate = false;
-		canGoIntoPipeGate = false;
-
-		turn_off_collision = false;
-		turnOffCollision_start = 0;
-		 
-		isGoingIntoPipeGate = false;
-		oldPos_y = 0;
-		current_pipegate = nullptr;
 
 		coin = 0;
 
 		isStopUpdate = false;
 
 		fallSlow_start = 0;
-
 		flying_start = 0;
 
 		isTailAttacking = false;
-
 		attackTail_start = 0;
+
+		isOnPipeGate = false;
+		canGoIntoPipeGate = false;
+
+		is_pressing_up_button = false;
+
+		turn_off_collision = false;
+		turnOffCollision_start = 0;
+
+		isGoingIntoPipeGate = false;
+		oldPos_y = 0;
+		current_pipegate = nullptr;
+
+		isGettingOutPipeDesOut = false;
+		current_pipedes = nullptr;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -320,12 +330,18 @@ public:
 
 	BOOLEAN IsOnPlatform() { return this->isOnPlatform; }
 
-	bool IsOnPipeGate() { return this->isOnPipeGate; }
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
-	void ReadyToGoIntoPipeGate(bool isReady) { this->canGoIntoPipeGate = isReady; }
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	bool IsStopUpdate() { return isStopUpdate; }
+
+	bool IsOnPipeGate() { return this->isOnPipeGate; }
+	void ReadyToGoIntoPipeGate(bool is_ready) { this->canGoIntoPipeGate = is_ready; }
 	bool CanGoIntoPipeGate() { return this->canGoIntoPipeGate; }
 
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	void IsPressingUpButton(bool is_pressing) { this->is_pressing_up_button = is_pressing; }
+
 	void StartTurnOffCollision() {
 		this->ReadyToGoIntoPipeGate(false);
 		this->turn_off_collision = true;
@@ -336,10 +352,6 @@ public:
 	{
 		ULONGLONG time_passed = GetTickCount64() - this->turnOffCollision_start;
 		return (0 <= time_passed &&
-					time_passed <= MARIO_TURN_OFF_COLLISION_TIME);
+			time_passed <= MARIO_TURN_OFF_COLLISION_TIME);
 	}
-
-	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
-	bool IsStopUpdate() { return isStopUpdate; }
 };
