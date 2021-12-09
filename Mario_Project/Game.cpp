@@ -1,4 +1,4 @@
-#include <fstream>
+﻿#include <fstream>
 
 #include "Game.h"
 #include "debug.h"
@@ -176,7 +176,7 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 
 	D3DX10_SPRITE sprite;
 
-	// Set the sprite�s shader resource view
+	// Set the sprite’s shader resource view
 	sprite.pTexture = tex->getShaderResourceView();
 
 	if (rect == NULL)
@@ -226,7 +226,7 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 	D3DXMATRIX matScaling;
 	D3DXMatrixScaling(&matScaling, (FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
 
-	// Setting the sprite�s position and size
+	// Setting the sprite’s position and size
 	sprite.matWorld = (matScaling * matTranslation);
 
 	spriteObject->DrawSpritesImmediate(&sprite, 1, 0, 0);
@@ -383,6 +383,15 @@ void CGame::InitKeyboard()
 
 void CGame::ProcessKeyboard()
 {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	// Nếu mario đang chui vào pipe_gate hoặc chui ra khỏi pipe_des để về mặt đất trong scene 1-1
+	// Thì không có xử lý keyboard gì hết ớ, player bây giờ không có cái quyền điều khiên gì hết ớ
+	// 
+	// Trừ khi game có chức năng Pause Game, nếu không thì code như thế này là ổn rồi
+	if (mario->IsGoingIntoPipeGate() || mario->IsGettingOutOfPipeDes())
+		return;
+
 	HRESULT hr;
 
 	// Collect all key states first

@@ -228,7 +228,7 @@ private:
 	float oldPos_y;
 	CPipeGate* current_pipegate;
 
-	bool isGettingOutPipeDesOut; // Có phải là đang chui ra khỏi pipe_des ở mặt đất hay không
+	bool isGettingOutOfPipeDesOut; // Có phải là đang chui ra khỏi pipe_des ở mặt đất hay không
 	CPipeTeleportDestination* current_pipedes;
 
 
@@ -240,7 +240,6 @@ private:
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPipeGate(LPCOLLISIONEVENT e);
-	void OnCollisionWithPipeTeleDes(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -281,7 +280,7 @@ public:
 		oldPos_y = 0;
 		current_pipegate = nullptr;
 
-		isGettingOutPipeDesOut = false;
+		isGettingOutOfPipeDesOut = false;
 		current_pipedes = nullptr;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -354,4 +353,9 @@ public:
 		return (0 <= time_passed &&
 			time_passed <= MARIO_TURN_OFF_COLLISION_TIME);
 	}
+
+	CPipeGate* GetCurrentPipeGate() { return this->current_pipegate; }
+
+	bool IsGoingIntoPipeGate() { return this->isGoingIntoPipeGate; }
+	bool IsGettingOutOfPipeDes() { return this->isGettingOutOfPipeDesOut; }
 };

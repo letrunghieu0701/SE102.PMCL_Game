@@ -33,19 +33,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		play_scene->ClearBreakableBricks();
 		break;
 	}
-
 	case DIK_DOWN:
-	{
-		if (mario->IsOnPipeGate())
-		{
-			mario->ReadyToGoIntoPipeGate(true);
-			DebugOut(L"Sẵn sàng vào Pipe Gate In\n");
-		}
-
-		else
-			mario->SetState(MARIO_STATE_SIT);
-		break;
-	}
+		mario->SetState(MARIO_STATE_SIT);
 	case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 			mario->AttackWithTail();
@@ -129,6 +118,24 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 	{
 		mario->IsPressingUpButton(true);
 		DebugOut(L"Đang bấm phím mũi tên UP\n");
+	}
+	else if (game->IsKeyDown(DIK_DOWN))
+	{
+		if (mario->IsOnPipeGate())
+		{
+			float mario_left, mario_top, mario_right, mario_bottom;
+			mario->GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
+
+			float pipegate_left, pipegate_top, pipegate_right, pipegate_bottom;
+			mario->GetCurrentPipeGate()->GetBoundingBox(pipegate_left, pipegate_top, pipegate_right, pipegate_bottom);
+
+			// Mario phải đứng ở giữa pipegate thì mới cho chui vào
+			if (pipegate_left <= mario_left && mario_right <= pipegate_right)
+			{
+				mario->ReadyToGoIntoPipeGate(true);
+				DebugOut(L"Sẵn sàng vào Pipe Gate In\n");
+			}	
+		}
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);
