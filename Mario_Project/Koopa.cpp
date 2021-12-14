@@ -46,7 +46,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// Nếu Koopa đang trong state đi bộ thì mới có thể làm quay đầu khi đi tới rìa platform, vì nếu đang trong state spin shell mà lại
 	// có thể quay đầu được thì sẽ khiến game khá khó chịu nếu Koopa cứ xoay xoay hoài ở trên platform mà nó đang xoay
-	
+
 	if (current_state == KOOPA_STATE_WALKING)
 	{
 		unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
@@ -69,22 +69,21 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CDOP->SetPosition(new_CDOP_x, this->y);
 		}
 		// Nếu cả hai không cách quá xa nhau về độ cao, thì Koopa cứ đẩy CDOP theo hướng di chuyển hiện tại của Koopa thôi
+		// Thực ra ở đây chỉ là xét cứng vị trí của CDOP theo Koopa mà thôi, vẫn chưa đẩy được CDOP
 		else
 		{
 			float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
 			CDOP->SetPosition(new_CDOP_x, CDOP_y);
 		}
 	}
-	else if (current_state == KOOPA_STATE_SHELLING)
-	{
-		// Nếu Koopa đã trốn trong mai rùa quá lâu thì cho Koopa chui ra
-		if (this->IsInShell() == false)
-			this->SetState(KOOPA_STATE_WALKING);
-	}
+	// Nếu Koopa đã trốn trong mai rùa quá lâu thì cho Koopa chui ra
+	else if (current_state == KOOPA_STATE_SHELLING && this->IsCanInShell() == false)
+		this->SetState(KOOPA_STATE_WALKING);
+
 
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
+	//DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
 	//DebugOutTitle(L"Koopa speed: vx: %0.2f vy: %0.2f", vx, vy);
 	//DebugOutTitle(L"Koopa state: %d", state);
 }
@@ -131,7 +130,7 @@ void CKoopa::Render()
 		ani_id = ID_ANI_KOOPA_SHELLING;
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
-	
+
 
 	float left, top, right, bottom;
 	this->GetBoundingBox(left, top, right, bottom);
@@ -227,6 +226,9 @@ void CKoopa::SetState(int state)
 		}
 		ay = KOOPA_SPEED_GRAVITY;
 
+		// Cho nhảy lên để hạn chế việc bị overlap với platform bên dưới
+		vy = -KOOPA_SPEED_JUMP_DEFLECT;
+
 		if (nx > 0)
 			vx = KOOPA_SPEED_WALKING;
 		else
@@ -246,6 +248,7 @@ void CKoopa::SetState(int state)
 		ay = 0;
 		vx = 0;
 		vy = 0;
+		break;
 	}
 	case KOOPA_STATE_SPIN_SHELL:
 	{

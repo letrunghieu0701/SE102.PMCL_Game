@@ -22,58 +22,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (vy > MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
 
-	if (this->isHoldingKoopa)
-	{
-		CKoopa* koopa = this->current_koopa_holding;
-
-		// Nếu đã vượt quá thời gian trong mai rùa, thì phải thả Koopa ra
-		if (koopa->IsInShell() == false)
-		{ 
-			// Cho Koopa đi bộ
-			// Hủy kết nối với Koopa
-			
-			koopa->SetState(KOOPA_STATE_WALKING);
-			this->isHoldingKoopa = false;
-			this->current_koopa_holding = nullptr;
-		}
-		else
-		{
-			// Nếu đang giữ 
-			if (this->isPressingHoldKoopaButton)
-			{
-				CKoopa* koopa = this->current_koopa_holding;
-
-				float left, top, right, bottom;
-				GetBoundingBox(left, top, right, bottom);
-				float current_height = bottom - top;
-				float current_width = right - left;
-				if (this->nx > 0)
-				{
-					koopa->SetPosition(this->x + current_width / 2, this->y + current_height / 4);
-
-				}
-				else
-				{
-					koopa->SetPosition(this->x - current_width / 2, this->y + current_height / 4);
-				}
-				float koopa_vx, koopa_vy;
-				koopa->GetSpeed(koopa_vx, koopa_vy);
-				DebugOut(L"Koopa speed: vx: %0.2f vy: %0.2f \n", koopa_vx, koopa_vy);
-
-				//DebugOut(L"Đang set speed = 0 cho Koopa\n");
-			}
-			else
-			{
-				CKoopa* koopa = this->current_koopa_holding;
-				koopa->SetNormalDirectionX(this->nx);
-				koopa->SetState(KOOPA_STATE_SPIN_SHELL);
-
-				this->isHoldingKoopa = false;
-				this->current_koopa_holding = nullptr;
-			}
-		}
-		
-	}
+	
 
 	if (this->isGettingOutOfPipeDesOut)
 	{
@@ -227,6 +176,92 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOutTitle(L"Đang nhấn phím cầm Koopa: %d", this->isPressingHoldKoopaButton);
 
 	//DebugOutTitle(L"Mario speed: vx = %0.2f vy = %0.2f", vx, vy);
+
+	if (this->isHoldingKoopa)
+	{
+		CKoopa* koopa = this->current_koopa_holding;
+
+		// Nếu đã vượt quá thời gian trong mai rùa, thì phải thả Koopa ra
+		if (koopa->IsCanInShell() == false)
+		{
+			// Điều chỉnh lại vị trí của Koopa để không bị overlap với Platform khi Koopa từ shell -> walk
+			// Cho Koopa đi bộ
+			// Hủy kết nối với Koopa
+			
+			// Phải set state của Koopa trước khi thay đổi vị trí y, vì hiện tại Koopa đang trong state shell
+			// State shell có height thấp hơn state walking nhiều, và code ở đây cần chiều cao của state walking chứ không phải state shell
+			koopa->SetState(KOOPA_STATE_WALKING);
+
+			float mario_left, mario_top, mario_right, mario_bottom;
+			this->GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
+			float mario_current_height = mario_bottom - mario_top;
+
+			float koopa_left, koopa_top, koopa_right, koopa_bottom;
+			koopa->GetBoundingBox(koopa_left, koopa_top, koopa_right, koopa_bottom);
+			float koopa_height = koopa_bottom - koopa_top;
+
+			float diff_koopa_vs_mario = 0;
+			// Nếu Koopa mà cao hơn Mario, thì lấy vị trí y của Mario cộng thêm khoảng chênh lệch để làm vị trí y cho Koopa
+			// Và cộng thêm một chút để tránh bị overlap với platform bên dưới
+			if (koopa_height > mario_current_height)
+			{
+				diff_koopa_vs_mario = mario_current_height - (koopa_height - BLOCK_PUSH_FACTOR) ;
+			}
+			// Ngược lại, nếu Mario cao hơn Koopa thì dùng vị trí của Mario trừ đi khoảng chênh lệch để làm vị trí y cho Koopa
+			else
+			{
+				diff_koopa_vs_mario = mario_current_height - koopa_height;
+			}
+
+			// To-do: cần xem xét lại, Koopa có thể overlap với Pipe, brick,... khi Mario cứ xét cứng vị trí của Koopa
+			// mỗi khi Mario cầm Koopa
+			// 
+			// Dùng vị trí x của Koopa, vì Koopa không bị overlap theo trục x
+			koopa->SetPosition(koopa_left, mario_top + diff_koopa_vs_mario);
+			this->isHoldingKoopa = false;
+			this->current_koopa_holding = nullptr;
+		}
+		else
+		{
+			// Nếu đang nhấn + giữ phím "cầm Koopa" thì kéo Koopa đi với Mario
+			if (this->isPressingHoldKoopaButton)
+			{
+				CKoopa* koopa = this->current_koopa_holding;
+
+				float left, top, right, bottom;
+				this->GetBoundingBox(left, top, right, bottom);
+				float current_height = bottom - top;
+				float current_width = right - left;
+				if (this->nx > 0)
+				{
+					koopa->SetPosition(this->x + current_width / 2, this->y + current_height / 4);
+				}
+				else
+				{
+					koopa->SetPosition(this->x - current_width / 2, this->y + current_height / 4);
+				}
+
+				koopa->SetNormalDirectionX(this->nx);
+
+				float koopa_vx, koopa_vy;
+				koopa->GetSpeed(koopa_vx, koopa_vy);
+				DebugOut(L"Koopa speed: vx: %0.2f vy: %0.2f \n", koopa_vx, koopa_vy);
+
+				//DebugOut(L"Đang set speed = 0 cho Koopa\n");
+			}
+			// Nếu đã thả phím "cầm Koopa" ra thì drop Koopa và đá Koopa xoay đi
+			else
+			{
+				CKoopa* koopa = this->current_koopa_holding;
+				koopa->SetNormalDirectionX(this->nx);
+				koopa->SetState(KOOPA_STATE_SPIN_SHELL);
+
+				this->isHoldingKoopa = false;
+				this->current_koopa_holding = nullptr;
+			}
+		}
+
+	}
 }
 
 void CMario::OnNoCollision(DWORD dt)

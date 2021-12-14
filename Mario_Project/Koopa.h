@@ -6,11 +6,13 @@
 #define KOOPA_SPEED_WALKING 0.05f
 #define KOOPA_SPEED_SPINNING 0.1f
 
+#define KOOPA_SPEED_JUMP_DEFLECT 0.02f
+
 
 #define KOOPA_FALL_DOWN_SPEED_Y		0.2f
 
 // Extra settings
-#define MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP 20
+#define MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP 25
 
 // Bounding Box
 #define KOOPA_BBOX_WALKING_WIDTH 16
@@ -33,7 +35,7 @@
 
 
 //Điều chỉnh độ cao khi chui ra khỏi mai rùa
-#define KOOPA_SHELL_2_WALK_HEIGHT_ADJUST (KOOPA_BBOX_WALKING_HEIGHT - KOOPA_BBOX_SHELL_HEIGHT)
+#define KOOPA_SHELL_2_WALK_HEIGHT_ADJUST (KOOPA_BBOX_WALKING_HEIGHT - KOOPA_BBOX_SHELL_HEIGHT) + 1
 
 
 // Time
@@ -52,7 +54,6 @@ protected:
 
 	int current_state;
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
@@ -72,7 +73,9 @@ public:
 	CKoopa(float x, float y, int type, int id_CDOP);
 	virtual void SetState(int state);
 
-	ULONGLONG IsInShell()
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	ULONGLONG IsCanInShell()
 	{ 
 		ULONGLONG time_passed = GetTickCount64() - this->shell_start;
 		return (0 <= time_passed &&
