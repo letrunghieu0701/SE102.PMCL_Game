@@ -685,6 +685,16 @@ int CMario::GetAniRaccon()
 			return ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT;
 	}
 
+	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
+	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
+	{
+		ani_id = ID_ANI_MARIO_RACCON_PIPE;
+		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+			y + (height + shift_y) / 2);
+
+		return ani_id;
+	}
+
 	if (!isOnPlatform)	// Đang trong không trung
 	{
 		// Nếu đang trong thời gian bay

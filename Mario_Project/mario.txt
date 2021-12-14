@@ -61,10 +61,12 @@
 # height cũng tương tự
 # nếu height là số lẻ thì top trừ 1
 
-# idle left
+# idle left & right
 14111	182	634	203	661	0
-# idle right
 14121	243	634	264	661	0
+
+# Pipe
+14131	215	633	231	662	0
 
 # walk left
 14211	152	634	173	661	0
@@ -217,6 +219,9 @@
 1700	14111	100
 # idle right
 1701	14121	100
+
+# Pipe
+1710	14131	100
 
 # walk right
 1800	14221	100	14222	100
