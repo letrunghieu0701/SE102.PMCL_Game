@@ -18,6 +18,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 		mario->SetHoldKoopaButton(true);
 		DebugOut(L"Đang bấm phím mũi cầm Koopa\n");
+		break;
 	}
 	case DIK_P:
 	{
@@ -39,7 +40,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	}
 	case DIK_DOWN:
+	{
 		mario->SetState(MARIO_STATE_SIT);
+		break;
+	}
 	/*case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 			mario->AttackWithTail();
@@ -97,6 +101,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_W:
 		mario->SetHoldKoopaButton(false);
+		break;
 	}
 }
 

@@ -602,6 +602,14 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 int CMario::GetAniIdSmall()
 {
 	int aniId = -1;
+
+	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
+	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
+	{
+		aniId = ID_ANI_MARIO_SMALL_PIPE;
+		return aniId;
+	}
+
 	if (!isOnPlatform)
 	{
 		if (abs(vx) == MARIO_RUNNING_SPEED)
@@ -863,7 +871,6 @@ int CMario::GetAniIdBig()
 	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
 	{
 		aniId = ID_ANI_MARIO_PIPE;
-
 		return aniId;
 	}
 
