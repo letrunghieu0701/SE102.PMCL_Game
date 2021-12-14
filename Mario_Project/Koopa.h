@@ -6,6 +6,9 @@
 #define KOOPA_SPEED_WALKING 0.05f
 #define KOOPA_SPEED_SPINNING 0.1f
 
+
+#define KOOPA_FALL_DOWN_SPEED_Y		0.2f
+
 // Extra settings
 #define MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP 20
 
@@ -19,6 +22,7 @@
 #define KOOPA_STATE_WALKING 0
 #define	KOOPA_STATE_SHELLING 1
 #define KOOPA_STATE_SPIN_SHELL 2
+#define KOOPA_STATE_HOLDED_BY_MARIO 3
 
 // Animation ID
 #define ID_ANI_KOOPA_WALKING_LEFT 6000
@@ -67,5 +71,13 @@ protected:
 public:
 	CKoopa(float x, float y, int type, int id_CDOP);
 	virtual void SetState(int state);
+
+	ULONGLONG IsInShell()
+	{ 
+		ULONGLONG time_passed = GetTickCount64() - this->shell_start;
+		return (0 <= time_passed &&
+			time_passed <= KOOPA_TIME_SHELLING);
+	}
+	void SetAccel(float ax, float ay) { this->ax = ax; this->ay; }
 };
 

@@ -34,9 +34,20 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	if (vy >= KOOPA_FALL_DOWN_SPEED_Y)
+		vy = KOOPA_FALL_DOWN_SPEED_Y;
+
+	int current_state = this->GetState();
+
+	/*if (current_state == KOOPA_STATE_HOLDED_BY_MARIO)
+	{
+		int a = 0;
+	}*/
+
 	// Nếu Koopa đang trong state đi bộ thì mới có thể làm quay đầu khi đi tới rìa platform, vì nếu đang trong state spin shell mà lại
 	// có thể quay đầu được thì sẽ khiến game khá khó chịu nếu Koopa cứ xoay xoay hoài ở trên platform mà nó đang xoay
-	if (this->GetState() == KOOPA_STATE_WALKING)
+	
+	if (current_state == KOOPA_STATE_WALKING)
 	{
 		unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
 		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
@@ -64,23 +75,24 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CDOP->SetPosition(new_CDOP_x, CDOP_y);
 		}
 	}
-	else if (this->GetState() == KOOPA_STATE_SHELLING)
+	else if (current_state == KOOPA_STATE_SHELLING)
 	{
 		// Nếu Koopa đã trốn trong mai rùa quá lâu thì cho Koopa chui ra
-		if (GetTickCount64() - shell_start > KOOPA_TIME_SHELLING)
+		if (this->IsInShell() == false)
 			this->SetState(KOOPA_STATE_WALKING);
 	}
-	
+
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	//DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
-	//DebugOutTitle(L"Koopa: nx: %d", nx);
+	DebugOutTitle(L"Koopa: vx: %0.2f vy: %0.2f ax: %0.2f ay: %0.2f", vx, vy, ax, ay);
+	//DebugOutTitle(L"Koopa speed: vx: %0.2f vy: %0.2f", vx, vy);
+	//DebugOutTitle(L"Koopa state: %d", state);
 }
 
 int CKoopa::GetAniIdWalk()
 {
 	int ani_id = -1;
-	
+
 	if (nx > 0)
 		ani_id = ID_ANI_KOOPA_WALKING_RIGHT;
 	else
@@ -115,8 +127,11 @@ void CKoopa::Render()
 		ani_id = GetAniIdWalk();
 	else if (GetState() == KOOPA_STATE_SHELLING)
 		ani_id = ID_ANI_KOOPA_SHELLING;
+	else if (GetState() == KOOPA_STATE_HOLDED_BY_MARIO)
+		ani_id = ID_ANI_KOOPA_SHELLING;
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
+	
 
 	float left, top, right, bottom;
 	this->GetBoundingBox(left, top, right, bottom);
@@ -124,7 +139,6 @@ void CKoopa::Render()
 	float height = bottom - top;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
-	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -203,48 +217,59 @@ void CKoopa::SetState(int state)
 
 	switch (state)
 	{
-		case KOOPA_STATE_WALKING:
+	case KOOPA_STATE_WALKING:
+	{
+		// Nếu đang ở trong mai rùa và giờ chui ra để đi bộ
+		// Thì phải set lại vị trí để không rơi khỏi platform
+		if (current_state == KOOPA_STATE_SHELLING)
 		{
-			// Nếu đang ở trong mai rùa và giờ chui ra để đi bộ
-			// Thì phải set lại vị trí để không rơi khỏi platform
-			if (current_state == KOOPA_STATE_SHELLING)
-			{
-				this->y -= KOOPA_SHELL_2_WALK_HEIGHT_ADJUST;
-			}
-
-			if (nx > 0)
-				vx = KOOPA_SPEED_WALKING;
-			else
-				vx = -KOOPA_SPEED_WALKING;
-			break;
+			this->y -= KOOPA_SHELL_2_WALK_HEIGHT_ADJUST;
 		}
-		case KOOPA_STATE_SHELLING:
-		{
-			vx = 0;
+		ay = KOOPA_SPEED_GRAVITY;
 
-			shell_start = GetTickCount64();
-			break;
-		}
-		case KOOPA_STATE_SPIN_SHELL:
-		{
-			if (GetNormalDirectionX() == DIRECTION_RIGHT)
-				vx = KOOPA_SPEED_SPINNING;
-			else
-				vx = -KOOPA_SPEED_SPINNING;
+		if (nx > 0)
+			vx = KOOPA_SPEED_WALKING;
+		else
+			vx = -KOOPA_SPEED_WALKING;
+		break;
+	}
+	case KOOPA_STATE_SHELLING:
+	{
+		vx = 0;
+		ay = KOOPA_SPEED_GRAVITY;
 
-			// Nếu Mario va chạm trên đầu Koopa đang trong state spin shell thì có thể khiến Koopa trở về state shell,
-			// Sau đó Koopa có thể chui ra khỏi shell và đi bộ (trở lại state walking)
-			// To-do: cần suy nghĩ xem chuyện gì sẽ xảy ra với CDOP khi thêm feature này vào game
+		shell_start = GetTickCount64();
+		break;
+	}
+	case KOOPA_STATE_HOLDED_BY_MARIO:
+	{
+		ay = 0;
+		vx = 0;
+		vy = 0;
+	}
+	case KOOPA_STATE_SPIN_SHELL:
+	{
+		if (GetNormalDirectionX() == DIRECTION_RIGHT)
+			vx = KOOPA_SPEED_SPINNING;
+		else
+			vx = -KOOPA_SPEED_SPINNING;
 
-			/*unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
-			if (CDOP == NULL)
-				return;
-			CDOP->Delete();*/
-			break;
-		}
+		ay = KOOPA_SPEED_GRAVITY;
+
+		// Nếu Mario va chạm trên đầu Koopa đang trong state spin shell thì có thể khiến Koopa trở về state shell,
+		// Sau đó Koopa có thể chui ra khỏi shell và đi bộ (trở lại state walking)
+		// To-do: cần suy nghĩ xem chuyện gì sẽ xảy ra với CDOP khi thêm feature này vào game
+
+		/*unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
+		if (CDOP == NULL)
+			return;
+		CDOP->Delete();*/
+		break;
+	}
 	}
 	current_state = state;
+	DebugOut(L"Koopa đang trong state: %d \n", this->state);
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)

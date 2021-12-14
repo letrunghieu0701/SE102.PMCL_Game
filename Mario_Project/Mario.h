@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "PipeGate.h"
 #include "PipeTeleportDestination.h"
+#include "Koopa.h"
 
 #include "Animation.h"
 #include "Animations.h"
@@ -170,8 +171,11 @@
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 27
 
+#define MARIO_RACCON_BBOX_WIDTH  14
+#define MARIO_RACCON_BBOX_HEIGHT 28
+
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
-#define MARIO_BIG_SITTING_BBOX_HEIGHT 16
+#define MARIO_BIG_SITTING_BBOX_HEIGHT 18
 
 
 
@@ -231,6 +235,13 @@ private:
 	bool isGettingOutOfPipeDesOut; // Có phải là đang chui ra khỏi pipe_des ở mặt đất hay không
 	CPipeTeleportDestination* current_pipedes;
 
+	int old_level;
+
+	bool isPressingHoldKoopaButton;
+	bool isHoldingKoopa;
+
+	CKoopa* current_koopa_holding;
+
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -253,7 +264,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_BIG;
+		level = old_level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
@@ -282,6 +293,10 @@ public:
 
 		isGettingOutOfPipeDesOut = false;
 		current_pipedes = nullptr;
+
+		isHoldingKoopa = false;
+		isPressingHoldKoopaButton = false;
+		current_koopa_holding = nullptr;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -358,4 +373,6 @@ public:
 
 	bool IsGoingIntoPipeGate() { return this->isGoingIntoPipeGate; }
 	bool IsGettingOutOfPipeDes() { return this->isGettingOutOfPipeDesOut; }
+
+	void SetHoldKoopaButton(bool is_pressing_button) { this->isPressingHoldKoopaButton = is_pressing_button; }
 };

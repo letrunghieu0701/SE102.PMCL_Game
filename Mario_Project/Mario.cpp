@@ -9,7 +9,7 @@
 #include "Portal.h"
 #include "QuestionBrick.h"
 #include "WingGoomba.h"
-#include "Koopa.h"
+
 
 #include "Collision.h"
 #include "PlayScene.h"
@@ -21,6 +21,59 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (vy > MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
+
+	if (this->isHoldingKoopa)
+	{
+		CKoopa* koopa = this->current_koopa_holding;
+
+		// Nếu đã vượt quá thời gian trong mai rùa, thì phải thả Koopa ra
+		if (koopa->IsInShell() == false)
+		{ 
+			// Cho Koopa đi bộ
+			// Hủy kết nối với Koopa
+			
+			koopa->SetState(KOOPA_STATE_WALKING);
+			this->isHoldingKoopa = false;
+			this->current_koopa_holding = nullptr;
+		}
+		else
+		{
+			// Nếu đang giữ 
+			if (this->isPressingHoldKoopaButton)
+			{
+				CKoopa* koopa = this->current_koopa_holding;
+
+				float left, top, right, bottom;
+				GetBoundingBox(left, top, right, bottom);
+				float current_height = bottom - top;
+				float current_width = right - left;
+				if (this->nx > 0)
+				{
+					koopa->SetPosition(this->x + current_width / 2, this->y + current_height / 4);
+
+				}
+				else
+				{
+					koopa->SetPosition(this->x - current_width / 2, this->y + current_height / 4);
+				}
+				float koopa_vx, koopa_vy;
+				koopa->GetSpeed(koopa_vx, koopa_vy);
+				DebugOut(L"Koopa speed: vx: %0.2f vy: %0.2f \n", koopa_vx, koopa_vy);
+
+				//DebugOut(L"Đang set speed = 0 cho Koopa\n");
+			}
+			else
+			{
+				CKoopa* koopa = this->current_koopa_holding;
+				koopa->SetNormalDirectionX(this->nx);
+				koopa->SetState(KOOPA_STATE_SPIN_SHELL);
+
+				this->isHoldingKoopa = false;
+				this->current_koopa_holding = nullptr;
+			}
+		}
+		
+	}
 
 	if (this->isGettingOutOfPipeDesOut)
 	{
@@ -111,8 +164,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/*if (GetTickCount64() - attackTail_start > MARIO_ATTACK_TAIL_TIME)
 		attackTail_start = 0;*/
 
-	// Nếu vẫn còn trong thời gian rơi chậm
-	// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
+		// Nếu vẫn còn trong thời gian rơi chậm
+		// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
 	if ((0 <= (GetTickCount64() - fallSlow_start)) &&
 		((GetTickCount64() - fallSlow_start) <= MARIO_FALL_SLOW_TIME))
 	{
@@ -170,7 +223,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		OnNoCollision(dt);
 	}
 
-	DebugOutTitle(L"Có thể vào pipe gate in: %d", this->canGoIntoPipeGate);
+	//DebugOutTitle(L"Có thể vào pipe gate in: %d", this->canGoIntoPipeGate);
+	//DebugOutTitle(L"Đang nhấn phím cầm Koopa: %d", this->isPressingHoldKoopaButton);
+
+	//DebugOutTitle(L"Mario speed: vx = %0.2f vy = %0.2f", vx, vy);
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -201,8 +257,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 						this->isOnPipeGate = true;
 						this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
 						DebugOut(L"Đang đứng trên Pipe Gate In\n");
-					}				
-				}	
+					}
+				}
 			}
 			else
 			{
@@ -214,7 +270,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 					if (!pipe_gate->IsGateIn())
 					{
 						DebugOut(L"Đã chạm vào đáy của Pipe Gate Out\n");
-					}				
+					}
 				}
 			}
 		}
@@ -267,11 +323,11 @@ void CMario::OnCollisionWithPipeGate(LPCOLLISIONEVENT e)
 				this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
 
 				DebugOut(L"Tiến vào Pipe Gate vào Hidden Zone\n");
-			}			
+			}
 		}
 	}
 	// Nếu đây là pipe để ra khỏi Hidden Zone
-	else 
+	else
 	{
 		if (e->ny == DIRECTION_DOWN && this->is_pressing_up_button)
 		{
@@ -324,24 +380,40 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+
+
+
 	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
 	{
-		float mario_x, mario_y;
-		float koopa_x, koopa_y;
-		this->GetPosition(mario_x, mario_y);
-		koopa->GetPosition(koopa_x, koopa_y);
+		if (this->isPressingHoldKoopaButton)
+		{
+			this->isHoldingKoopa = true;
+			this->current_koopa_holding = koopa;
+			koopa->SetState(KOOPA_STATE_HOLDED_BY_MARIO);
+		}
+		else
+		{
+			float mario_x, mario_y;
+			float koopa_x, koopa_y;
+			this->GetPosition(mario_x, mario_y);
+			koopa->GetPosition(koopa_x, koopa_y);
 
-		if (mario_x < koopa_x)	// Mario ở phía bên trái của Koopa
-		{
-			koopa->SetNormalDirectionX(DIRECTION_RIGHT);	// Cho xoay sang phải
-			koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có trị tuyệt đối rất lớn và cùng dấu (dương) với vectoc normal
+			if (mario_x < koopa_x)	// Mario ở phía bên trái của Koopa
+			{
+				koopa->SetNormalDirectionX(DIRECTION_RIGHT);	// Cho xoay sang phải
+				koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có trị tuyệt đối rất lớn và cùng dấu (dương) với vectoc normal
+			}
+			else  // Mario ở phía bên phải của Koopa
+			{
+				koopa->SetNormalDirectionX(DIRECTION_LEFT);		// Cho xoay sang trái
+				koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có giá trị tuyệt đối rất lớn và cùng dấu (âm) với vector normal
+			}
 		}
-		else  // Mario ở phía bên phải của Koopa
-		{
-			koopa->SetNormalDirectionX(DIRECTION_LEFT);		// Cho xoay sang trái
-			koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có giá trị tuyệt đối rất lớn và cùng dấu (âm) với vector normal
-		}
+		
 	}
+
+
+
 	else if (koopa->GetState() == KOOPA_STATE_SPIN_SHELL)
 	{
 		// Nếu Mario nhảy lên đầu Koopa khi Koopa đang xoay thì có thể khiến nó ngừng xoay
@@ -573,7 +645,6 @@ int CMario::GetAniRaccon()
 				if (nx > 0)
 				{
 					ani_id = ID_ANI_MARIO_RACCON_FLYING_RIGHT;
-					CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
 				}
 
 				else
@@ -637,7 +708,7 @@ int CMario::GetAniRaccon()
 				{
 					ani_id = ID_ANI_MARIO_RACCON_IDLE_LEFT;
 				}
-					
+
 			}
 			else if (vx > 0)	// Đang chạy sang bên phải
 			{
@@ -646,29 +717,22 @@ int CMario::GetAniRaccon()
 				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
 				{
 					ani_id = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
-					shift_x = -4;
+					shift_x = -7;
 				}
 				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
 				{
 					ani_id = ID_ANI_MARIO_RACCON_WALKING_RIGHT;
-					shift_x = -4;
+					shift_x = -7;
 				}
 			}
 			else  // Đang chạy sang bên trái
 			{
 				if (ax > 0)		// Đang thắng
-				{
-					//shift_x = 4;
 					ani_id = ID_ANI_MARIO_RACCON_BRACE_LEFT;
-				}
-
 				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
 					ani_id = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
-				{
 					ani_id = ID_ANI_MARIO_RACCON_WALKING_LEFT;
-				}
-
 			}
 		}
 	}
@@ -678,9 +742,8 @@ int CMario::GetAniRaccon()
 
 
 
-
-	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2 + shift_x,
-		y + height / 2 + shift_y);
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+		y + (height + shift_y) / 2);
 	RenderBoundingBox();
 
 	return ani_id;
@@ -772,7 +835,7 @@ void CMario::Render()
 	float left, top, right, bottom;
 	this->GetBoundingBox(left, top, right, bottom);
 	float width = right - left;
-	float height = bottom - top;
+	float height = bottom - top + 1;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
 	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
@@ -911,23 +974,23 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		{
 			left = x;
 			top = y;
-			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
-			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
+			right = left + MARIO_BIG_SITTING_BBOX_WIDTH - 1;
+			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT - 1;
 		}
 		else
 		{
 			left = x;
 			top = y;
-			right = left + MARIO_BIG_BBOX_WIDTH;
-			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+			right = left + MARIO_BIG_BBOX_WIDTH - 1;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT - 1;
 		}
 	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
 		left = x;
 		top = y;
-		right = left + MARIO_SMALL_BBOX_WIDTH;
-		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
+		right = left + MARIO_SMALL_BBOX_WIDTH - 1;
+		bottom = top + MARIO_SMALL_BBOX_HEIGHT - 1;
 	}
 	else if (level == MARIO_LEVEL_RACCON)
 	{
@@ -935,15 +998,15 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		{
 			left = x;
 			top = y;
-			right = x + MARIO_BIG_SITTING_BBOX_WIDTH;
-			bottom = y + MARIO_BIG_SITTING_BBOX_HEIGHT;
+			right = x + MARIO_BIG_SITTING_BBOX_WIDTH - 1;
+			bottom = y + MARIO_BIG_SITTING_BBOX_HEIGHT - 1;
 		}
 		else
 		{
 			left = x;
 			top = y;
-			right = left + MARIO_BIG_BBOX_WIDTH;
-			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+			right = left + MARIO_BIG_BBOX_WIDTH - 1;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT - 1;
 		}
 	}
 
@@ -952,6 +1015,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CMario::SetLevel(int l)
 {
+	old_level = level;
 	// Adjust position to avoid falling off platform
 	// Nếu đang ở dạng Small, thì khi chuyển sang các dạng lớn hơn thì điều chỉnh lại vị trí bằng khoảng chênh lệch giữ dạng Small và dạng Big
 	if (this->level == MARIO_LEVEL_SMALL &&
@@ -959,6 +1023,29 @@ void CMario::SetLevel(int l)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT + 1 - MARIO_SMALL_BBOX_HEIGHT);
 	}
+
+	/*if (level == MARIO_LEVEL_BIG)
+	{
+		if (l == MARIO_LEVEL_RACCON)
+		{
+			if (nx > 0)
+			{
+				x -= 7;
+			}
+		}
+	}
+
+
+	if (level == MARIO_LEVEL_RACCON)
+	{
+		if (l == MARIO_LEVEL_BIG)
+		{
+			if (nx > 0)
+			{
+				x += 7;
+			}
+		}
+	}*/
 
 	level = l;
 }

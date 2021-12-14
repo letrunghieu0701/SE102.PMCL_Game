@@ -14,6 +14,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 
 	switch (KeyCode)
 	{
+	case DIK_W:
+	{
+		mario->SetHoldKoopaButton(true);
+		DebugOut(L"Đang bấm phím mũi cầm Koopa\n");
+	}
 	case DIK_P:
 	{
 		LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
@@ -35,10 +40,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT);
-	case DIK_D:
+	/*case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 			mario->AttackWithTail();
-		break;
+		break;*/
 	case DIK_S:
 		float vx, vy;
 		mario->GetSpeed(vx, vy);
@@ -90,6 +95,8 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
+	case DIK_W:
+		mario->SetHoldKoopaButton(false);
 	}
 }
 
@@ -137,6 +144,11 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 			}	
 		}
 	}
+	/*else if (game->IsKeyDown(DIK_W))
+	{
+		mario->SetHoldKoopaButton(true);
+		DebugOut(L"Đang bấm phím mũi cầm Koopa\n");
+	}*/
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }

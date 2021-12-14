@@ -1,4 +1,4 @@
-#include "Sprite.h"
+﻿#include "Sprite.h"
 #include "debug.h"
 
 CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex)
@@ -13,7 +13,7 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex
 	float texWidth = (float)tex->getWidth();
 	float texHeight = (float)tex->getHeight();
 
-	// Set the sprite�s shader resource view
+	// Set the sprite’s shader resource view
 	sprite.pTexture = tex->getShaderResourceView();
 
 	sprite.TexCoord.x = this->left / texWidth;
@@ -45,6 +45,7 @@ void CSprite::Draw(float x, float y)
 	x = (FLOAT)floor(x);
 	y = (FLOAT)floor(y);
 
+	// Buffer Height không bằng screen height là vì bị vướng phần cửa sổ windows (cái chỗ có nút tắt, thu nhỏ,... và các viền)
 	D3DXMatrixTranslation(&matTranslation, x - cx, g->GetBackBufferHeight() - y + cy, 0.1f);
 
 	this->sprite.matWorld = (this->matScaling * matTranslation);

@@ -44,10 +44,12 @@
 
 
 ############ RACCON ################
-# Right = Left + Width
-# Bottom = Top + Height - 1
+# widht chẵn thì trừ 1, lẻ thì giữ nguyên
+# height cũng tương tự
+# nếu height là số lẻ thì top trừ 1
+
 # idle left
-14111	182	634	203	661	0
+14111	182	634	202	661	0
 # idle right
 14121	243	634	264	661	0
 

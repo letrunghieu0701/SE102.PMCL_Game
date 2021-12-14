@@ -327,4 +327,4 @@ image_map.txt
 
 
 #Image map
-6	0	0	60000
+#6	0	0	60000
