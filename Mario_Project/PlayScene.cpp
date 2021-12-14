@@ -150,7 +150,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = new CPipeGate(x, y, object_type, pipe_des_id, true);
 		else
 			obj = new CPipeGate(x, y, object_type, pipe_des_id, false);
-		
+
 		break;
 	}
 	case OBJECT_TYPE_PIPE_TELEPORT_DESTINATION:
@@ -162,7 +162,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		if (is_gate_out == PIPE_TELE_DES_BACK_TO_SURFACE)
 			obj = new CPipeTeleportDestination(x, y, object_type, id, true);
 		else
-		// Pipe trong Hidden Zone, thả rơi Mario
+			// Pipe trong Hidden Zone, thả rơi Mario
 			obj = new CPipeTeleportDestination(x, y, object_type, id, false);
 
 		itemsInside.insert(make_pair(id, obj));
@@ -355,53 +355,56 @@ void CPlayScene::Update(DWORD dt)
 	*/
 
 
-	CMario* mario = dynamic_cast<CMario*>(objects[0]);
+	/*CMario* mario = dynamic_cast<CMario*>(objects[0]);
 
 	if (mario->IsStopUpdate() == false)
+	{*/
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 0; i < objects.size(); i++)
 	{
-		vector<LPGAMEOBJECT> coObjects;
-		for (size_t i = 1; i < objects.size(); i++)
-		{
-			coObjects.push_back(objects[i]);
-		}
-
-		for (size_t i = 0; i < objects.size(); i++)
-		{
-			objects[i]->Update(dt, &coObjects);
-		}
-
-		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-		if (player == NULL) return;
-
-		// Update camera to follow mario
-		float cx, cy;
-		player->GetPosition(cx, cy);
-
-		CGame* game = CGame::GetInstance();
-		cx -= game->GetBackBufferWidth() / 2;
-		//cy -= game->GetBackBufferHeight() / 2;
-
-
-		CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
-		float base_platform_x;
-		float base_platform_y;
-		base_platform->GetPosition(base_platform_x, base_platform_y);
-
-		// Nếu Mario vẫn nằm trong khoảng giữa base platform và screen height, thì giữ nguyên camera cách base platform một khoảng bằng screen height
-		if (((base_platform_y - game->GetBackBufferHeight()) <= cy) &&
-			(cy <= base_platform_y))
-			cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
-		else
-			//cy -= game->GetBackBufferHeight() / 2;
-			;
-
-		if (cx < 0) cx = 0;
-
-		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
-		/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
-
-		PurgeDeletedObjects();
+		// Nếu object này là Mario thì không bỏ vào danh sách collidable objects
+		if (objects[i]->GetType() == OBJECT_TYPE_MARIO)
+			continue;
+		coObjects.push_back(objects[i]);
 	}
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &coObjects);
+	}
+
+	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	if (player == NULL) return;
+
+	// Update camera to follow mario
+	float cx, cy;
+	player->GetPosition(cx, cy);
+
+	CGame* game = CGame::GetInstance();
+	cx -= game->GetBackBufferWidth() / 2;
+	//cy -= game->GetBackBufferHeight() / 2;
+
+
+	CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
+	float base_platform_x;
+	float base_platform_y;
+	base_platform->GetPosition(base_platform_x, base_platform_y);
+
+	// Nếu Mario vẫn nằm trong khoảng giữa base platform và screen height, thì giữ nguyên camera cách base platform một khoảng bằng screen height
+	if (((base_platform_y - game->GetBackBufferHeight()) <= cy) &&
+		(cy <= base_platform_y))
+		cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
+	else
+		//cy -= game->GetBackBufferHeight() / 2;
+		;
+
+	if (cx < 0) cx = 0;
+
+	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
+
+	PurgeDeletedObjects();
+	/*}*/
 }
 
 void CPlayScene::Render()
