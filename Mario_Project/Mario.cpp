@@ -172,16 +172,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		OnNoCollision(dt);
 	}
 
-	//DebugOutTitle(L"Có thể vào pipe gate in: %d", this->canGoIntoPipeGate);
-	//DebugOutTitle(L"Đang nhấn phím cầm Koopa: %d", this->isPressingHoldKoopaButton);
 
 	//DebugOutTitle(L"Mario speed: vx = %0.2f vy = %0.2f", vx, vy);
 
+	// Xử lý login khi Mario cầm Koopa sau khi xử lý va chạm là vì:
+	// Khi Mario cầm Koopa, mà Koopa thì thoát khỏi shell và đi bộ trở lại:
+	// Cần xử lý va chạm để kéo Mario ra khỏi các blocking object trước, sau đó thì mới có thể xét lại vị trí y cho Koopa được
+	// Vì logic hiện tại là dùng độ cao chênh lệch giữa Mario và Koopa để xét lại vị trí y cho Koopa khi Mario không thể cầm Koopa được nữa
+	// Nên vị trí của Mario phải là vị trí đã được push back ra khỏi các blocking object, để có thể xét đúng được vị trí y cho Koopa
 	if (this->isHoldingKoopa)
 	{
 		CKoopa* koopa = this->current_koopa_holding;
 
-		// Nếu đã vượt quá thời gian trong mai rùa, thì phải thả Koopa ra
+		// Nếu đã vượt quá thời gian trong mai rùa, thì:
+		// 1. Phải thả Koopa ra
+		// 2. Gây sát thương lên Mario (vì Mario cầm Koopa cho tới khi nó chui ra khỏi Shell luôn mà)
 		if (koopa->IsCanInShell() == false)
 		{
 			// Điều chỉnh lại vị trí của Koopa để không bị overlap với Platform khi Koopa từ shell -> walk
@@ -191,6 +196,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			// Phải set state của Koopa trước khi thay đổi vị trí y, vì hiện tại Koopa đang trong state shell
 			// State shell có height thấp hơn state walking nhiều, và code ở đây cần chiều cao của state walking chứ không phải state shell
 			koopa->SetState(KOOPA_STATE_WALKING);
+			this->SetLevel(this->GetLevel() - 1);
+			this->StartUntouchable();
 
 			float mario_left, mario_top, mario_right, mario_bottom;
 			this->GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
@@ -784,6 +791,66 @@ int CMario::GetAniRaccon()
 	return ani_id;
 }
 
+int CMario::GetAniIdBigHoldKoopa()
+{
+	int ani_id = -1;
+
+	if (!isOnPlatform)
+	{
+		if (abs(vx) == MARIO_RUNNING_SPEED)
+		{
+			if (nx >= 0)
+				ani_id = ID_ANI_MARIO_JUMP_RUN_RIGHT;
+			else
+				ani_id = ID_ANI_MARIO_JUMP_RUN_LEFT;
+		}
+		else
+		{
+			if (nx >= 0)
+				ani_id = ID_ANI_MARIO_JUMP_WALK_RIGHT;
+			else
+				ani_id = ID_ANI_MARIO_JUMP_WALK_LEFT;
+		}
+	}
+	else
+		if (isSitting)
+		{
+			if (nx > 0)
+				ani_id = ID_ANI_MARIO_SIT_RIGHT;
+			else
+				ani_id = ID_ANI_MARIO_SIT_LEFT;
+		}
+		else
+			if (vx == 0)
+			{
+				if (nx > 0) ani_id = ID_ANI_MARIO_HOLD_IDLE_RIGHT;
+				else ani_id = ID_ANI_MARIO_HOLD_IDLE_LEFT;
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					ani_id = ID_ANI_MARIO_BRACE_RIGHT;
+				else if (ax == MARIO_ACCEL_RUN_X)
+					ani_id = ID_ANI_MARIO_RUNNING_RIGHT;
+				else if (ax == MARIO_ACCEL_WALK_X)
+					ani_id = ID_ANI_MARIO_WALKING_RIGHT;
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					ani_id = ID_ANI_MARIO_BRACE_LEFT;
+				else if (ax == -MARIO_ACCEL_RUN_X)
+					ani_id = ID_ANI_MARIO_RUNNING_LEFT;
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					ani_id = ID_ANI_MARIO_WALKING_LEFT;
+			}
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_MARIO_HOLD_IDLE_RIGHT;
+
+	return ani_id;
+}
+
 
 //
 // Get animdation ID for big Mario
@@ -791,6 +858,7 @@ int CMario::GetAniRaccon()
 int CMario::GetAniIdBig()
 {
 	int aniId = -1;
+
 	if (!isOnPlatform)
 	{
 		if (abs(vx) == MARIO_RUNNING_SPEED)
@@ -856,14 +924,30 @@ void CMario::Render()
 	// rồi lấy ra ani_id phù hợp với các chỉ số vật lý hiện tại như: ax, nx và isSitting
 	else
 	{
-		if (level == MARIO_LEVEL_BIG)
-			ani_id = GetAniIdBig();
-		else if (level == MARIO_LEVEL_SMALL)
-			ani_id = GetAniIdSmall();
-		else if (level == MARIO_LEVEL_RACCON)
+		// Nếu đang cầm Koopa thì sẽ có các bộ ani riêng cho từng level
+		if (isHoldingKoopa)
 		{
-			ani_id = GetAniRaccon();
-			return;
+			if (level == MARIO_LEVEL_BIG)
+				ani_id = GetAniIdBigHoldKoopa();
+			else if (level == MARIO_LEVEL_SMALL)
+				ani_id = GetAniIdSmall();
+			else if (level == MARIO_LEVEL_RACCON)
+			{
+				ani_id = GetAniRaccon();
+				return;
+			}
+		}
+		else
+		{
+			if (level == MARIO_LEVEL_BIG)
+				ani_id = GetAniIdBig();
+			else if (level == MARIO_LEVEL_SMALL)
+				ani_id = GetAniIdSmall();
+			else if (level == MARIO_LEVEL_RACCON)
+			{
+				ani_id = GetAniRaccon();
+				return;
+			}
 		}
 	}
 

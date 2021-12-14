@@ -43,13 +43,23 @@
 13001	215	120	234	137	0
 
 
+# Hold Koopa
+
+# Idle Right & Left
+11721	336	234	351	261	0
+11711	96	234	111	261	0
+
+
+
+
+
 ############ RACCON ################
 # widht chẵn thì trừ 1, lẻ thì giữ nguyên
 # height cũng tương tự
 # nếu height là số lẻ thì top trừ 1
 
 # idle left
-14111	182	634	202	661	0
+14111	182	634	203	661	0
 # idle right
 14121	243	634	264	661	0
 
@@ -185,6 +195,12 @@
 
 #DIE
 999	13001	100
+
+
+# Hold Koopa
+# Hold Koopa Right & Left
+1010	11721	100
+1011	11711	100
 
 ################### Mario Raccon ##################
 # idle left

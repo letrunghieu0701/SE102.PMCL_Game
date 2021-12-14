@@ -92,6 +92,11 @@
 
 #define ID_ANI_MARIO_DIE 999
 
+// Big + Hold Koopa
+
+#define ID_ANI_MARIO_HOLD_IDLE_RIGHT	1010
+#define ID_ANI_MARIO_HOLD_IDLE_LEFT		1011
+
 
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT		1100
@@ -255,6 +260,8 @@ private:
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniRaccon();
+
+	int GetAniIdBigHoldKoopa();
 
 public:
 	CMario(float x, float y, int type) : CGameObject(x, y, type)
