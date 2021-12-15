@@ -158,6 +158,7 @@
     <ClCompile Include="PipeGate.cpp" />
     <ClCompile Include="PipeTeleportDestination.cpp" />
     <ClCompile Include="QuestionBrick.cpp" />
+    <ClCompile Include="Tail.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="PipeGate.h" />
     <ClInclude Include="PipeTeleportDestination.h" />
     <ClInclude Include="QuestionBrick.h" />
+    <ClInclude Include="Tail.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileLayer.h" />
     <ClInclude Include="debug.h" />
