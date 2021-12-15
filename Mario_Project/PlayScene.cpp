@@ -267,6 +267,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float height = (float)atof(tokens[4].c_str());
 		obj = new CTail(x, y, width, height, object_type);
 
+		DebugOut(L"[INFO] Tail object has been created!\n");
+
 		break;
 	}
 	break;

@@ -6,6 +6,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CTail::Render()
 {
+	RenderBoundingBox();
 }
 
 void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -28,11 +29,11 @@ void CTail::RenderBoundingBox(void)
 	GetBoundingBox(l, t, r, b);
 	rect.left = 0;
 	rect.top = 0;
-	rect.right = (int)r - (int)l;
-	rect.bottom = (int)b - (int)t;
+	rect.right = (int)r - (int)l + 1;
+	rect.bottom = (int)b - (int)t + 1;
 
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
-	CGame::GetInstance()->Draw(x - cx, y - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
+	CGame::GetInstance()->Draw(x + rect.right / 2 - cx, y + rect.bottom / 2 - cy, bbox, nullptr, BBOX_ALPHA, rect.right, rect.bottom);
 }

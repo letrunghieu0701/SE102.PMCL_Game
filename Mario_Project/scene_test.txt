@@ -30,8 +30,11 @@ image_map.txt
 # MARIO
 0	176	270
 
+# Tail
+17	190	390	32	16
+
 # Invisible Platform
-8	150	300	48	8
+#8	150	300	48	8
 
 # Coin
 #4	200	350
@@ -70,11 +73,11 @@ image_map.txt
 
 # Change direction on platform
 # Type	x	y	CDOP's ID
-12	350	200	21
+#12	350	200	21
 
 # Koopa
 # Type	x	y	CDOP's ID
-11	220	310	21
+#11	220	310	21
 
 
 # Pipe
@@ -92,7 +95,7 @@ image_map.txt
 # 1st ground (lower)
 5	0	416	16	16	60	51000	52000	53000	1	100
 
-5	200	340	16	16	7	51000	52000	53000
+#5	200	340	16	16	7	51000	52000	53000
 
 
 
