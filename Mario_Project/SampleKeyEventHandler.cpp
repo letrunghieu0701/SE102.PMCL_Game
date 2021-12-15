@@ -49,7 +49,13 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 		{
-			CTail* mario_tail = new CTail(190, 390, 32, 16, GetTickCount64(), OBJECT_TYPE_TAIL);
+			int attack_direction = mario->GetNormalDirectionX();
+
+			float mario_x, mario_y, mario_width;
+			mario->GetPosition(mario_x, mario_y);
+			mario->GetWidth(mario_width);
+
+			CTail* mario_tail = new CTail(mario_x, mario_y + TAIL_DISTANCE_MARIO_HEAD2TAIL, GetTickCount64(), -attack_direction, mario_width, OBJECT_TYPE_TAIL);
 			LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
 			play_scene->AddGameObject(mario_tail);
 			//mario->AttackWithTail();

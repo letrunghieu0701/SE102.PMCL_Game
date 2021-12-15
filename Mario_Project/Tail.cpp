@@ -1,12 +1,62 @@
 ﻿#include "Tail.h"
 
+
 void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Nếu cái đuôi hết thời gian tồn tại thì xóa nó đi
-	if (this->StillHaveLivingTimeLeft() == false)
+	/*if (this->StillHaveLivingTimeLeft() == false)
 	{
 		this->Delete();
+		return;
+	}*/
+
+	// Nếu đã trượt xong một khoảng bằng width của tail && tail chưa đổi hướng
+	// Thì gán là đã đổi hướng và đổi hướng di chuyển cho tail (nx và vx)
+	// Và phải đặt lại đúng vị trí max có thể di chuyển trong lần đầu trượt, để tiện cho việc xử lý về sau
+
+	if (slide_direction < 0)
+	{
+		if (x < max_travel_distance_left && turn_back == false)
+		{
+			this->turn_back = true;
+			this->x = max_travel_distance_left;
+			nx = -nx;
+			vx = -vx;
+		}
+
+		if (x > max_travel_distance_right && turn_back == true)
+		{
+			this->Delete();
+		}
 	}
+	else
+	{
+		if (x > max_travel_distance_right && turn_back == false)
+		{
+			this->turn_back = true;
+			this->x = max_travel_distance_right;
+			nx = -nx;
+			vx = -vx;
+		}
+
+		if (x < max_travel_distance_left && turn_back == true)
+		{
+			this->Delete();
+		}
+	}
+	
+
+	// Nếu vẫn còn sống thì cho trượt qua trượt lại để attack các object khác
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+void CTail::OnNoCollision(DWORD dt)
+{
+	x += vx * dt;
+}
+
+void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
+{
 }
 
 bool CTail::StillHaveLivingTimeLeft()

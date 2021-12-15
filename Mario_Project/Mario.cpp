@@ -1157,6 +1157,20 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	//DebugOutTitle(L"Mario: %0.2f, %0.2f   BBox: %0.2f, %0.2f", x, y, top, left);
 }
 
+void CMario::GetWidth(float& width)
+{
+	float l, t, r, b;
+	GetBoundingBox(l, t, r, b);
+	width = r - l + 1;
+}
+
+void CMario::GetHeight(float& height)
+{
+	float l, t, r, b;
+	GetBoundingBox(l, t, r, b);
+	height = b - t + 1;
+}
+
 void CMario::SetLevel(int l)
 {
 	old_level = level;

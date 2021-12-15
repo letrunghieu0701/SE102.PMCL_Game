@@ -277,7 +277,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = old_level = MARIO_LEVEL_BIG;
+		level = old_level = MARIO_LEVEL_RACCON;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
@@ -388,4 +388,7 @@ public:
 	bool IsGettingOutOfPipeDes() { return this->isGettingOutOfPipeDesOut; }
 
 	void SetHoldKoopaButton(bool is_pressing_button) { this->isPressingHoldKoopaButton = is_pressing_button; }
+
+	void GetWidth(float &width);;
+	void GetHeight(float &height);
 };
