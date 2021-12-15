@@ -4,6 +4,7 @@
 #include "Game.h"
 
 #include "Mario.h"
+#include "Tail.h"
 #include "PlayScene.h"
 
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
@@ -44,11 +45,19 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_SIT);
 		break;
 	}
-	/*case DIK_D:
-		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
-			mario->AttackWithTail();
-		break;*/
 	case DIK_S:
+	{
+		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
+		{
+			CTail* mario_tail = new CTail(190, 390, 32, 16, OBJECT_TYPE_TAIL);
+			LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+			play_scene->AddGameObject(mario_tail);
+			//mario->AttackWithTail();
+		}
+		break;
+	}
+
+	case DIK_SPACE:
 		float vx, vy;
 		mario->GetSpeed(vx, vy);
 
@@ -93,7 +102,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_S:
+	case DIK_SPACE:
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
 	case DIK_DOWN:
@@ -146,7 +155,7 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 			{
 				mario->ReadyToGoIntoPipeGate(true);
 				DebugOut(L"Sẵn sàng vào Pipe Gate In\n");
-			}	
+			}
 		}
 	}
 	/*else if (game->IsKeyDown(DIK_W))

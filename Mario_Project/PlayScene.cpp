@@ -261,7 +261,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
-	case OBJECT_TYPE_TAIL:
+	/*case OBJECT_TYPE_TAIL:
 	{
 		float width = (float)atof(tokens[3].c_str());
 		float height = (float)atof(tokens[4].c_str());
@@ -270,7 +270,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Tail object has been created!\n");
 
 		break;
-	}
+	}*/
 	break;
 
 

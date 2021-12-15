@@ -31,7 +31,7 @@ image_map.txt
 0	176	270
 
 # Tail
-17	190	390	32	16
+#17	190	390	32	16
 
 # Invisible Platform
 #8	150	300	48	8
