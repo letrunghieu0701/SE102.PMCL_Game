@@ -15,6 +15,7 @@
 #include "Coin.h"
 
 #include "Mario.h"
+#include "Tail.h"
 #include "Goomba.h"
 //#include "Koopas.h"
 #include "ImageMap.h"
