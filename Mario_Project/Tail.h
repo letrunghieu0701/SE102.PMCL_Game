@@ -3,15 +3,21 @@
 #include "Textures.h"
 
 
+// Time
+#define TAIL_LIFE_TIME 500
+
 class CTail: public CGameObject
 {
 	float width;
 	float height;
+
+	ULONGLONG living_start;
 public:
-	CTail(float x, float y, float width, float height, int type) :CGameObject(x, y, type)
+	CTail(float x, float y, float width, float height, ULONGLONG time_start_living, int type) :CGameObject(x, y, type)
 	{
 		this->width = width;
 		this->height = height;
+		this->living_start = time_start_living;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -19,5 +25,7 @@ public:
 
 	void RenderBoundingBox(void);
 	int IsBlocking() { return 0; }
+
+	bool StillHaveLivingTimeLeft();
 };
 

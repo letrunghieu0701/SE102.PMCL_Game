@@ -1,7 +1,22 @@
-#include "Tail.h"
+﻿#include "Tail.h"
 
 void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	// Nếu cái đuôi hết thời gian tồn tại thì xóa nó đi
+	if (this->StillHaveLivingTimeLeft() == false)
+	{
+		this->Delete();
+	}
+}
+
+bool CTail::StillHaveLivingTimeLeft()
+{
+	ULONGLONG time_passed = GetTickCount64() -  this->living_start;
+
+	if (0 <= time_passed && time_passed <= TAIL_LIFE_TIME)
+		return true;
+
+	return false;
 }
 
 void CTail::Render()
