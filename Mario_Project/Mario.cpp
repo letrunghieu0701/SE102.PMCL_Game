@@ -25,7 +25,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 	if (this->isGettingOutOfPipeDesOut)
-	{
+	{	
 		this->vy = -MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
 		this->vx = 0;
 

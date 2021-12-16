@@ -20,6 +20,10 @@ CKoopa::CKoopa(float x, float y, int type, bool can_turn, int id_CDOP) : CGameOb
 	else
 		nx = DIRECTION_LEFT;
 
+	bounce_start = 0;
+	hit_direction = 0;
+	hit_by_mario = false;
+
 	// Nếu đây là Koopa có thể quay đầu trên platform trong không trung
 	if (this->id_CDOP != -1)
 	{
@@ -44,10 +48,16 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	int current_state = this->GetState();
 
-	/*if (current_state == KOOPA_STATE_HOLDED_BY_MARIO)
+	// Nếu đã hết thời gian nảy và đã từng bị đánh bởi Mario
+	// Thì cho Koopa về state shelling tiếp, rồi để các thông số liên quan đến bounce về mặc định
+	if (!IsInBounceTime() && hit_by_mario)
 	{
-		int a = 0;
-	}*/
+		SetState(KOOPA_STATE_SHELLING);
+		hit_by_mario = false;
+		bounce_start = 0;
+		hit_direction = 0;
+	}
+
 
 	// Nếu Koopa đang trong state đi bộ thì mới có thể làm quay đầu khi đi tới rìa platform, vì nếu đang trong state spin shell mà lại
 	// có thể quay đầu được thì sẽ khiến game khá khó chịu nếu Koopa cứ xoay xoay hoài ở trên platform mà nó đang xoay
@@ -138,6 +148,8 @@ void CKoopa::Render()
 		ani_id = ID_ANI_KOOPA_SHELLING;
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
+	else if (GetState() == KOOPA_STATE_SHELL_BOUNCE_UP)
+		ani_id = ID_ANI_KOOPA_SHELLING;
 
 
 	float left, top, right, bottom;
@@ -272,6 +284,18 @@ void CKoopa::SetState(int state)
 		if (CDOP == NULL)
 			return;
 		CDOP->Delete();*/
+		break;
+	}
+	case KOOPA_STATE_SHELL_BOUNCE_UP:
+	{
+		// Bị đánh từ bên trái, vì cho nảy qua bên phải và ngược lại
+		if (hit_direction < 0)
+			vx = KOOPA_SPEED_BOUNCE_X;
+		else
+			vx = -KOOPA_SPEED_BOUNCE_X;
+
+		vy = -KOOPA_SPEED_BOUNCE_Y;
+		ay = KOOPA_SPEED_GRAVITY;
 		break;
 	}
 	}

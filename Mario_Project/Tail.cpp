@@ -100,7 +100,11 @@ void CTail::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
 	if (koopa->GetState() == KOOPA_STATE_WALKING)
-		koopa->SetState(KOOPA_STATE_SHELLING);
+		koopa->StartBounce(e->nx);
+	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
+	{
+		koopa->StartBounce(e->nx);
+	}
 }
 
 void CTail::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)

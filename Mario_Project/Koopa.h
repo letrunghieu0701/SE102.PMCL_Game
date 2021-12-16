@@ -6,6 +6,9 @@
 #define KOOPA_SPEED_WALKING 0.05f
 #define KOOPA_SPEED_SPINNING 0.1f
 
+#define KOOPA_SPEED_BOUNCE_X 0.05f
+#define KOOPA_SPEED_BOUNCE_Y 0.2f
+
 #define KOOPA_SPEED_JUMP_DEFLECT 0.02f
 
 
@@ -25,6 +28,7 @@
 #define	KOOPA_STATE_SHELLING 1
 #define KOOPA_STATE_SPIN_SHELL 2
 #define KOOPA_STATE_HOLDED_BY_MARIO 3
+#define KOOPA_STATE_SHELL_BOUNCE_UP 4
 
 // Animation ID
 #define ID_ANI_KOOPA_WALKING_LEFT 6000
@@ -40,7 +44,7 @@
 
 // Time
 #define KOOPA_TIME_SHELLING 5000
-
+#define KOOPA_TIME_BOUNCE 500
 
 class CKoopa: public CGameObject
 {
@@ -53,6 +57,10 @@ protected:
 	int id_CDOP; // Có thể quay đầu khi đi trên platform trên không trung hay không
 
 	int current_state;
+
+	ULONGLONG bounce_start;
+	int hit_direction;
+	bool hit_by_mario;
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -81,5 +89,18 @@ public:
 			time_passed <= KOOPA_TIME_SHELLING);
 	}
 	void SetAccel(float ax, float ay) { this->ax = ax; this->ay; }
+
+	void StartBounce(int hit_direc)
+	{
+		this->bounce_start = GetTickCount64();
+		this->hit_direction = hit_direc; 
+		this->hit_by_mario = true;
+		this->SetState(KOOPA_STATE_SHELL_BOUNCE_UP);
+	}
+	bool IsInBounceTime()
+	{
+		ULONGLONG time_passed = GetTickCount64() - bounce_start;
+		return (0 <= time_passed && time_passed <= KOOPA_TIME_BOUNCE);
+	}
 };
 
