@@ -9,6 +9,7 @@ CWingGoomba::CWingGoomba(float x, float y, int type, float walking_distance) : C
 	this->walkingDistance = walking_distance;
 	this->startWalkingLocation = x;
 
+	this->nx = -1;
 	SetState(WING_GOOMBA_STATE_WALKING);
 }
 

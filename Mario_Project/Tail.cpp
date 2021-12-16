@@ -14,7 +14,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Thì gán là đã đổi hướng và đổi hướng di chuyển cho tail (nx và vx)
 	// Và phải đặt lại đúng vị trí max có thể di chuyển trong lần đầu trượt, để tiện cho việc xử lý về sau
 
-	if (slide_direction < 0)
+	/*if (slide_direction < 0)
 	{
 		if (x < max_travel_distance_left && turn_back == false)
 		{
@@ -43,7 +43,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			this->Delete();
 		}
-	}
+	}*/
 
 
 	// Nếu vẫn còn sống thì cho trượt qua trượt lại để attack các object khác
@@ -59,18 +59,36 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
 		OnCollisionWithGoomba(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_WING_GOOMBA)
+		OnCollisionWithWingGoomba(e);
 }
 
 void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
-	DebugOut(L"Va chạm với Goomba\n");
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
 	if (goomba->GetState() != GOOMBA_STATE_DIE)
 	{
 		goomba->SetState(GOOMBA_STATE_DIE);
 	}
+}
 
+void CTail::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
+{
+	CWingGoomba* wing_goomba = dynamic_cast<CWingGoomba*>(e->obj);
+
+	if (wing_goomba->GetState() != WING_GOOMBA_STATE_DIE)
+	{
+		if (wing_goomba->GetLevel() == WING_GOOMBA_LEVEL_HAVE_WING)	// Nếu Wing Goomba đang level "có cánh" thì hạ level xuống thành "không cánh"
+		{
+			wing_goomba->SetLevel(WING_GOOMBA_LEVEL_NO_WING);	// Set level "không cánh"
+			wing_goomba->SetState(WING_GOOMBA_STATE_WALKING);	// Vì đang là level "không cánh" nên chỉ có thể có chỉ số vật lý của state walking
+		}
+		else  // Nếu Wing Goomba đang level "không cánh" thì cho die luôn
+		{
+			wing_goomba->SetState(WING_GOOMBA_STATE_DIE);
+		}
+	}
 }
 
 

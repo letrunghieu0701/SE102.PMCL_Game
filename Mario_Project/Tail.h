@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "GameObject.h"
 #include "Goomba.h"
+#include "WingGoomba.h"
 
 #include "Textures.h"
 
@@ -35,6 +36,7 @@ protected:
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 
 public:
 	CTail(float x, float y, int direction, int mario_width, int type) :CGameObject(x, y, type)
