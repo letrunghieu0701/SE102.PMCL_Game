@@ -23,9 +23,11 @@ koopa.txt
 // Support
 change_direction_on_platform.txt
 
+// Effect
+crumb.txt
+
 // Map
 image_map.txt
-
 
 
 

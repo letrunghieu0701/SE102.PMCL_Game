@@ -7,9 +7,11 @@
 #include "QuestionBrick.h"
 #include "BreakableBrick.h"
 
-#include "Textures.h"
+#include "Crumb.h"
 
+#include "Textures.h"
 #include "Collision.h"
+#include "PlayScene.h"
 
 // Physical Stats
 #define TAIL_SPEED_X 0.2f

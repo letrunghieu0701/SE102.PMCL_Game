@@ -3,6 +3,14 @@
 
 void CCrumb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy += ay;
+
+	if (vy >= CRUMB_SPEED_Y)
+		vy = CRUMB_SPEED_Y;
+
+	if (!IsInLivingTime())
+		this->Delete();
+
 	x += vx * dt;
 	y += vy * dt;
 }

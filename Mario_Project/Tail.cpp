@@ -14,7 +14,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Thì gán là đã đổi hướng và đổi hướng di chuyển cho tail (nx và vx)
 	// Và phải đặt lại đúng vị trí max có thể di chuyển trong lần đầu trượt, để tiện cho việc xử lý về sau
 
-	/*if (slide_direction < 0)
+	if (slide_direction < 0)
 	{
 		if (x < max_travel_distance_left && turn_back == false)
 		{
@@ -43,7 +43,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			this->Delete();
 		}
-	}*/
+	}
 
 
 	// Nếu vẫn còn sống thì cho trượt qua trượt lại để attack các object khác
@@ -120,6 +120,17 @@ void CTail::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 void CTail::OnColliswionWithBreakableBrick(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
+
+	LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+
+	CCrumb* crumb_1 = new CCrumb(x, y, OBJECT_TYPE_CRUMB, GetTickCount64(), CRUMG_SHOOT_FORCE_STRONG_Y, CRUMB_SHOOT_RIGHT);
+	CCrumb* crumb_2 = new CCrumb(x, y, OBJECT_TYPE_CRUMB, GetTickCount64(), CRUMG_SHOOT_FORCE_WEAK_Y, CRUMB_SHOOT_RIGHT);
+	CCrumb* crumb_3 = new CCrumb(x, y, OBJECT_TYPE_CRUMB, GetTickCount64(), CRUMG_SHOOT_FORCE_STRONG_Y, CRUMB_SHOOT_LEFT);
+	CCrumb* crumb_4 = new CCrumb(x, y, OBJECT_TYPE_CRUMB, GetTickCount64(), CRUMG_SHOOT_FORCE_WEAK_Y, CRUMB_SHOOT_LEFT);
+	play_scene->AddGameObject(crumb_1);
+	play_scene->AddGameObject(crumb_2);
+	play_scene->AddGameObject(crumb_3);
+	play_scene->AddGameObject(crumb_4);
 }
 
 
