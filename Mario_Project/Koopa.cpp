@@ -10,7 +10,7 @@ CKoopa::CKoopa(float x, float y, int type, bool can_turn, int id_CDOP) : CGameOb
 {
 	ax = 0;
 	ay = KOOPA_SPEED_GRAVITY;
-	
+
 	this->id_CDOP = id_CDOP;
 
 	current_state = KOOPA_STATE_WALKING;
@@ -127,13 +127,24 @@ int CKoopa::GetAniIdSpinShell()
 {
 	int ani_id = -1;
 
-	if (nx > 0)
-		ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
+	if (shell_direction == KOOPA_SHELL_FACING_DOWN)
+	{
+		if (nx > 0)
+			ani_id = ID_ANI_KOOPA_SPIN_SHELL_DOWN_RIGHT;
+		else
+			ani_id = ID_ANI_KOOPA_SPIN_SHELL_DOWN_LEFT;
+	}
 	else
-		ani_id = ID_ANI_KOOPA_SPIN_SHELL_LEFT;
+	{
+		if (nx > 0)
+			ani_id = ID_ANI_KOOPA_SPIN_SHELL_UP_RIGHT;
+		else
+			ani_id = ID_ANI_KOOPA_SPIN_SHELL_UP_LEFT;
+	}
+
 
 	if (ani_id == -1)
-		ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
+		ani_id = ID_ANI_KOOPA_SPIN_SHELL_DOWN_RIGHT;
 
 	return ani_id;
 }
@@ -155,7 +166,7 @@ int CKoopa::GetAniIdShell()
 
 void CKoopa::Render()
 {
-	int ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
+	int ani_id = ID_ANI_KOOPA_WALKING_RIGHT;
 
 	if (GetState() == KOOPA_STATE_WALKING)
 		ani_id = GetAniIdWalk();
@@ -164,7 +175,7 @@ void CKoopa::Render()
 		ani_id = GetAniIdShell();
 
 	else if (GetState() == KOOPA_STATE_HOLDED_BY_MARIO)
-		ani_id = ID_ANI_KOOPA_SHELL_DOWN;
+		ani_id = GetAniIdShell();
 
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
