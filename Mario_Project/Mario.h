@@ -265,7 +265,7 @@ private:
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
-	int GetAniRaccon();
+	void GetAniIdRaccon();
 
 	int GetAniIdBigHoldKoopa();
 
