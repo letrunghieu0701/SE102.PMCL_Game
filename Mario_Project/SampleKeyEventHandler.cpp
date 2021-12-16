@@ -58,7 +58,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			CTail* mario_tail = new CTail(mario_x, mario_y + TAIL_DISTANCE_MARIO_HEAD2TAIL, GetTickCount64(), -attack_direction, mario_width, OBJECT_TYPE_TAIL);
 			LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
 			play_scene->AddGameObject(mario_tail);
-			//mario->AttackWithTail();
+			mario->AttackWithTail();
 		}
 		break;
 	}
@@ -164,11 +164,6 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 			}
 		}
 	}
-	/*else if (game->IsKeyDown(DIK_W))
-	{
-		mario->SetHoldKoopaButton(true);
-		DebugOut(L"Đang bấm phím mũi cầm Koopa\n");
-	}*/
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }

@@ -46,7 +46,14 @@ void CSprite::Draw(float x, float y)
 	y = (FLOAT)floor(y);
 
 	// Buffer Height không bằng screen height là vì bị vướng phần cửa sổ windows (cái chỗ có nút tắt, thu nhỏ,... và các viền)
-	D3DXMatrixTranslation(&matTranslation, x - cx, g->GetBackBufferHeight() - y + cy, 0.1f);
+
+	float shift_x_tail_attack = 0;
+	if (this->id == ID_SPRITE_MARIO_RACCON_ATTACK_RIGHT + 1)
+		shift_x_tail_attack = 9 / 2;
+	else if (this->id == ID_SPRITE_MARIO_RACCON_ATTACK_LEFT + 1)
+		shift_x_tail_attack = -9 / 2;
+
+	D3DXMatrixTranslation(&matTranslation, x + shift_x_tail_attack - cx, g->GetBackBufferHeight() - y + cy, 0.1f);
 
 	this->sprite.matWorld = (this->matScaling * matTranslation);
 

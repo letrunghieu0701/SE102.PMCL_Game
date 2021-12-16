@@ -347,6 +347,7 @@ public:
 	void AttackWithTail()
 	{ 
 		this->attackTail_start = GetTickCount64();
+		isTailAttacking = true;
 	}
 
 	bool IsTailAttacking()

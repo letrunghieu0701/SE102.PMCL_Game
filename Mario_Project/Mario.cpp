@@ -110,8 +110,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	/*if (GetTickCount64() - attackTail_start > MARIO_ATTACK_TAIL_TIME)
-		attackTail_start = 0;*/
+	if (!IsTailAttacking())
+		attackTail_start = 0;
 
 		// Nếu vẫn còn trong thời gian rơi chậm
 		// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
@@ -676,22 +676,32 @@ void CMario::GetAniIdRaccon()
 	float width = right - left;
 	float height = bottom - top;
 
+	//CAnimations::GetInstance()->Get(ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT)->Render(x + width / 2,
+	//	y + height / 2);
+
+	//RenderBoundingBox();
+	//return;
+
+
 	if (this->IsTailAttacking())
 	{
 		if (nx > 0)
+		{
 			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_RIGHT;
+		}
 		else
 			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT;
+		
+		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+			y + height / 2);
+		return;
 	}
 
 	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
 	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
 	{
 		ani_id = ID_ANI_MARIO_RACCON_PIPE;
-		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
-			y + height / 2);
-
-		return;
+		
 	}
 
 	if (!isOnPlatform)	// Đang trong không trung
