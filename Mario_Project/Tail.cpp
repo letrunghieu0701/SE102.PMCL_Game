@@ -102,9 +102,9 @@ void CTail::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	if (koopa->GetState() == KOOPA_STATE_WALKING)
 		koopa->StartBounce(e->nx);
 	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
-	{
 		koopa->StartBounce(e->nx);
-	}
+
+	koopa->SetShellDirection(KOOPA_SHELL_FACING_UP);
 }
 
 void CTail::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)

@@ -24,6 +24,8 @@ CKoopa::CKoopa(float x, float y, int type, bool can_turn, int id_CDOP) : CGameOb
 	hit_direction = 0;
 	hit_by_mario = false;
 
+	shell_direction = KOOPA_SHELL_FACING_DOWN;
+
 	// Nếu đây là Koopa có thể quay đầu trên platform trong không trung
 	if (this->id_CDOP != -1)
 	{
@@ -136,20 +138,39 @@ int CKoopa::GetAniIdSpinShell()
 	return ani_id;
 }
 
+int CKoopa::GetAniIdShell()
+{
+	int ani_id = -1;
+
+	if (shell_direction == KOOPA_SHELL_FACING_DOWN)
+		ani_id = ID_ANI_KOOPA_SHELL_DOWN;
+	else
+		ani_id = ID_ANI_KOOPA_SHELL_UP;
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_KOOPA_SHELL_DOWN;
+
+	return ani_id;
+}
+
 void CKoopa::Render()
 {
 	int ani_id = ID_ANI_KOOPA_SPIN_SHELL_RIGHT;
 
 	if (GetState() == KOOPA_STATE_WALKING)
 		ani_id = GetAniIdWalk();
+
 	else if (GetState() == KOOPA_STATE_SHELLING)
-		ani_id = ID_ANI_KOOPA_SHELLING;
+		ani_id = GetAniIdShell();
+
 	else if (GetState() == KOOPA_STATE_HOLDED_BY_MARIO)
-		ani_id = ID_ANI_KOOPA_SHELLING;
+		ani_id = ID_ANI_KOOPA_SHELL_DOWN;
+
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
+
 	else if (GetState() == KOOPA_STATE_SHELL_BOUNCE_UP)
-		ani_id = ID_ANI_KOOPA_SHELLING;
+		ani_id = ID_ANI_KOOPA_SHELL_UP;
 
 
 	float left, top, right, bottom;
@@ -249,6 +270,8 @@ void CKoopa::SetState(int state)
 			vx = KOOPA_SPEED_WALKING;
 		else
 			vx = -KOOPA_SPEED_WALKING;
+
+		shell_direction = KOOPA_SHELL_FACING_DOWN;
 		break;
 	}
 	case KOOPA_STATE_SHELLING:

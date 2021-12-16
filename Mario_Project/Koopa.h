@@ -16,6 +16,8 @@
 
 // Extra settings
 #define MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP 25
+#define KOOPA_SHELL_FACING_DOWN 0
+#define KOOPA_SHELL_FACING_UP	1
 
 // Bounding Box
 #define KOOPA_BBOX_WALKING_WIDTH 16
@@ -31,11 +33,14 @@
 #define KOOPA_STATE_SHELL_BOUNCE_UP 4
 
 // Animation ID
-#define ID_ANI_KOOPA_WALKING_LEFT 6000
-#define ID_ANI_KOOPA_WALKING_RIGHT 6001
-#define ID_ANI_KOOPA_SHELLING 6002
-#define ID_ANI_KOOPA_SPIN_SHELL_LEFT 6003
-#define ID_ANI_KOOPA_SPIN_SHELL_RIGHT 6004
+#define ID_ANI_KOOPA_WALKING_LEFT		6000
+#define ID_ANI_KOOPA_WALKING_RIGHT		6001
+
+#define ID_ANI_KOOPA_SPIN_SHELL_LEFT	6010
+#define ID_ANI_KOOPA_SPIN_SHELL_RIGHT	6011
+
+#define ID_ANI_KOOPA_SHELL_DOWN			6020
+#define ID_ANI_KOOPA_SHELL_UP			6021
 
 
 //Điều chỉnh độ cao khi chui ra khỏi mai rùa
@@ -62,6 +67,8 @@ protected:
 	int hit_direction;
 	bool hit_by_mario;
 
+	int shell_direction;
+
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
@@ -75,6 +82,7 @@ protected:
 
 	int GetAniIdWalk();
 	int GetAniIdSpinShell();
+	int GetAniIdShell();
 
 public:
 	CKoopa(float x, float y, int type, bool can_turn = false, int id_CDOP = -1);
@@ -102,5 +110,7 @@ public:
 		ULONGLONG time_passed = GetTickCount64() - bounce_start;
 		return (0 <= time_passed && time_passed <= KOOPA_TIME_BOUNCE);
 	}
+
+	void SetShellDirection(int direction) { this->shell_direction = direction; }
 };
 
