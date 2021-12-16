@@ -201,6 +201,9 @@
     <ClCompile Include="Tail.cpp">
       <Filter>Game Objects\Tail Mario</Filter>
     </ClCompile>
+    <ClCompile Include="Crumb.cpp">
+      <Filter>Game Objects\Solid Objects\Bricks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mario.h">
@@ -325,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="Tail.h">
       <Filter>Game Objects\Tail Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="Crumb.h">
+      <Filter>Game Objects\Solid Objects\Bricks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

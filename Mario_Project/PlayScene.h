@@ -13,6 +13,7 @@
 #include "PipeTeleportDestination.h"
 
 #include "Coin.h"
+#include "Crumb.h"
 
 #include "Mario.h"
 #include "Tail.h"

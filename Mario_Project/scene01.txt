@@ -9,6 +9,8 @@ question_brick.txt
 coin.txt
 mushroom.txt
 
+crumb.txt
+
 goomba.txt
 wing_goomba.txt
 koopa.txt
@@ -22,6 +24,9 @@ cloud.txt
 
 # MARIO
 0	20	10
+
+# Crumb
+18	130	162
 
 # Breakable brick
 14	100	162	2000
