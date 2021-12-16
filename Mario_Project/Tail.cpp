@@ -4,11 +4,11 @@
 void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Nếu cái đuôi hết thời gian tồn tại thì xóa nó đi
-	/*if (this->StillHaveLivingTimeLeft() == false)
+	if (this->IsInLivingTime() == false)
 	{
 		this->Delete();
 		return;
-	}*/
+	}
 
 	// Nếu đã trượt xong một khoảng bằng width của tail && tail chưa đổi hướng
 	// Thì gán là đã đổi hướng và đổi hướng di chuyển cho tail (nx và vx)

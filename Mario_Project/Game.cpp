@@ -389,7 +389,7 @@ void CGame::ProcessKeyboard()
 	// Thì không có xử lý keyboard gì hết ớ, player bây giờ không có cái quyền điều khiên gì hết ớ
 	// 
 	// Trừ khi game có chức năng Pause Game, nếu không thì code như thế này là ổn rồi
-	if (mario->IsGoingIntoPipeGate() || mario->IsGettingOutOfPipeDes())
+	if (mario->IsGoingIntoPipeGate() || mario->IsGettingOutOfPipeDes() || mario->IsTailAttacking())
 		return;
 
 	HRESULT hr;

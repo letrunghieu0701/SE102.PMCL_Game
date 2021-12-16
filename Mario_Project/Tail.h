@@ -34,6 +34,8 @@ protected:
 
 	int slide_direction; // Hướng để lần đầu trượt cái đuôi qua, lần trượt tiếp theo sẽ là ngược lại hướng này
 
+	ULONGLONG live_start;
+
 	bool turn_back;
 
 	float max_travel_distance_left;
@@ -54,6 +56,7 @@ public:
 		this->width = TAIL_WIDTH;
 		this->height = TAIL_HEIGHT;
 
+		this->live_start = GetTickCount64();
 		this->turn_back = false;
 		this->slide_direction = direction;
 		this->vx = this->slide_direction * TAIL_SPEED_X;
@@ -68,5 +71,11 @@ public:
 	void RenderBoundingBox(void);
 	int IsBlocking() { return 0; }
 	int IsCollidable() { return 1; }
+
+	bool IsInLivingTime()
+	{
+		ULONGLONG time_passed = GetTickCount64() - live_start;
+		return (0 <= time_passed && time_passed <= TAIL_LIFE_TIME);
+	}
 };
 
