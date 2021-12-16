@@ -74,11 +74,11 @@ cloud.txt
 
 # ? Brick
 # Extra settings: id of item inside ? Brick 
-7	270	162	0
+7	210	162	0
 
 # Mushroom
 # Extra settings: id of this mushroom, to connect with ? Brick
-9	270	164	0
+9	210	164	0
 
 
 #Platform

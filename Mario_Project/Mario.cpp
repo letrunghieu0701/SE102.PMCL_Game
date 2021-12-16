@@ -1245,6 +1245,12 @@ void CMario::GetHeight(float& height)
 
 void CMario::SetLevel(int l)
 {
+	if (l < MARIO_LEVEL_SMALL)
+	{
+		this->SetState(MARIO_STATE_DIE);
+		return;
+	}
+
 	old_level = level;
 	// Adjust position to avoid falling off platform
 	// Nếu đang ở dạng Small, thì khi chuyển sang các dạng lớn hơn thì điều chỉnh lại vị trí bằng khoảng chênh lệch giữ dạng Small và dạng Big
@@ -1253,29 +1259,6 @@ void CMario::SetLevel(int l)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT + 1 - MARIO_SMALL_BBOX_HEIGHT);
 	}
-
-	/*if (level == MARIO_LEVEL_BIG)
-	{
-		if (l == MARIO_LEVEL_RACCON)
-		{
-			if (nx > 0)
-			{
-				x -= 7;
-			}
-		}
-	}
-
-
-	if (level == MARIO_LEVEL_RACCON)
-	{
-		if (l == MARIO_LEVEL_BIG)
-		{
-			if (nx > 0)
-			{
-				x += 7;
-			}
-		}
-	}*/
 
 	level = l;
 }
