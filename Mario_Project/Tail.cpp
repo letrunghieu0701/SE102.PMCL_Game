@@ -63,6 +63,8 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingGoomba(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
 		OnCollisionWithKoopa(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
+		OnCllisionWithQuestionBrick(e);
 }
 
 void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -99,6 +101,14 @@ void CTail::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 	if (koopa->GetState() == KOOPA_STATE_WALKING)
 		koopa->SetState(KOOPA_STATE_SHELLING);
+}
+
+void CTail::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
+{
+	if (e->obj->GetState() == QUESTION_BRICK_STATE_IDLE_HAVE_MUSHROOM)
+	{
+		e->obj->SetState(QUESTION_BRICK_STATE_BOUNCING_UP);
+	}
 }
 
 

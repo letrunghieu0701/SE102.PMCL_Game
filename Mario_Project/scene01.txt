@@ -6,6 +6,9 @@ brick.txt
 
 coin.txt
 
+mushroom.txt
+question_brick.txt
+
 goomba.txt
 wing_goomba.txt
 koopa.txt
@@ -67,6 +70,16 @@ cloud.txt
 # Koopa
 # Type	x	y	CDOP's ID
 11	300	10
+
+
+# ? Brick
+# Extra settings: id of item inside ? Brick 
+7	270	162	0
+
+# Mushroom
+# Extra settings: id of this mushroom, to connect with ? Brick
+9	270	164	0
+
 
 #Platform
 #5	90	136	16	16	16	51000	52000	53000
