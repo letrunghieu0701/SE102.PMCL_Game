@@ -64,7 +64,9 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
 		OnCollisionWithKoopa(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
-		OnCllisionWithQuestionBrick(e);
+		OnCollisionWithQuestionBrick(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_BREAKABLE_BRICK)
+		OnColliswionWithBreakableBrick(e);
 }
 
 void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -107,12 +109,17 @@ void CTail::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	koopa->SetShellDirection(KOOPA_SHELL_FACING_UP);
 }
 
-void CTail::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
+void CTail::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
 	if (e->obj->GetState() == QUESTION_BRICK_STATE_IDLE_HAVE_MUSHROOM)
 	{
 		e->obj->SetState(QUESTION_BRICK_STATE_BOUNCING_UP);
 	}
+}
+
+void CTail::OnColliswionWithBreakableBrick(LPCOLLISIONEVENT e)
+{
+	e->obj->Delete();
 }
 
 

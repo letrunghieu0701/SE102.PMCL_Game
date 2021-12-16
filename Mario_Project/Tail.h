@@ -3,7 +3,9 @@
 #include "Goomba.h"
 #include "WingGoomba.h"
 #include "Koopa.h"
+
 #include "QuestionBrick.h"
+#include "BreakableBrick.h"
 
 #include "Textures.h"
 
@@ -41,7 +43,8 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
-	void OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
+	void OnColliswionWithBreakableBrick(LPCOLLISIONEVENT e);
 
 public:
 	CTail(float x, float y, int direction, int mario_width, int type) :CGameObject(x, y, type)

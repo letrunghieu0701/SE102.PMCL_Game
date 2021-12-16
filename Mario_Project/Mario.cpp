@@ -361,7 +361,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->obj->GetType() == OBJECT_TYPE_PORTAL)
 		OnCollisionWithPortal(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
-		OnCllisionWithQuestionBrick(e);
+		OnCollisionWithQuestionBrick(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_MUSHROOM)
 		OnCollisionWithMushroom(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
@@ -531,7 +531,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	}
 }
 
-void CMario::OnCllisionWithQuestionBrick(LPCOLLISIONEVENT e)
+void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
 	if (e->ny > 0 &&
 		e->obj->GetState() == QUESTION_BRICK_STATE_IDLE_HAVE_MUSHROOM)
