@@ -24,6 +24,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
+	base_platform_pos_y = 0;
+	old_base_platform_pos_y = 0;
 }
 
 
@@ -213,9 +215,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_PLATFORM:
 	{
-		bool base = false;
-		if (tokens.size() > 9)	// Nếu đây là platform base - camera không dịch chuyển theo trục y khi Mario đứng trên platform này (giúp player không bị chóng mặt)
-			base = true;
+		bool is_base = false;
+		bool is_first_base = false;
+
+		if (tokens.size() == 10)	// Nếu đây là platform base - camera không dịch chuyển theo trục y khi Mario đứng trên platform này (giúp player không bị chóng mặt)
+			is_base = true;
 
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
@@ -225,15 +229,21 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_end = atoi(tokens[8].c_str());
 
 		obj = new CPlatform(
-			x, y, object_type, base,
+			x, y, object_type, is_base,
 			cell_width, cell_height, length,
 			sprite_begin, sprite_middle, sprite_end
 		);
 
-		if (base == true)
+		if (tokens.size() == 11)
 		{
-			int base_platform_ID = atoi(tokens[10].c_str());
-			itemsInside.insert(make_pair(base_platform_ID, obj));
+			int base_type = atoi(tokens[10].c_str());
+			if (base_type == FIRST_BASE_PLATFORM)
+				this->SetBasePlatformPosY(y);
+			else if (base_type == HIDEEN_ZONE_BASE_PLATFORM)
+			{
+				itemsInside.insert(make_pair(DEFAULT_ID_HIDDEN_ZONE_BASE_PLATFORM, obj));
+				DebugOut(L"Loaded HZ base platform\n");
+			}
 		}
 		break;
 	}
@@ -397,18 +407,25 @@ void CPlayScene::Update(DWORD dt)
 	//cy -= game->GetBackBufferHeight() / 2;
 
 
-	CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
-	float base_platform_x;
-	float base_platform_y;
-	base_platform->GetPosition(base_platform_x, base_platform_y);
+	if (this->base_platform_pos_y != 0)
+	{
+		if (((this->base_platform_pos_y - game->GetBackBufferHeight()) <= cy) && (cy <= this->base_platform_pos_y))
+			cy = base_platform_pos_y + BASE_PLATFORM_HEIGHT - game->GetBackBufferHeight();
+	}
+	//else
+	//{
+	//	CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
+	//	float base_platform_y;
+	//	base_platform->GetPositionY(base_platform_y);
 
-	// Nếu Mario vẫn nằm trong khoảng giữa base platform và screen height, thì giữ nguyên camera cách base platform một khoảng bằng screen height
-	if (((base_platform_y - game->GetBackBufferHeight()) <= cy) &&
-		(cy <= base_platform_y))
-		cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
-	else
-		//cy -= game->GetBackBufferHeight() / 2;
-		;
+	//	// Nếu Mario vẫn nằm trong khoảng giữa base platform và screen height, thì giữ nguyên camera cách base platform một khoảng bằng screen height
+	//	if (((base_platform_y - game->GetBackBufferHeight()) <= cy) && (cy <= base_platform_y))
+	//		cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
+	//	else
+	//		//cy -= game->GetBackBufferHeight() / 2;
+	//		;
+	//}
+	
 
 	if (cx < 0) cx = 0;
 

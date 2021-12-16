@@ -256,8 +256,9 @@ image_map.txt
 
 
 #Platform
+# Extra info: is_base_platform, is_first_base_platform, is_hidden_zone_platform
 # 1st ground (lower)
-5	0	416	16	16	39	51000	52000	53000	1	100
+5	0	416	16	16	39	51000	52000	53000	1	0
 # 2nd ground (higher)
 5	625	400	16	16	29	51000	52000	53000
 # 3rd ground (lower)
@@ -270,7 +271,7 @@ image_map.txt
 5	2256	416	16	16	35	51000	52000	53000
 
 # 7th ground (underground)
-5	2079	593	16	16	10	20001	20001	20001
+5	2079	593	16	16	10	20001	20001	20001	1	1
 
 
 

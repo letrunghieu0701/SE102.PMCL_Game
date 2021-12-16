@@ -52,12 +52,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->vy = MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
 			this->vx = 0;
 
+			// Đã chui vào, thì giờ dịch chuyển sang pipe_des bên Hidden Zone
 			if (this->y > this->current_pipegate->GetPosY())
 			{
 				this->isGoingIntoPipeGate = false;
 
 				int pipe_des_id = this->current_pipegate->GetPipeDesID();
-				unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+
+				LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+				unordered_map<int, LPGAMEOBJECT> item_list = play_scene->GetItemList();
 				CPipeTeleportDestination* pipe_des = dynamic_cast<CPipeTeleportDestination*>(item_list[pipe_des_id]);
 				float pipeDes_x, pipeDes_y;
 				pipe_des->GetPosition(pipeDes_x, pipeDes_y);
@@ -66,6 +69,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				// Đẩy sang ngang để tránh Mario đứng trên các brick ở bức tường bên trái trong Hidden Zone
 				this->SetPosition(pipeDes_x + MARIO_PUSH_HORIZONTAL, pipeDes_y);
+
+
+				// Đặt lại base platform cho Playscene bằng base platform của Hidden Zone
+				CPlatform* hidden_zone_base_platform = dynamic_cast<CPlatform*>(item_list[DEFAULT_ID_HIDDEN_ZONE_BASE_PLATFORM]);
+				float hz_base_platform_pos_y;
+				hidden_zone_base_platform->GetPositionY(hz_base_platform_pos_y);
+				play_scene->SetBasePlatformPosY(hz_base_platform_pos_y);
 			}
 		}
 		// Đang chui vào lối ra của Hidden Zone
@@ -83,7 +93,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				this->isGoingIntoPipeGate = false;
 
 				int pipe_des_id = this->current_pipegate->GetPipeDesID();
-				unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+				LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+				unordered_map<int, LPGAMEOBJECT> item_list = play_scene->GetItemList();
 				CPipeTeleportDestination* pipe_des = dynamic_cast<CPipeTeleportDestination*>(item_list[pipe_des_id]);
 				float pipeDes_x, pipeDes_y;
 				pipe_des->GetPosition(pipeDes_x, pipeDes_y);
@@ -98,6 +109,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				// Báo hiệu đang chui ra khỏi pipe_des_out để ra khỏi Hidden Zone
 				this->isGettingOutOfPipeDesOut = true;
+
+				// Đặt lại base platform cho Playscene bằng base platform của mặt đất trong Scene 1-1 
+				float scene_base_platform_pos_y;
+				play_scene->GetOldBasePlatformPosY(scene_base_platform_pos_y);
+				play_scene->SetBasePlatformPosY(scene_base_platform_pos_y);
 			}
 		}
 	}
@@ -289,6 +305,19 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			{
 				isOnPlatform = true;
 
+				if (e->obj->GetType() == OBJECT_TYPE_PLATFORM)
+				{
+					CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+					if (platform->IsBasePlatform())
+					{
+						LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+						float base_y;
+						e->obj->GetPositionY(base_y);
+						play_scene->SetBasePlatformPosY(base_y);
+						//DebugOutTitle(L"Mario đang đứng trên base platform\n");
+					}
+				}
+
 				if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
 				{
 					CPipeGate* pipe_gate = dynamic_cast<CPipeGate*>(e->obj);
@@ -298,7 +327,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 					{
 						this->isOnPipeGate = true;
 						this->current_pipegate = dynamic_cast<CPipeGate*>(e->obj);
-						DebugOut(L"Đang đứng trên Pipe Gate In\n");
+						//DebugOut(L"Đang đứng trên Pipe Gate In\n");
 					}
 				}
 			}
@@ -676,13 +705,6 @@ void CMario::GetAniIdRaccon()
 	float width = right - left;
 	float height = bottom - top;
 
-	//CAnimations::GetInstance()->Get(ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT)->Render(x + width / 2,
-	//	y + height / 2);
-
-	//RenderBoundingBox();
-	//return;
-
-
 	if (this->IsTailAttacking())
 	{
 		if (nx > 0)
@@ -701,7 +723,9 @@ void CMario::GetAniIdRaccon()
 	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
 	{
 		ani_id = ID_ANI_MARIO_RACCON_PIPE;
-		
+		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+			y + height / 2);
+		return;
 	}
 
 	if (!isOnPlatform)	// Đang trong không trung

@@ -93,7 +93,7 @@ image_map.txt
 # Giá trị 1 nghĩa là có, còn không có giá trị nào thì đây không phải là base platform
 # Giá trị tiếp theo là ID để thêm vào list items (hiện tại là itemsInside)
 # 1st ground (lower)
-5	0	416	16	16	60	51000	52000	53000	1	100
+5	0	416	16	16	60	51000	52000	53000	1	0
 
 #5	200	340	16	16	7	51000	52000	53000
 

@@ -20,7 +20,9 @@
 //#include "Koopas.h"
 #include "ImageMap.h"
 
-#define DEFAULT_ID_BASE_PLATFORM 100
+#define DEFAULT_ID_HIDDEN_ZONE_BASE_PLATFORM 720
+
+#define BASE_PLATFORM_HEIGHT 16
 
 class CPlayScene : public CScene
 {
@@ -36,6 +38,10 @@ protected:
 	// làm vậy để có thể kích hoạt các sự kiện, ví dụ như khi Mario va chạm ? brick từ bên dưới, thì lát nữa kích hoạt sự kiện Mushroom trồi lên
 	// VD: một cặp (mushroom_id, mushroom) dùng để liên kết với một ? brick
 	unordered_map<int, LPGAMEOBJECT> itemsInside;
+
+	float base_platform_pos_y;
+	float old_base_platform_pos_y;
+
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -67,6 +73,14 @@ public:
 	void PurgeDeletedObjects();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+	
+	void SetBasePlatformPosY(float pos_y)
+	{
+		this->old_base_platform_pos_y = base_platform_pos_y;
+		this->base_platform_pos_y = pos_y; 
+	}
+
+	void GetOldBasePlatformPosY(float& pos_y) { pos_y = old_base_platform_pos_y; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

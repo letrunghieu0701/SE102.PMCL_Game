@@ -4,6 +4,8 @@
 #include "PipeTeleportDestination.h"
 #include "Koopa.h"
 
+#include "Platform.h"
+
 #include "Animation.h"
 #include "Animations.h"
 
