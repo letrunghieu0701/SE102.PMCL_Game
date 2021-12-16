@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "GameObject.h"
+#include "Goomba.h"
+
 #include "Textures.h"
 
 #include "Collision.h"
@@ -25,23 +27,22 @@ protected:
 
 	int slide_direction; // Hướng để lần đầu trượt cái đuôi qua, lần trượt tiếp theo sẽ là ngược lại hướng này
 
-	ULONGLONG living_start;
-
 	bool turn_back;
 
 	float max_travel_distance_left;
 	float max_travel_distance_right;
 
-	virtual void OnNoCollision(DWORD dt);
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnNoCollision(DWORD dt);
+	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+
 public:
-	CTail(float x, float y, ULONGLONG time_start_living, int direction, int mario_width, int type) :CGameObject(x, y, type)
+	CTail(float x, float y, int direction, int mario_width, int type) :CGameObject(x, y, type)
 	{
 		this->width = TAIL_WIDTH;
 		this->height = TAIL_HEIGHT;
 
 		this->turn_back = false;
-		this->living_start = time_start_living;
 		this->slide_direction = direction;
 		this->vx = this->slide_direction * TAIL_SPEED_X;
 
@@ -54,7 +55,6 @@ public:
 
 	void RenderBoundingBox(void);
 	int IsBlocking() { return 0; }
-
-	bool StillHaveLivingTimeLeft();
+	int IsCollidable() { return 1; }
 };
 

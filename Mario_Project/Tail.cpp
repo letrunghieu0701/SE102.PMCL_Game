@@ -44,7 +44,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->Delete();
 		}
 	}
-	
+
 
 	// Nếu vẫn còn sống thì cho trượt qua trượt lại để attack các object khác
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -57,17 +57,22 @@ void CTail::OnNoCollision(DWORD dt)
 
 void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (e->obj->GetType() == OBJECT_TYPE_GOOMBA)
+		OnCollisionWithGoomba(e);
 }
 
-bool CTail::StillHaveLivingTimeLeft()
+void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
-	ULONGLONG time_passed = GetTickCount64() -  this->living_start;
+	DebugOut(L"Va chạm với Goomba\n");
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
-	if (0 <= time_passed && time_passed <= TAIL_LIFE_TIME)
-		return true;
+	if (goomba->GetState() != GOOMBA_STATE_DIE)
+	{
+		goomba->SetState(GOOMBA_STATE_DIE);
+	}
 
-	return false;
 }
+
 
 void CTail::Render()
 {

@@ -55,7 +55,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->GetPosition(mario_x, mario_y);
 			mario->GetWidth(mario_width);
 
-			CTail* mario_tail = new CTail(mario_x, mario_y + TAIL_DISTANCE_MARIO_HEAD2TAIL, GetTickCount64(), -attack_direction, mario_width, OBJECT_TYPE_TAIL);
+			CTail* mario_tail = new CTail(mario_x, mario_y + TAIL_DISTANCE_MARIO_HEAD2TAIL, -attack_direction, mario_width, OBJECT_TYPE_TAIL);
 			LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
 			play_scene->AddGameObject(mario_tail);
 			mario->AttackWithTail();
