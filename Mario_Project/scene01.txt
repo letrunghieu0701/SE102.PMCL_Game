@@ -1,10 +1,15 @@
 # list of object assets to load in this scene
 [ASSETS]
 mario.txt
+
 brick.txt
+
 coin.txt
+
 goomba.txt
 wing_goomba.txt
+koopa.txt
+
 cloud.txt
 #
 [OBJECTS]
@@ -57,7 +62,11 @@ cloud.txt
 #2	300	10
 
 # Wing Goomba
-10	300	10	30
+#10	300	10	30
+
+# Koopa
+# Type	x	y	CDOP's ID
+11	300	10
 
 #Platform
 #5	90	136	16	16	16	51000	52000	53000

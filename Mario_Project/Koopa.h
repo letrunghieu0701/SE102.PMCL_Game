@@ -50,7 +50,7 @@ protected:
 
 	ULONGLONG shell_start;
 
-	int id_CDOP;
+	int id_CDOP; // Có thể quay đầu khi đi trên platform trên không trung hay không
 
 	int current_state;
 
@@ -64,13 +64,12 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
-	void OnCollisionWithCDOP(LPCOLLISIONEVENT e);
 
 	int GetAniIdWalk();
 	int GetAniIdSpinShell();
 
 public:
-	CKoopa(float x, float y, int type, int id_CDOP);
+	CKoopa(float x, float y, int type, bool can_turn = false, int id_CDOP = -1);
 	virtual void SetState(int state);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

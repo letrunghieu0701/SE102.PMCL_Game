@@ -61,6 +61,8 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_WING_GOOMBA)
 		OnCollisionWithWingGoomba(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
+		OnCollisionWithKoopa(e);
 }
 
 void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -89,6 +91,14 @@ void CTail::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 			wing_goomba->SetState(WING_GOOMBA_STATE_DIE);
 		}
 	}
+}
+
+void CTail::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (koopa->GetState() == KOOPA_STATE_WALKING)
+		koopa->SetState(KOOPA_STATE_SHELLING);
 }
 
 

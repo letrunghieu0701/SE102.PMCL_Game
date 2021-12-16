@@ -6,10 +6,11 @@
 
 #include "PlayScene.h"
 
-CKoopa::CKoopa(float x, float y, int type, int id_CDOP) : CGameObject(x, y, type)
+CKoopa::CKoopa(float x, float y, int type, bool can_turn, int id_CDOP) : CGameObject(x, y, type)
 {
 	ax = 0;
 	ay = KOOPA_SPEED_GRAVITY;
+	
 	this->id_CDOP = id_CDOP;
 
 	current_state = KOOPA_STATE_WALKING;
@@ -19,14 +20,18 @@ CKoopa::CKoopa(float x, float y, int type, int id_CDOP) : CGameObject(x, y, type
 	else
 		nx = DIRECTION_LEFT;
 
-	// Đặt CDOP về trước mặt Koopa
-	unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-	CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
-	if (CDOP == NULL)
-		return;
+	// Nếu đây là Koopa có thể quay đầu trên platform trong không trung
+	if (this->id_CDOP != -1)
+	{
+		// Đặt CDOP về trước mặt Koopa
+		unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
+		if (CDOP == NULL)
+			return;
 
-	float new_CDOP_x = this->x + (this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR));
-	CDOP->SetPosition(new_CDOP_x, this->y);
+		float new_CDOP_x = this->x + (this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR));
+		CDOP->SetPosition(new_CDOP_x, this->y);
+	}
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -49,31 +54,34 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (current_state == KOOPA_STATE_WALKING)
 	{
-		unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
-		CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
-		if (CDOP == NULL)
-			return;
-
-		float CDOP_x, CDOP_y;
-		CDOP->GetPosition(CDOP_x, CDOP_y);
-
-		// Nếu chênh lệch độ cao quá lớn giữa Koopa và CDOP thì:
-		// Quay Koopa lại (đổi hướng di chuyển): đổi chiều vận tốc vx và vector normal nx
-		// Đặt CDOP về phía trước Koopa
-		if (abs(this->y - CDOP_y) > MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP)
+		if (this->id_CDOP != -1)
 		{
-			this->vx = -vx;
-			this->SetNormalDirectionX(-GetNormalDirectionX());
+			unordered_map<int, LPGAMEOBJECT> item_list = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetItemList();
+			CChangeDirectionOnPlatform* CDOP = dynamic_cast<CChangeDirectionOnPlatform*>(item_list[this->id_CDOP]);
+			if (CDOP == NULL)
+				return;
 
-			float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
-			CDOP->SetPosition(new_CDOP_x, this->y);
-		}
-		// Nếu cả hai không cách quá xa nhau về độ cao, thì Koopa cứ đẩy CDOP theo hướng di chuyển hiện tại của Koopa thôi
-		// Thực ra ở đây chỉ là xét cứng vị trí của CDOP theo Koopa mà thôi, vẫn chưa đẩy được CDOP
-		else
-		{
-			float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
-			CDOP->SetPosition(new_CDOP_x, CDOP_y);
+			float CDOP_x, CDOP_y;
+			CDOP->GetPosition(CDOP_x, CDOP_y);
+
+			// Nếu chênh lệch độ cao quá lớn giữa Koopa và CDOP thì:
+			// Quay Koopa lại (đổi hướng di chuyển): đổi chiều vận tốc vx và vector normal nx
+			// Đặt CDOP về phía trước Koopa
+			if (abs(this->y - CDOP_y) > MAX_DISTANCE_ON_Y_BETWEEN_KOOPA_CDOP)
+			{
+				this->vx = -vx;
+				this->SetNormalDirectionX(-GetNormalDirectionX());
+
+				float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
+				CDOP->SetPosition(new_CDOP_x, this->y);
+			}
+			// Nếu cả hai không cách quá xa nhau về độ cao, thì Koopa cứ đẩy CDOP theo hướng di chuyển hiện tại của Koopa thôi
+			// Thực ra ở đây chỉ là xét cứng vị trí của CDOP theo Koopa mà thôi, vẫn chưa đẩy được CDOP
+			else
+			{
+				float new_CDOP_x = this->x + this->GetNormalDirectionX() * (KOOPA_BBOX_WALKING_WIDTH + BLOCK_PUSH_FACTOR);
+				CDOP->SetPosition(new_CDOP_x, CDOP_y);
+			}
 		}
 	}
 	// Nếu Koopa đã trốn trong mai rùa quá lâu thì cho Koopa chui ra
@@ -204,10 +212,6 @@ void CKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 		}
 		// Nếu Wing Goomba đã die rồi, thì thôi, không làm gì cả, vì nó DIE rồi mà
 	}
-}
-
-void CKoopa::OnCollisionWithCDOP(LPCOLLISIONEVENT e)
-{
 }
 
 void CKoopa::SetState(int state)
