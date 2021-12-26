@@ -1,5 +1,5 @@
 [SETTINGS]
-start	3
+start	7
 width	320
 height	240
 
@@ -13,6 +13,7 @@ height	240
 4	scene_1-1_hidden_coin_area.txt
 5	scene_test.txt
 6	scene0005.txt
+7	scene_tilemap.txt
 
 # id	file 
 [TEXTURES]

@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "tinyxml.h"
 
 #include "Brick.h"
 #include "QuestionBrick.h"
@@ -45,11 +46,13 @@ protected:
 
 
 	void _ParseSection_SPRITES(string line);
+	void _ParseSection_TILEMAP(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
 
+	void LoadTilemap(string tilemapFile);
 	void LoadAssets(LPCWSTR assetFile);
 
 public:

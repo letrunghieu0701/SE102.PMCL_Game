@@ -98,6 +98,68 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="3" name="Object Layer">
+  <properties>
+   <property name="Layer_order_to_draw" type="int" value="2"/>
+  </properties>
+  <object id="12" x="1990.5" y="407.5">
+   <ellipse/>
+  </object>
+  <object id="14" x="2007.5" y="407.5">
+   <ellipse/>
+  </object>
+  <object id="15" x="2025" y="408.5">
+   <ellipse/>
+  </object>
+  <object id="16" x="2040" y="408">
+   <ellipse/>
+  </object>
+  <object id="17" x="2055" y="407.5">
+   <ellipse/>
+  </object>
+  <object id="18" x="2071.5" y="407">
+   <ellipse/>
+  </object>
+  <object id="19" x="2088" y="407.5">
+   <ellipse/>
+  </object>
+  <object id="20" x="2007.33" y="391.333">
+   <ellipse/>
+  </object>
+  <object id="21" x="2023.67" y="391">
+   <ellipse/>
+  </object>
+  <object id="22" x="2039.67" y="390.667">
+   <ellipse/>
+  </object>
+  <object id="23" x="2055" y="391.333">
+   <ellipse/>
+  </object>
+  <object id="24" x="2071" y="391.667">
+   <ellipse/>
+  </object>
+  <object id="25" x="2071.33" y="375.333">
+   <ellipse/>
+  </object>
+  <object id="26" x="2057" y="374.667">
+   <ellipse/>
+  </object>
+  <object id="30" x="2039.33" y="375.667">
+   <ellipse/>
+  </object>
+  <object id="31" x="2024" y="375.333">
+   <ellipse/>
+  </object>
+  <object id="32" x="2137" y="408.5">
+   <ellipse/>
+  </object>
+  <object id="33" x="2134.5" y="391.5">
+   <ellipse/>
+  </object>
+  <object id="34" x="2152" y="408">
+   <ellipse/>
+  </object>
+ </objectgroup>
  <layer id="2" name="Foreground" width="220" height="90">
   <properties>
    <property name="Layer_order_to_draw" type="int" value="1"/>
@@ -195,66 +257,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="Object Layer">
-  <properties>
-   <property name="Layer_order_to_draw" type="int" value="2"/>
-  </properties>
-  <object id="12" x="1990.5" y="407.5">
-   <ellipse/>
-  </object>
-  <object id="14" x="2007.5" y="407.5">
-   <ellipse/>
-  </object>
-  <object id="15" x="2025" y="408.5">
-   <ellipse/>
-  </object>
-  <object id="16" x="2040" y="408">
-   <ellipse/>
-  </object>
-  <object id="17" x="2055" y="407.5">
-   <ellipse/>
-  </object>
-  <object id="18" x="2071.5" y="407">
-   <ellipse/>
-  </object>
-  <object id="19" x="2088" y="407.5">
-   <ellipse/>
-  </object>
-  <object id="20" x="2007.33" y="391.333">
-   <ellipse/>
-  </object>
-  <object id="21" x="2023.67" y="391">
-   <ellipse/>
-  </object>
-  <object id="22" x="2039.67" y="390.667">
-   <ellipse/>
-  </object>
-  <object id="23" x="2055" y="391.333">
-   <ellipse/>
-  </object>
-  <object id="24" x="2071" y="391.667">
-   <ellipse/>
-  </object>
-  <object id="25" x="2071.33" y="375.333">
-   <ellipse/>
-  </object>
-  <object id="26" x="2057" y="374.667">
-   <ellipse/>
-  </object>
-  <object id="30" x="2039.33" y="375.667">
-   <ellipse/>
-  </object>
-  <object id="31" x="2024" y="375.333">
-   <ellipse/>
-  </object>
-  <object id="32" x="2137" y="408.5">
-   <ellipse/>
-  </object>
-  <object id="33" x="2134.5" y="391.5">
-   <ellipse/>
-  </object>
-  <object id="34" x="2152" y="408">
-   <ellipse/>
-  </object>
- </objectgroup>
 </map>
