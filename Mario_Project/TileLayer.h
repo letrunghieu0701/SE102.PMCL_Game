@@ -10,7 +10,8 @@ class CTileLayer
 private:
 	vector<LPTILE> layer;
 public:
-	CTileLayer(vector<LPTILE> tiles) { this->layer = tiles; }
+	CTileLayer() {};
+	void AddTile(LPTILE tile) { this->layer.push_back(tile); }
 	void Render();
 };
 typedef CTileLayer* LPTILELAYER;

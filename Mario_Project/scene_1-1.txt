@@ -30,6 +30,9 @@ crumb.txt
 image_map.txt
 
 
+[TILEMAP]
+scenes\Scenes_1-1.tmx
+
 
 #
 [OBJECTS]

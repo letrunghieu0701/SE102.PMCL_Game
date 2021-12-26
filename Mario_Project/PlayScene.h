@@ -5,6 +5,8 @@
 #include "GameObject.h"
 #include "tinyxml.h"
 
+#include "TileMap.h"
+
 #include "Brick.h"
 #include "QuestionBrick.h"
 #include "BreakableBrick.h"
@@ -35,6 +37,9 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 
 	vector<CBreakableBrick*> breakable_bricks;
+
+	CTileLayer* background;
+	CTileLayer* forgeground;
 
 	// Chứa những cặp (id, game object) của những game object để liên kết với những game object khác,
 	// làm vậy để có thể kích hoạt các sự kiện, ví dụ như khi Mario va chạm ? brick từ bên dưới, thì lát nữa kích hoạt sự kiện Mushroom trồi lên

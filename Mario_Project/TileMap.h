@@ -2,16 +2,29 @@
 #include "TileLayer.h"
 #include "Utils.h"
 
+#define ID_FIRST_WORLD_MAP_1_1 70
+
 class CTileMap
 {
 private:
-	unordered_map<int, LPTILELAYER> layers;
+	int sprite_id_start;
+	vector<LPTILELAYER> layers;
 	string filePath;
 public:
-	CTileMap(string path) { this->filePath = path; };
+	CTileMap();
+	CTileMap(string path);
+
+	vector<vector<int>> GetLayerInfo(TiXmlElement* layer_child);
+	void GetSpriteInfo(TiXmlElement* root, vector<vector<int>> grid);
 	void MakeLayers();
-	void Render();
+
+	LPTILELAYER GetBackground() { return this->layers[0]; }
+	LPTILELAYER GetForgeground() { return this->layers[1]; }
+
+	void RenderBackground();
+	void RenderForgeground();
 	//void Clear();
 };
 typedef CTileMap LPTILEMAP;
+
 

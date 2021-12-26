@@ -1,5 +1,5 @@
 [SETTINGS]
-start	7
+start	3
 width	320
 height	240
 
@@ -25,3 +25,4 @@ height	240
 40	textures\SNES - Super Mario All-Stars Super Mario Bros 3 - Enemies_transparent.png
 50	textures\enemies_transparent.png
 60	textures\super_mario_bors_3_transparent.png
+70	textures\NES - Super Mario Bros 3 - Stage Tiles_transparent.png

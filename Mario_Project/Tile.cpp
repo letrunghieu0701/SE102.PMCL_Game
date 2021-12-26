@@ -2,5 +2,5 @@
 
 void CTile::Render()
 {
-	CSprites::GetInstance()->Get(this->sprite_id)->Draw(this->x, this->y);
+	CSprites::GetInstance()->Get(sprite_id)->Draw(x*width + width/2, y*height + height/2);
 }

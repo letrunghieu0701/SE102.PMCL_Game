@@ -19,13 +19,15 @@
 
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
-	CScene(id, filePath)
+CPlayScene::CPlayScene(int id, LPCWSTR filePath):CScene(id, filePath)
 {
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 	base_platform_pos_y = 0;
 	old_base_platform_pos_y = 0;
+
+	background = NULL;
+	forgeground = NULL;
 }
 
 
@@ -79,7 +81,7 @@ void CPlayScene::_ParseSection_TILEMAP(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1) return;
+	if (tokens.size() == 0) return;
 
 	string path = tokens[0];
 
@@ -88,18 +90,20 @@ void CPlayScene::_ParseSection_TILEMAP(string line)
 
 void CPlayScene::LoadTilemap(string tilemapFile)
 {
-	// Load xml file 
-	TiXmlDocument doc(tilemapFile.c_str());
-	//TiXmlDocument doc("First_half_world_1-1.tmx");
-	//TiXmlDocument doc("Authors.xml");
-	if (!doc.LoadFile())
-	{
-		printf("%s", doc.ErrorDesc());
-		return;
-	}
 
-	// Lay thong tin node goc
-	TiXmlElement* root = doc.RootElement();
+	CTileMap* tile_map = new CTileMap(tilemapFile);
+	this->background = tile_map->GetBackground();
+	this->forgeground = tile_map->GetForgeground();
+	//string scene_path = "scenes//";
+	//string xml_path = "NES - Super Mario Bros 3 - Stage Tiles_transparent.xml";
+	//string file_path = scene_path + xml_path;
+	//TiXmlDocument doc_img(file_path.c_str());
+	//if (!doc_img.LoadFile())
+	//{
+	//	printf("%s", doc_img.ErrorDesc());
+	//	return;
+	//}
+
 	DebugOut(L"Da load dc file xml\n");
 }
 
@@ -385,7 +389,8 @@ void CPlayScene::Load()
 	{
 		string line(str);
 
-		if (line[0] == '#') continue;	// skip comment lines	
+		if (line[0] == '#') continue;	// skip comment lines
+		if (line.empty()) continue;	// skip empty lines
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[TILEMAP]") { section = SCENE_SECTION_TILEMAP; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
@@ -479,9 +484,15 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	if (this->background != NULL)
+		this->background->Render();
+
 	// Vẽ theo chiều ngược lại vì Mario thuộc vị trí đầu tiên của objects, theo sau là các object và cuối cùng là map
 	for (int i = objects.size() - 1; i > -1; i--)
 		objects[i]->Render();
+
+	if (this->forgeground != NULL)
+		this->forgeground->Render();
 }
 
 /*
