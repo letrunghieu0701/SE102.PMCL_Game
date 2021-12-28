@@ -41,26 +41,6 @@ scenes\Scenes_1-1.tmx
 # See OBJECT_TYPE constants in AssetIDs.h
 
 
-# Pipe Gate: to get in Hidden Zone
-# extra info: pipe_des_id, is_gate_in
-# pipe_des_id: id of pipe_des to teleport to
-# is_gate_in: 1 means this pipe_gate is door into hidden zone, 0 means this pipe_gate is door to get back to the surface of scene 1-1
-// Pipe Gate to Hidden Zone
-15	2096	384	300	1
-// Pipe Gate to surface of Scene 1-1
-15	2318	433	301	0
-
-# Pipe Teleport Destination: door in of Hidden Zone
-# extra info: 1 means this pipe slow down Mario and inside Hidden Zone
-# 0 measn not slow down Mario and placed in the surface of scene 1-1
-// Door in of Hidden Zone, drop Mario
-16	2095	433	300	0
-// Door out of Hidden Zone, push Mario up
-16	2368	384	301	1
-
-
-
-
 # MARIO
 0	2368	330
 
@@ -77,23 +57,24 @@ scenes\Scenes_1-1.tmx
 4	1201	192
 
 # Coin in Hidden Zone underground
-4	2159	497
-4	2159	513
-4	2159	529
-4	2159	545
 4	2159	561
-	1967	433
-4	2175	497
-4	2175	513
-4	2175	529
-4	2175	545
+4	2159	577
+4	2159	593
+4	2159	609
+4	2159	625
+	1967	497
 4	2175	561
-	1967	433
-4	2191	497
-4	2191	513
-4	2191	529
-4	2191	545
+4	2175	577
+4	2175	593
+4	2175	609
+4	2175	625
+	1967	497
 4	2191	561
+4	2191	577
+4	2191	593
+4	2191	609
+4	2191	625
+
 
 
 
@@ -176,69 +157,70 @@ scenes\Scenes_1-1.tmx
 
 # Brick in Hidden ground
 # Vertical Left		
-1	2079	433
-1	2079	449
-1	2079	465
-1	2079	481
 1	2079	497
-		
 1	2079	513
 1	2079	529
 1	2079	545
 1	2079	561
+		
 1	2079	577
+1	2079	593
+1	2079	609
+1	2079	625
+1	2079	641
 		
 # Vertical Right		
-1	2351	433
-1	2351	449
-1	2351	465
-1	2351	481
 1	2351	497
-1	2367	433
-1	2367	449
-1	2367	465
-1	2367	481
+1	2351	513
+1	2351	529
+1	2351	545
+1	2351	561
 1	2367	497
+1	2367	513
+1	2367	529
+1	2367	545
+1	2367	561
 		
 		
 # Horizontal		
-1	2127	433
-1	2143	433
-1	2159	433
-1	2175	433
-1	2191	433
+1	2127	497
+1	2143	497
+1	2159	497
+1	2175	497
+1	2191	497
 		
-1	2207	433
-1	2223	433
-1	2239	433
-1	2255	433
-1	2271	433
+1	2207	497
+1	2223	497
+1	2239	497
+1	2255	497
+1	2271	497
 		
-1	2287	433
-1	2303	433
+1	2287	497
+1	2303	497
 		
-1	2351	433
-1	2367	433
+1	2351	497
+1	2367	497
 		
 # Stairs		
-1	2223	577
-1	2239	577
+1	2223	641
+1	2239	641
 		
-1	2239	561
-1	2255	561
+1	2239	625
+1	2255	625
 		
-1	2255	545
-1	2271	545
+1	2255	609
+1	2271	609
 		
-1	2271	529
-1	2287	529
+1	2271	593
+1	2287	593
 		
-1	2287	513
-1	2303	513
+1	2287	577
+1	2303	577
 		
-1	2303	497
-1	2319	497
-1	2335	497
+1	2303	561
+1	2319	561
+1	2335	561
+
 
 
 
@@ -274,7 +256,7 @@ scenes\Scenes_1-1.tmx
 5	2304	416	16	16	42	55100	55200	55300
 
 # 7th ground (underground)
-5	2079	593	16	16	10	20001	20001	20001	1	1
+5	2079	657	16	16	10	20001	20001	20001	1	1
 
 
 
@@ -327,6 +309,23 @@ scenes\Scenes_1-1.tmx
 13	1792	384
 # 3rd
 13	1856	384
+
+# Pipe Gate: to get in Hidden Zone
+# extra info: pipe_des_id, is_gate_in
+# pipe_des_id: id of pipe_des to teleport to
+# is_gate_in: 1 means this pipe_gate is door into hidden zone, 0 means this pipe_gate is door to get back to the surface of scene 1-1
+// Pipe Gate to Hidden Zone, on surface
+15	2096	384	300	1
+// Pipe Gate to surface of Scene 1-1, in Hidden zone
+15	2318	497	301	0
+
+# Pipe Teleport Destination: door in of Hidden Zone
+# extra info: 1 means this pipe slow down Mario and inside Hidden Zone
+# 0 measn not slow down Mario and placed in the surface of scene 1-1
+// Door in of Hidden Zone, drop Mario, in Hidden Zone
+16	2095	497	300	0
+// Door out of Hidden Zone, push Mario up, on surface
+16	2368	384	301	1
 
 
 
