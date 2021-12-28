@@ -2,7 +2,7 @@
 [SPRITES]
 
 # ? mark moving
-70001	300	189	315	203	20
+70001	300	189	315	204	20
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

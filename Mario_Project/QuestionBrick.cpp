@@ -17,7 +17,6 @@ void CQuestionBrick::Render()
 	float height = bottom - top;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
-	//animations->Get(ani_id)->Render(x, y);
 
 	RenderBoundingBox();
 }
