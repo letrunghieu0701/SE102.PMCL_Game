@@ -33,7 +33,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		GetBoundingBox(left, top, right, bottom);
 		float current_height = bottom - top;
 
-		DebugOutTitle(L"Mario_y = %0.2f PipeDes_y = %0.2f", y, this->current_pipedes->GetPosY());
+		//DebugOutTitle(L"Mario_y = %0.2f PipeDes_y = %0.2f", y, this->current_pipedes->GetPosY());
 
 		// Nếu đã chui ra xong
 		// thì trả lại quyền điều khiển Mario cho player
@@ -268,7 +268,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				float koopa_vx, koopa_vy;
 				koopa->GetSpeed(koopa_vx, koopa_vy);
-				DebugOut(L"Koopa speed: vx: %0.2f vy: %0.2f \n", koopa_vx, koopa_vy);
+				//DebugOut(L"Koopa speed: vx: %0.2f vy: %0.2f \n", koopa_vx, koopa_vy);
 
 				//DebugOut(L"Đang set speed = 0 cho Koopa\n");
 			}
@@ -340,7 +340,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 					// Nếu là pipe gate để thoát khỏi Hidden Zone
 					if (!pipe_gate->IsGateIn())
 					{
-						DebugOut(L"Đã chạm vào đáy của Pipe Gate Out\n");
+						//DebugOut(L"Đã chạm vào đáy của Pipe Gate Out\n");
 					}
 				}
 			}
@@ -701,6 +701,72 @@ int CMario::GetAniIdSmall()
 	return aniId;
 }
 
+int CMario::GetAniIdSmallHold()
+{
+	int aniId = -1;
+
+	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
+	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
+	{
+		aniId = ID_ANI_MARIO_SMALL_PIPE;
+		return aniId;
+	}
+
+	if (!isOnPlatform)
+	{
+		if (abs(vx) == MARIO_RUNNING_SPEED)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
+		}
+		else
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
+		}
+	}
+	else
+		if (isSitting)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_SIT_LEFT;
+		}
+		else
+			if (vx == 0)
+			{
+				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT;
+				else aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_LEFT;
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
+				else if (ax == MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
+				else if (ax == MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
+				else if (ax == -MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
+			}
+
+	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
+
+	return aniId;
+}
+
 void CMario::GetAniIdRaccon()
 {
 	int ani_id = -1;
@@ -888,10 +954,11 @@ void CMario::GetAniIdRaccon()
 	RenderBoundingBox();
 }
 
-int CMario::GetAniIdBigHoldKoopa()
+int CMario::GetAniIdBigHold()
 {
 	int ani_id = -1;
 
+	// Đang ở trên không trung
 	if (!isOnPlatform)
 	{
 		if (abs(vx) == MARIO_RUNNING_SPEED)
@@ -909,7 +976,8 @@ int CMario::GetAniIdBigHoldKoopa()
 				ani_id = ID_ANI_MARIO_JUMP_WALK_LEFT;
 		}
 	}
-	else
+	else // Đang ở mặt đất
+		// Đang ngồi
 		if (isSitting)
 		{
 			if (nx > 0)
@@ -918,6 +986,7 @@ int CMario::GetAniIdBigHoldKoopa()
 				ani_id = ID_ANI_MARIO_SIT_LEFT;
 		}
 		else
+			// Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
 			if (vx == 0)
 			{
 				if (nx > 0) ani_id = ID_ANI_MARIO_HOLD_IDLE_RIGHT;
@@ -947,6 +1016,8 @@ int CMario::GetAniIdBigHoldKoopa()
 
 	return ani_id;
 }
+
+
 
 
 //
@@ -1032,9 +1103,9 @@ void CMario::Render()
 		if (isHoldingKoopa)
 		{
 			if (level == MARIO_LEVEL_BIG)
-				ani_id = GetAniIdBigHoldKoopa();
+				ani_id = GetAniIdBigHold();
 			else if (level == MARIO_LEVEL_SMALL)
-				ani_id = GetAniIdSmall();
+				ani_id = GetAniIdSmallHold();
 			else if (level == MARIO_LEVEL_RACCON)
 			{
 				GetAniIdRaccon();

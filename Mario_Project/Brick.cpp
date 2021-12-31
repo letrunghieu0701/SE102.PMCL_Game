@@ -5,10 +5,10 @@ void CBrick::Render()
 {
 	float left, top, right, bottom;
 	this->GetBoundingBox(left, top, right, bottom);
-	float width = right - left + 1;
-	float height = bottom - top + 1;
+	float width = right - left;
+	float height = bottom - top;
 
-	CAnimations::GetInstance()->Get(ID_ANI_BRICK)->Render(x + width/2 - 1 , y + height/2 - 1);
+	CAnimations::GetInstance()->Get(ID_ANI_BRICK)->Render(x + width/2 , y + height/2);
 	RenderBoundingBox();
 }
 

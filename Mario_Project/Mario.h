@@ -108,6 +108,9 @@
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT		1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT		1101
 
+#define ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT		1150
+#define ID_ANI_MARIO_SMALL_IDLE_HOLD_LEFT		1151
+
 #define ID_ANI_MARIO_SMALL_PIPE				1110
 
 #define ID_ANI_MARIO_SMALL_WALKING_RIGHT	1200
@@ -272,7 +275,8 @@ private:
 	int GetAniIdSmall();
 	void GetAniIdRaccon();
 
-	int GetAniIdBigHoldKoopa();
+	int GetAniIdBigHold();
+	int GetAniIdSmallHold();
 
 public:
 	CMario(float x, float y, int type) : CGameObject(x, y, type)
