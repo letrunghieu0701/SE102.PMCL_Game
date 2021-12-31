@@ -435,6 +435,7 @@ void CPlayScene::Update(DWORD dt)
 	if (mario->IsStopUpdate() == false)
 	{*/
 	vector<LPGAMEOBJECT> coObjects;
+	CHUD* hud = NULL;
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		// Nếu object này là Mario thì không bỏ vào danh sách collidable objects
@@ -445,10 +446,18 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		if (objects[i]->GetType() == OBJECT_TYPE_HUD)
+		{
+			hud = dynamic_cast<CHUD*>(objects[i]);
+			continue;
+		}
+			
 		objects[i]->Update(dt, &coObjects);
 	}
 
 	MakeCameraFollowMario();
+	if (hud != NULL)
+		hud->Update(dt, &coObjects);
 
 	PurgeDeletedObjects();
 	/*}*/
