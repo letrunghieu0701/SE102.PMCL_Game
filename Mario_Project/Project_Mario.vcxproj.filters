@@ -85,8 +85,29 @@
     <Filter Include="Game Objects\HUD">
       <UniqueIdentifier>{7d5733d6-92bf-4d38-af44-0f28c51f76db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Objects\Solid Objects\P buttons">
+    <Filter Include="Game Objects\Solid Objects\Bricks\Breakble brick">
+      <UniqueIdentifier>{272bc090-cb76-4f9f-be92-0e70925fe9a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Solid Objects\Bricks\Question brick">
+      <UniqueIdentifier>{56f91a6f-00cb-4c97-9070-8f049f170983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Effect object">
+      <UniqueIdentifier>{dd4f6edf-2c1f-4a1f-9265-1664d22aab09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\P buttons">
       <UniqueIdentifier>{ee3474fd-ffc6-49fb-a224-c2ea5fe17d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Consumable Objects\Coin">
+      <UniqueIdentifier>{643f29ba-ff3d-41aa-94ad-0d431a4c2951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Consumable Objects\Mushroom">
+      <UniqueIdentifier>{dd69118a-2228-4f8b-80d6-5b3082687d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Map\Tile map">
+      <UniqueIdentifier>{093ec7c0-372e-451a-beee-05f2dad24063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Map\Image map">
+      <UniqueIdentifier>{d696babb-3598-4243-8d79-655cf3f6ba72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +123,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
     </ClCompile>
-    <ClCompile Include="QuestionBrick.cpp">
-      <Filter>Game Objects\Solid Objects\Bricks</Filter>
-    </ClCompile>
     <ClCompile Include="InvisiblePlatform.cpp">
       <Filter>Game Objects\Solid Objects\Platforms</Filter>
     </ClCompile>
@@ -113,15 +131,6 @@
     </ClCompile>
     <ClCompile Include="ChangeDirectionOnPlatform.cpp">
       <Filter>Game Objects\Helper Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Mushroom.cpp">
-      <Filter>Game Objects\Consumable Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Game Objects\Consumable Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageMap.cpp">
-      <Filter>Game Objects\Map</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Game Objects\Portal</Filter>
@@ -144,9 +153,6 @@
     <ClCompile Include="tinystr.cpp">
       <Filter>Framework\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Game Objects\Map</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -168,12 +174,6 @@
     <ClCompile Include="Collision.cpp">
       <Filter>Framework\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Game Objects\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="TileLayer.cpp">
-      <Filter>Game Objects\Map</Filter>
-    </ClCompile>
     <ClCompile Include="SampleKeyEventHandler.cpp">
       <Filter>Framework\Keyboard</Filter>
     </ClCompile>
@@ -192,9 +192,6 @@
     <ClCompile Include="WingGoomba.cpp">
       <Filter>Game Objects\Enemies\Goomba\Wing Goomba</Filter>
     </ClCompile>
-    <ClCompile Include="BreakableBrick.cpp">
-      <Filter>Game Objects\Solid Objects\Bricks</Filter>
-    </ClCompile>
     <ClCompile Include="PipeGate.cpp">
       <Filter>Game Objects\Solid Objects\Pipe\Pipe Hidden Zone</Filter>
     </ClCompile>
@@ -207,14 +204,38 @@
     <ClCompile Include="Tail.cpp">
       <Filter>Game Objects\Tail Mario</Filter>
     </ClCompile>
-    <ClCompile Include="Crumb.cpp">
-      <Filter>Game Objects\Solid Objects\Bricks</Filter>
-    </ClCompile>
     <ClCompile Include="HUD.cpp">
       <Filter>Game Objects\HUD</Filter>
     </ClCompile>
     <ClCompile Include="PButton.cpp">
-      <Filter>Game Objects\Solid Objects\P buttons</Filter>
+      <Filter>Game Objects\P buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableBrick.cpp">
+      <Filter>Game Objects\Solid Objects\Bricks\Breakble brick</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestionBrick.cpp">
+      <Filter>Game Objects\Solid Objects\Bricks\Question brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Crumb.cpp">
+      <Filter>Game Objects\Effect object</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Game Objects\Consumable Objects\Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>Game Objects\Consumable Objects\Mushroom</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Game Objects\Map\Tile map</Filter>
+    </ClCompile>
+    <ClCompile Include="TileLayer.cpp">
+      <Filter>Game Objects\Map\Tile map</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Game Objects\Map\Tile map</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageMap.cpp">
+      <Filter>Game Objects\Map\Image map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,9 +243,6 @@
       <Filter>Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Game Objects\Solid Objects\Bricks</Filter>
-    </ClInclude>
-    <ClInclude Include="QuestionBrick.h">
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
     </ClInclude>
     <ClInclude Include="InvisiblePlatform.h">
@@ -235,15 +253,6 @@
     </ClInclude>
     <ClInclude Include="ChangeDirectionOnPlatform.h">
       <Filter>Game Objects\Helper Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Mushroom.h">
-      <Filter>Game Objects\Consumable Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Game Objects\Consumable Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageMap.h">
-      <Filter>Game Objects\Map</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Game Objects\Portal</Filter>
@@ -259,9 +268,6 @@
     </ClInclude>
     <ClInclude Include="tinystr.h">
       <Filter>Framework\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Game Objects\Map</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Framework</Filter>
@@ -296,12 +302,6 @@
     <ClInclude Include="resource.h">
       <Filter>Framework\Database</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Game Objects\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="TileLayer.h">
-      <Filter>Game Objects\Map</Filter>
-    </ClInclude>
     <ClInclude Include="SampleKeyEventHandler.h">
       <Filter>Framework\Keyboard</Filter>
     </ClInclude>
@@ -329,9 +329,6 @@
     <ClInclude Include="WingGoomba.h">
       <Filter>Game Objects\Enemies\Goomba\Wing Goomba</Filter>
     </ClInclude>
-    <ClInclude Include="BreakableBrick.h">
-      <Filter>Game Objects\Solid Objects\Bricks</Filter>
-    </ClInclude>
     <ClInclude Include="PipeGate.h">
       <Filter>Game Objects\Solid Objects\Pipe\Pipe Hidden Zone</Filter>
     </ClInclude>
@@ -341,14 +338,38 @@
     <ClInclude Include="Tail.h">
       <Filter>Game Objects\Tail Mario</Filter>
     </ClInclude>
-    <ClInclude Include="Crumb.h">
-      <Filter>Game Objects\Solid Objects\Bricks</Filter>
-    </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>Game Objects\HUD</Filter>
     </ClInclude>
     <ClInclude Include="PButton.h">
-      <Filter>Game Objects\Solid Objects\P buttons</Filter>
+      <Filter>Game Objects\P buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrick.h">
+      <Filter>Game Objects\Solid Objects\Bricks\Breakble brick</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestionBrick.h">
+      <Filter>Game Objects\Solid Objects\Bricks\Question brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Crumb.h">
+      <Filter>Game Objects\Effect object</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Game Objects\Consumable Objects\Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>Game Objects\Consumable Objects\Mushroom</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Game Objects\Map\Tile map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileLayer.h">
+      <Filter>Game Objects\Map\Tile map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Game Objects\Map\Tile map</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageMap.h">
+      <Filter>Game Objects\Map\Image map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

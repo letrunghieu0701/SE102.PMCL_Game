@@ -40,7 +40,7 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
-	CMushroom(int x, int y, int type, int mushroom_id) : CGameObject(x, y, type)
+	CMushroom(float x, float y, int type, int mushroom_id) : CGameObject(x, y, type)
 	{
 		ax = 0;
 		ay = 0;

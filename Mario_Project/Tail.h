@@ -54,7 +54,7 @@ protected:
 	void OnColliswionWithBreakableBrick(LPCOLLISIONEVENT e);
 
 public:
-	CTail(float x, float y, int direction, int mario_width, int type) :CGameObject(x, y, type)
+	CTail(float x, float y, int direction, float mario_width, int type) :CGameObject(x, y, type)
 	{
 		this->width = TAIL_WIDTH;
 		this->height = TAIL_HEIGHT;
@@ -65,7 +65,7 @@ public:
 		this->vx = this->slide_direction * TAIL_SPEED_X;
 
 		this->max_travel_distance_left = x - this->width;
-		this->max_travel_distance_right = x + (float)mario_width;
+		this->max_travel_distance_right = x + mario_width;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

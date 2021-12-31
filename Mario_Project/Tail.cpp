@@ -102,9 +102,9 @@ void CTail::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
 	if (koopa->GetState() == KOOPA_STATE_WALKING)
-		koopa->StartBounce(e->nx);
+		koopa->StartBounce((int)e->nx);
 	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
-		koopa->StartBounce(e->nx);
+		koopa->StartBounce((int)e->nx);
 
 	koopa->SetShellDirection(KOOPA_SHELL_FACING_UP);
 }

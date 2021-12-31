@@ -383,6 +383,7 @@ void CMario::OnCollisionWithPipeGate(LPCOLLISIONEVENT e)
 	// Nếu đang cầm Koopa thì không thể chui vào cống, mặc dù khá khó để kiểm chứng trong game, nhưng rất có khả năng là mình làm đúng
 	if (isHoldingKoopa)
 		return;
+
 	CPipeGate* pipe_gate = dynamic_cast<CPipeGate*>(e->obj);
 
 	// Nếu đây là pipe để vào Hidden Zone

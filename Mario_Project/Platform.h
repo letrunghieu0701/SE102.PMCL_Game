@@ -37,8 +37,8 @@ public:
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderBoundingBox();
 
-	int GetCellWidth() { return this->cellWidth; }
-	int GetCellHeight() { return this->cellHeight; }
+	float GetCellWidth() { return this->cellWidth; }
+	float GetCellHeight() { return this->cellHeight; }
 
 	bool IsBasePlatform() { return this->base_platform; }
 };
