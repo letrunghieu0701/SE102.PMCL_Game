@@ -179,10 +179,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_BREAKABLE_BRICK:
 	{
-		int coin_life_time = atoi(tokens[3].c_str());
-		obj = new CBreakableBrick(x, y, object_type, coin_life_time);
-
-		breakable_bricks.push_back((CBreakableBrick*)obj);
+		obj = new CBreakableBrick(x, y, object_type);
 		break;
 	}
 	case OBJECT_TYPE_PIPE:

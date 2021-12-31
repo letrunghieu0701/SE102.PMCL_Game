@@ -39,8 +39,6 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 
-	vector<CBreakableBrick*> breakable_bricks;
-
 	CTileLayer* background;
 	CTileLayer* forgeground;
 
@@ -73,13 +71,8 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	unordered_map<int, LPGAMEOBJECT> GetItemList() { return itemsInside; }
-	vector<CBreakableBrick*> GetBreakableBricks() { return this->breakable_bricks; }
 
 	void AddGameObject(LPGAMEOBJECT obj) { this->objects.push_back(obj); }
-	void AddBreakableBricks(CBreakableBrick* obj){this->breakable_bricks.push_back(obj);}
-
-	void ClearBreakableBricks() { this->breakable_bricks.clear(); }
-	int GetBBricksSize() { return this->breakable_bricks.size(); }
 
 	void Clear();
 	void PurgeDeletedObjects();
@@ -95,6 +88,8 @@ public:
 	void GetOldBasePlatformPosY(float& pos_y) { pos_y = old_base_platform_pos_y; }
 
 	void MakeCameraFollowMario();
+
+	void GetGameObjects(vector<LPGAMEOBJECT>& game_objects) { game_objects = objects; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

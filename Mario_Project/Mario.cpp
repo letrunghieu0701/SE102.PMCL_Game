@@ -368,7 +368,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_PIPE_GATE)
 		OnCollisionWithPipeGate(e);
-	else if (e->obj->GetType() == OBJECT_TYPE_PIPE_TELEPORT_DESTINATION);
+	else if (e->obj->GetType() == OBJECT_TYPE_PBUTTON)
+		OnCollisionWithPButton(e);
+}
+
+void CMario::OnCollisionWithPButton(LPCOLLISIONEVENT e)
+{
+	if (e->obj->GetState() == PBUTTON_STATE_NORMAL)
+		e->obj->SetState(PBUTTON_STATE_PRESSED);
 }
 
 void CMario::OnCollisionWithPipeGate(LPCOLLISIONEVENT e)

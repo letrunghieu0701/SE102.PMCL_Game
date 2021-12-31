@@ -18,26 +18,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_W:
 	{
 		mario->SetHoldKoopaButton(true);
-		DebugOut(L"Đang bấm phím mũi cầm Koopa\n");
-		break;
-	}
-	case DIK_P:
-	{
-		LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
-		vector<CBreakableBrick*> bbricks = play_scene->GetBreakableBricks();
-
-		for (int i = 0; i < bbricks.size(); i++)
-		{
-			float x, y;
-			bbricks[i]->GetPosition(x, y);
-			int life_time = bbricks[i]->GetCoinLifeTime();
-			CCoin* coin = new CCoin(x, y, OBJECT_TYPE_COIN, true, life_time);
-			coin->StartLiving();
-
-			play_scene->AddGameObject(coin);
-			bbricks[i]->Delete();
-		}
-		play_scene->ClearBreakableBricks();
+		//DebugOut(L"Đang bấm phím mũi cầm Koopa\n");
 		break;
 	}
 	case DIK_DOWN:
@@ -144,7 +125,7 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_UP))
 	{
 		mario->IsPressingUpButton(true);
-		DebugOut(L"Đang bấm phím mũi tên UP\n");
+		//DebugOut(L"Đang bấm phím mũi tên UP\n");
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
@@ -160,7 +141,7 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 			if (pipegate_left <= mario_left && mario_right <= pipegate_right)
 			{
 				mario->ReadyToGoIntoPipeGate(true);
-				DebugOut(L"Sẵn sàng vào Pipe Gate In\n");
+				//DebugOut(L"Sẵn sàng vào Pipe Gate In\n");
 			}
 		}
 	}

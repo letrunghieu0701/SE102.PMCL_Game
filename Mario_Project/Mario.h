@@ -3,6 +3,7 @@
 #include "PipeGate.h"
 #include "PipeTeleportDestination.h"
 #include "Koopa.h"
+#include "PButton.h"
 
 #include "Platform.h"
 
@@ -265,6 +266,7 @@ private:
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPipeGate(LPCOLLISIONEVENT e);
+	void OnCollisionWithPButton(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

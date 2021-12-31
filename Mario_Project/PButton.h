@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Animations.h"
+#include "PlayScene.h"
 
 
 #define ID_ANI_PBUTTON_BLUE 16000
@@ -16,6 +17,7 @@
 
 #define PBUTTON_STATE_NORMAL	0
 #define PBUTTON_STATE_PRESSED	1
+#define PBUTTON_STATE_CANNOT_PRESS 2
 
 
 class CPButton: public CGameObject

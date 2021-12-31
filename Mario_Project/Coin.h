@@ -18,13 +18,11 @@
 class CCoin : public CGameObject {
 private:
 	bool usedToBeBreakableBrick;
-	ULONGLONG lifeTimeBecomeBreakableBrick;
 	ULONGLONG lifeTime_start;
 public:
-	CCoin(float x, float y, int type, bool wasBreakableBrick = false, ULONGLONG time = 0) : CGameObject(x, y, type)
+	CCoin(float x, float y, int type, bool wasBreakableBrick = false) : CGameObject(x, y, type)
 	{
 		this->usedToBeBreakableBrick = wasBreakableBrick;
-		this->lifeTimeBecomeBreakableBrick = time;
 		this->lifeTime_start = 0;
 	}
 	void Render();
