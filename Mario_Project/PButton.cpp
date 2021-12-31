@@ -32,8 +32,6 @@ void CPButton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		state = PBUTTON_STATE_CANNOT_PRESS;
 	}
-
-
 }
 
 void CPButton::Render()
@@ -54,6 +52,7 @@ void CPButton::Render()
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
 
 	//RenderBoundingBox();
+	DebugOutTitle(L"P button x: %0.2f, y: %0.2f", x, y);
 }
 
 void CPButton::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -65,7 +64,7 @@ void CPButton::GetBoundingBox(float& left, float& top, float& right, float& bott
 		right = left + PBUTTON_BBOX_WIDTH - 1;
 		bottom = top + PBUTTON_BBOX_HEIGHT - 1;
 	}
-	else if (state == PBUTTON_STATE_PRESSED)
+	else if (state == PBUTTON_STATE_PRESSED || state == PBUTTON_STATE_CANNOT_PRESS)
 	{
 		left = x;
 		top = y;

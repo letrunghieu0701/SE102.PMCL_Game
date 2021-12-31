@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Animations.h"
 #include "PlayScene.h"
+#include "debug.h"
 
 
 #define ID_ANI_PBUTTON_BLUE 16000
