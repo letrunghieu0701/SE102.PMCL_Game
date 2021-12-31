@@ -30,16 +30,20 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON)
 		{
-			int attack_direction = mario->GetNormalDirectionX();
+			// Mario ko thể tấn công bằng đuôi khi đang bay hoặc đang cầm Koopa
+			if (!mario->CanContinueFly() && !mario->IsHolding())
+			{
+				int attack_direction = mario->GetNormalDirectionX();
 
-			float mario_x, mario_y, mario_width;
-			mario->GetPosition(mario_x, mario_y);
-			mario->GetWidth(mario_width);
+				float mario_x, mario_y, mario_width;
+				mario->GetPosition(mario_x, mario_y);
+				mario->GetWidth(mario_width);
 
-			CTail* mario_tail = new CTail(mario_x, mario_y + TAIL_DISTANCE_MARIO_HEAD2TAIL, -attack_direction, mario_width, OBJECT_TYPE_TAIL);
-			LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
-			play_scene->AddGameObject(mario_tail);
-			mario->AttackWithTail();
+				CTail* mario_tail = new CTail(mario_x, mario_y + TAIL_DISTANCE_MARIO_HEAD2TAIL, -attack_direction, mario_width, OBJECT_TYPE_TAIL);
+				LPPLAYSCENE play_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+				play_scene->AddGameObject(mario_tail);
+				mario->AttackWithTail();
+			}
 		}
 		break;
 	}

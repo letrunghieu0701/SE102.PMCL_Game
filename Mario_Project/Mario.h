@@ -425,4 +425,6 @@ public:
 	void GetHeight(float &height);
 
 	void GetMaxSpeedX(float& maxv_x) { maxv_x = this->maxVx; }
+
+	bool IsHolding() { return this->isHoldingKoopa; }
 };
