@@ -224,7 +224,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		if (tokens.size() == 4)
 		{
 			int id_CDOP = atoi(tokens[3].c_str());
-			obj = new CKoopa(x, y, object_type, id_CDOP);
+			obj = new CKoopa(x, y, object_type, true, id_CDOP);
 		}
 		else
 		{
