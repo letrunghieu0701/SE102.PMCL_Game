@@ -214,6 +214,23 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_WING_GOOMBA)
 		OnCollisionWithWingGoomba(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
+		OnCollisionWithKoopa(e);
+}
+
+void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SPIN_SHELL)
+	{
+		CKoopa* other_koopa = dynamic_cast<CKoopa*>(e->obj);
+
+		if (other_koopa->GetState() == KOOPA_STATE_WALKING)
+			other_koopa->StartBounce((int)e->nx);
+		else if (other_koopa->GetState() == KOOPA_STATE_SHELLING)
+			other_koopa->StartBounce((int)e->nx);
+
+		other_koopa->SetShellDirection(KOOPA_SHELL_FACING_UP);
+	}
 }
 
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
