@@ -25,7 +25,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 	if (this->isGettingOutOfPipeDesOut)
-	{	
+	{
 		this->vy = -MARIO_FALL_DOWN_2_PIPEGATE_SPEED_Y;
 		this->vx = 0;
 
@@ -129,8 +129,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!IsTailAttacking())
 		attackTail_start = 0;
 
-		// Nếu vẫn còn trong thời gian rơi chậm
-		// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
+	// Nếu vẫn còn trong thời gian rơi chậm
+	// Thì giảm tốc độ vx và vy bằng tốc độ khi rơi chậm
 	if ((0 <= (GetTickCount64() - fallSlow_start)) &&
 		((GetTickCount64() - fallSlow_start) <= MARIO_FALL_SLOW_TIME))
 	{
@@ -730,37 +730,31 @@ int CMario::GetAniIdSmallHold()
 		}
 	}
 	else
-		if (isSitting)
+	{
+		if (vx == 0)
 		{
-			if (nx > 0)
-				aniId = ID_ANI_MARIO_SIT_RIGHT;
-			else
-				aniId = ID_ANI_MARIO_SIT_LEFT;
+			if (nx > 0) aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT;
+			else aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_LEFT;
 		}
-		else
-			if (vx == 0)
-			{
-				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT;
-				else aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_LEFT;
-			}
-			else if (vx > 0)
-			{
-				if (ax < 0)	// Quay mặt sang trái nên lấy ani walk left
-					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_LEFT;
-				else if (ax == MARIO_ACCEL_RUN_X)
-					aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_RIGHT;
-				else if (ax == MARIO_ACCEL_WALK_X)
-					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_RIGHT;
-			}
-			else // vx < 0
-			{
-				if (ax > 0) // Quay mặt sang phải nên lấy ani walk right
-					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_RIGHT;
-				else if (ax == -MARIO_ACCEL_RUN_X)
-					aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_LEFT;
-				else if (ax == -MARIO_ACCEL_WALK_X)
-					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_LEFT;
-			}
+		else if (vx > 0)
+		{
+			if (ax < 0)	// Quay mặt sang trái nên lấy ani walk left
+				aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_LEFT;
+			else if (ax == MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_RIGHT;
+			else if (ax == MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_RIGHT;
+		}
+		else // vx < 0
+		{
+			if (ax > 0) // Quay mặt sang phải nên lấy ani walk right
+				aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_RIGHT;
+			else if (ax == -MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_LEFT;
+			else if (ax == -MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_LEFT;
+		}
+	}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
 
@@ -881,69 +875,55 @@ void CMario::GetAniIdRacconHold()
 	}
 	else
 	{
-		if (isSitting)	// Đang ngồi
+		// Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
+		if (vx == 0)  // Đang đứng yên
 		{
-			if (nx > 0)	// Đang quay mặt sang bên phải
+			if (nx >= 0)
 			{
-				ani_id = ID_ANI_MARIO_RACCON_SIT_RIGHT;
+				ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_RIGHT;
+				shift_x = -7; // dư 7 pixel
+			}
+			else
+			{
+				ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_LEFT;
+				// Đối với sprite quay sang trái thì không cần dời pixel do dư cái đuôi,
+				// nên chỉ cần lấy width và height của sprite chia đôi rồi vẽ như bình thường thôi, nhưng do cái bbox của Racccon thì lại
+				// chỉ bằng Mario Big, nên cần phải cộng thêm 7 pixel dư từ cái đuôi nữa, thì chia đôi width và height thì mới ra đúng vị trí để vẽ từ top-left
+				shift_x = 7;
+			}
+
+		}
+		else if (vx > 0)	// Đang chạy sang bên phải
+		{
+			if (ax < 0)		// Đang thắng
+				ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_LEFT;
+			else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
+			{
+				ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_RIGHT;
+				shift_x = -6;
+			}
+			else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
+			{
+				ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_RIGHT;
 				shift_x = -7;
 			}
-			else        // Đang quay mặt sang bên trái
+		}
+		else  // Đang chạy sang bên trái
+		{
+			if (ax > 0)		// Đang thắng
+				ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_RIGHT;
+			else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
 			{
-				ani_id = ID_ANI_MARIO_RACCON_SIT_LEFT;
+				ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_LEFT;
+				shift_x = 6;
+			}
+			else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
+			{
+				ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_LEFT;
 				shift_x = 7;
 			}
 		}
-		else  // Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
-		{
-			if (vx == 0)  // Đang đứng yên
-			{
-				if (nx >= 0)
-				{
-					ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_RIGHT;
-					shift_x = -7; // dư 7 pixel
-				}
-				else
-				{
-					ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_LEFT;
-					// Đối với sprite quay sang trái thì không cần dời pixel do dư cái đuôi,
-					// nên chỉ cần lấy width và height của sprite chia đôi rồi vẽ như bình thường thôi, nhưng do cái bbox của Racccon thì lại
-					// chỉ bằng Mario Big, nên cần phải cộng thêm 7 pixel dư từ cái đuôi nữa, thì chia đôi width và height thì mới ra đúng vị trí để vẽ từ top-left
-					shift_x = 7;
-				}
 
-			}
-			else if (vx > 0)	// Đang chạy sang bên phải
-			{
-				if (ax < 0)		// Đang thắng
-					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_LEFT;
-				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
-				{
-					ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_RIGHT;
-					shift_x = -6;
-				}
-				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
-				{
-					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_RIGHT;
-					shift_x = -7;
-				}
-			}
-			else  // Đang chạy sang bên trái
-			{
-				if (ax > 0)		// Đang thắng
-					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_RIGHT;
-				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
-				{
-					ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_LEFT;
-					shift_x = 6;
-				}
-				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
-				{
-					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_LEFT;
-					shift_x = 7;
-				}
-			}
-		}
 	}
 
 	if (ani_id == -1)
@@ -973,7 +953,7 @@ void CMario::GetAniIdRaccon()
 		}
 		else
 			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT;
-		
+
 		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
 			y + height / 2);
 		return;
@@ -1164,39 +1144,33 @@ int CMario::GetAniIdBigHold()
 		}
 	}
 	else // Đang ở mặt đất
-		// Đang ngồi
-		if (isSitting)
+	{
+		// Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
+		if (vx == 0)
 		{
-			if (nx > 0)
-				ani_id = ID_ANI_MARIO_SIT_RIGHT;
-			else
-				ani_id = ID_ANI_MARIO_SIT_LEFT;
+			if (nx > 0) ani_id = ID_ANI_MARIO_HOLD_IDLE_RIGHT;
+			else ani_id = ID_ANI_MARIO_HOLD_IDLE_LEFT;
 		}
-		else
-			// Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
-			if (vx == 0)
-			{
-				if (nx > 0) ani_id = ID_ANI_MARIO_HOLD_IDLE_RIGHT;
-				else ani_id = ID_ANI_MARIO_HOLD_IDLE_LEFT;
-			}
-			else if (vx > 0)
-			{
-				if (ax < 0)
-					ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
-				else if (ax == MARIO_ACCEL_RUN_X)
-					ani_id = ID_ANI_MARIO_RUNNING_HOLD_RIGHT;
-				else if (ax == MARIO_ACCEL_WALK_X)
-					ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
-			}
-			else // vx < 0
-			{
-				if (ax > 0)
-					ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
-				else if (ax == -MARIO_ACCEL_RUN_X)
-					ani_id = ID_ANI_MARIO_RUNNING_HOLD_LEFT;
-				else if (ax == -MARIO_ACCEL_WALK_X)
-					ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
-			}
+		else if (vx > 0)
+		{
+			if (ax < 0)
+				ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
+			else if (ax == MARIO_ACCEL_RUN_X)
+				ani_id = ID_ANI_MARIO_RUNNING_HOLD_RIGHT;
+			else if (ax == MARIO_ACCEL_WALK_X)
+				ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
+		}
+		else // vx < 0
+		{
+			if (ax > 0)
+				ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
+			else if (ax == -MARIO_ACCEL_RUN_X)
+				ani_id = ID_ANI_MARIO_RUNNING_HOLD_LEFT;
+			else if (ax == -MARIO_ACCEL_WALK_X)
+				ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
+		}
+	}
+
 
 	if (ani_id == -1)
 		ani_id = ID_ANI_MARIO_HOLD_IDLE_RIGHT;
@@ -1369,9 +1343,9 @@ void CMario::SetState(int state)
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
-			{	
+			{
 				// Nếu đang di chuyển mà nhảy lên thì ko được tăng vận tốc nữa, đồng thời cũng phải giảm vận tốc thì lực cản không khí
-				maxVx = vx*MARIO_FACTOR_AIR_FORCE_JUMPING_X;
+				maxVx = vx * MARIO_FACTOR_AIR_FORCE_JUMPING_X;
 				vy = -MARIO_JUMP_SPEED_Y;
 			}
 		}
@@ -1416,7 +1390,8 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_SIT:
-		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
+		// Đang cầm Koopa thì ko thể ngồi
+		if (isOnPlatform && level != MARIO_LEVEL_SMALL && !isHoldingKoopa)
 		{
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
