@@ -380,6 +380,9 @@ void CMario::OnCollisionWithPButton(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithPipeGate(LPCOLLISIONEVENT e)
 {
+	// Nếu đang cầm Koopa thì không thể chui vào cống, mặc dù khá khó để kiểm chứng trong game, nhưng rất có khả năng là mình làm đúng
+	if (isHoldingKoopa)
+		return;
 	CPipeGate* pipe_gate = dynamic_cast<CPipeGate*>(e->obj);
 
 	// Nếu đây là pipe để vào Hidden Zone
@@ -705,13 +708,6 @@ int CMario::GetAniIdSmallHold()
 {
 	int aniId = -1;
 
-	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
-	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
-	{
-		aniId = ID_ANI_MARIO_SMALL_PIPE;
-		return aniId;
-	}
-
 	if (!isOnPlatform)
 	{
 		if (abs(vx) == MARIO_RUNNING_SPEED)
@@ -756,7 +752,7 @@ int CMario::GetAniIdSmallHold()
 		}
 	}
 
-	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
+	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT;
 
 	return aniId;
 }
@@ -771,29 +767,6 @@ void CMario::GetAniIdRacconHold()
 	this->GetBoundingBox(left, top, right, bottom);
 	float width = right - left;
 	float height = bottom - top;
-
-	if (this->IsTailAttacking())
-	{
-		if (nx > 0)
-		{
-			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_RIGHT;
-		}
-		else
-			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT;
-
-		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
-			y + height / 2);
-		return;
-	}
-
-	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
-	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
-	{
-		ani_id = ID_ANI_MARIO_RACCON_PIPE;
-		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
-			y + height / 2);
-		return;
-	}
 
 	if (!isOnPlatform)	// Đang trong không trung
 	{
@@ -927,7 +900,7 @@ void CMario::GetAniIdRacconHold()
 	}
 
 	if (ani_id == -1)
-		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+		ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_RIGHT;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
 		y + height / 2);
