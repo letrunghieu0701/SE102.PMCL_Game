@@ -261,11 +261,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float current_width = right - left;
 				if (this->nx > 0)
 				{
-					koopa->SetPosition(this->x + current_width / 2, this->y + current_height / 4);
+					if (level > MARIO_LEVEL_SMALL)
+						koopa->SetPosition(this->x + current_width / 2, this->y + current_height / 4);
+					else
+						koopa->SetPosition(this->x + current_width / 2, this->y - MARIO_SMALL_HOLD_POS_Y);
 				}
 				else
 				{
-					koopa->SetPosition(this->x - current_width / 2, this->y + current_height / 4);
+					if (level > MARIO_LEVEL_SMALL)
+						koopa->SetPosition(this->x - current_width / 2, this->y + current_height / 4);
+					else
+						koopa->SetPosition(this->x - current_width / 2, this->y - MARIO_SMALL_HOLD_POS_Y);
 				}
 
 				koopa->SetNormalDirectionX(this->nx);

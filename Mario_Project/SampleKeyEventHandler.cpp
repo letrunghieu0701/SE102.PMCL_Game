@@ -50,7 +50,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 
 	case DIK_SPACE:
 		float vx, vy;
-		mario->GetSpeed(vx, vy);
+ 		mario->GetSpeed(vx, vy);
 
 		if (mario->GetLevel() == MARIO_LEVEL_RACCON &&
 			abs(vx) == MARIO_RUNNING_SPEED &&
@@ -68,16 +68,16 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		else
 			mario->SetState(MARIO_STATE_JUMP);
 		break;
-	case DIK_1:
+	case DIK_J:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
 		break;
-	case DIK_2:
+	case DIK_K:
 		mario->SetLevel(MARIO_LEVEL_BIG);
 		break;
-	case DIK_3:
+	case DIK_L:
 		mario->SetLevel(MARIO_LEVEL_RACCON);
 		break;
-	case DIK_0:
+	case DIK_H:
 		mario->SetState(MARIO_STATE_DIE);
 		break;
 	case DIK_R: // reset

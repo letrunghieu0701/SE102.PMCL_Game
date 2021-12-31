@@ -42,6 +42,13 @@ scenes\Scenes_1-1.tmx
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, , 8 = invisible platform
 # See OBJECT_TYPE constants in AssetIDs.h
 
+# Koopa
+11	810	355
+
+# Change direction on platform
+12	350	200	1
+# Koopa
+11	540	356	1
 
 # MARIO
 0	736	330
@@ -49,9 +56,6 @@ scenes\Scenes_1-1.tmx
 # Brick
 1	784	384
 1	1056	384
-
-# Koopa
-11	810	355
 
 
 # HUD
@@ -252,11 +256,6 @@ scenes\Scenes_1-1.tmx
 # Wing Goomba
 10	460	385	30
 
-
-# Change direction on platform
-12	350	200	1
-# Koopa
-11	540	356	1
 
 
 
