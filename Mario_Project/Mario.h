@@ -133,6 +133,9 @@
 #define	ID_ANI_MARIO_RACCON_IDLE_LEFT		1700
 #define ID_ANI_MARIO_RACCON_IDLE_RIGHT		1701
 
+#define	ID_ANI_MARIO_RACCON_IDLE_HOLD_RIGHT		1750
+#define ID_ANI_MARIO_RACCON_IDLE_HOLD_LEFT		1751
+
 #define ID_ANI_MARIO_RACCON_PIPE			1710
 
 #define ID_ANI_MARIO_RACCON_WALKING_RIGHT	1800
@@ -161,6 +164,7 @@
 
 #define ID_ANI_MARIO_RACCON_ATTACK_TAIL_RIGHT	2600
 #define ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT	2601
+
 
 #pragma endregion
 
@@ -277,6 +281,7 @@ private:
 
 	int GetAniIdBigHold();
 	int GetAniIdSmallHold();
+	void GetAniIdRacconHold();
 
 public:
 	CMario(float x, float y, int type) : CGameObject(x, y, type)

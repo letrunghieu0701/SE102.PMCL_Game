@@ -767,6 +767,193 @@ int CMario::GetAniIdSmallHold()
 	return aniId;
 }
 
+void CMario::GetAniIdRacconHold()
+{
+	int ani_id = -1;
+
+	float shift_x = 0;
+
+	float left, top, right, bottom;
+	this->GetBoundingBox(left, top, right, bottom);
+	float width = right - left;
+	float height = bottom - top;
+
+	if (this->IsTailAttacking())
+	{
+		if (nx > 0)
+		{
+			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_RIGHT;
+		}
+		else
+			ani_id = ID_ANI_MARIO_RACCON_ATTACK_TAIL_LEFT;
+
+		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+			y + height / 2);
+		return;
+	}
+
+	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
+	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
+	{
+		ani_id = ID_ANI_MARIO_RACCON_PIPE;
+		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+			y + height / 2);
+		return;
+	}
+
+	if (!isOnPlatform)	// Đang trong không trung
+	{
+		// Nếu đang trong thời gian bay
+		if (this->CanContinueFly())
+		{
+			// Nếu bay lên
+			if (this->vy < 0)
+			{
+				if (nx > 0)
+				{
+					ani_id = ID_ANI_MARIO_RACCON_FLYING_RIGHT;
+					shift_x = -5;
+				}
+				else
+				{
+					ani_id = ID_ANI_MARIO_RACCON_FLYING_LEFT;
+					shift_x = 5;
+				}
+			}
+			// Trong lúc bay thì có 2 ani, ani đầu tiên là khi bay lên, ani còn lại là dùng khi đang rơi nhưng vẫn đang trong thời gian bay
+			// Nếu rơi xuống
+			else if (abs(maxVx) == MARIO_SPEED_FLYING_X)
+			{
+				if (nx > 0)
+				{
+					ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
+					shift_x = -5;
+				}
+				else
+				{
+					ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
+					shift_x = 5;
+				}
+			}
+		}
+
+		// Đang dùng đuôi để rơi chậm hơn
+		else if (abs(maxVx) == MARIO_SPEED_FALL_SLOW_X &&
+			vy == MARIO_SPEED_FALL_SLOW_Y)
+		{
+			if (nx > 0)
+			{
+				ani_id = ID_ANI_MARIO_RACCON_FALL_SLOW_RIGHT;
+				shift_x = -7;
+			}
+			else
+			{
+				ani_id = ID_ANI_MARIO_RACCON_FALL_SLOW_LEFT;
+				shift_x = 7;
+			}
+		}
+		else if (abs(vx) == MARIO_RUNNING_SPEED) // Đang di chuyển với tốc độ nhanh (gia tốc chạy) trong không trung
+		{
+			if (nx > 0)
+			{
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
+				shift_x = -5;
+			}
+			else
+			{
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
+				shift_x = 5;
+			}
+		}
+		else  // Đang di chuyển với tốc độ bình thường (gia tốc đi bộ) trong không trung
+		{
+			if (nx > 0)
+			{
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_RIGHT;
+				shift_x = -7;
+			}
+			else
+			{
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_LEFT;
+				shift_x = 7;
+			}
+		}
+	}
+	else
+	{
+		if (isSitting)	// Đang ngồi
+		{
+			if (nx > 0)	// Đang quay mặt sang bên phải
+			{
+				ani_id = ID_ANI_MARIO_RACCON_SIT_RIGHT;
+				shift_x = -7;
+			}
+			else        // Đang quay mặt sang bên trái
+			{
+				ani_id = ID_ANI_MARIO_RACCON_SIT_LEFT;
+				shift_x = 7;
+			}
+		}
+		else  // Đang không ngồi == Đang {đứng yên, đi bộ, chạy}
+		{
+			if (vx == 0)  // Đang đứng yên
+			{
+				if (nx >= 0)
+				{
+					ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_RIGHT;
+					shift_x = -7; // dư 7 pixel
+				}
+				else
+				{
+					ani_id = ID_ANI_MARIO_RACCON_IDLE_HOLD_LEFT;
+					// Đối với sprite quay sang trái thì không cần dời pixel do dư cái đuôi,
+					// nên chỉ cần lấy width và height của sprite chia đôi rồi vẽ như bình thường thôi, nhưng do cái bbox của Racccon thì lại
+					// chỉ bằng Mario Big, nên cần phải cộng thêm 7 pixel dư từ cái đuôi nữa, thì chia đôi width và height thì mới ra đúng vị trí để vẽ từ top-left
+					shift_x = 7;
+				}
+
+			}
+			else if (vx > 0)	// Đang chạy sang bên phải
+			{
+				if (ax < 0)		// Đang thắng
+					ani_id = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
+				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
+				{
+					ani_id = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
+					shift_x = -6;
+				}
+				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
+				{
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_RIGHT;
+					shift_x = -7;
+				}
+			}
+			else  // Đang chạy sang bên trái
+			{
+				if (ax > 0)		// Đang thắng
+					ani_id = ID_ANI_MARIO_RACCON_BRACE_LEFT;
+				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
+				{
+					ani_id = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
+					shift_x = 6;
+				}
+				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
+				{
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_LEFT;
+					shift_x = 7;
+				}
+			}
+		}
+	}
+
+	if (ani_id == -1)
+		ani_id = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+
+	CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+		y + height / 2);
+	RenderBoundingBox();
+}
+
 void CMario::GetAniIdRaccon()
 {
 	int ani_id = -1;
@@ -1108,7 +1295,7 @@ void CMario::Render()
 				ani_id = GetAniIdSmallHold();
 			else if (level == MARIO_LEVEL_RACCON)
 			{
-				GetAniIdRaccon();
+				GetAniIdRacconHold();
 				return;
 			}
 		}
