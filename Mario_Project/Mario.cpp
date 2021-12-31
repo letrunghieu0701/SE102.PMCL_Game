@@ -717,9 +717,9 @@ int CMario::GetAniIdSmallHold()
 		if (abs(vx) == MARIO_RUNNING_SPEED)
 		{
 			if (nx >= 0)
-				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
+				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_HOLD_RIGHT;
 			else
-				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
+				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_HOLD_LEFT;
 		}
 		else
 		{
@@ -850,12 +850,12 @@ void CMario::GetAniIdRacconHold()
 		{
 			if (nx > 0)
 			{
-				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_HOLD_RIGHT;
 				shift_x = -5;
 			}
 			else
 			{
-				ani_id = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
+				ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_HOLD_LEFT;
 				shift_x = 5;
 			}
 		}
@@ -1131,9 +1131,9 @@ int CMario::GetAniIdBigHold()
 		if (abs(vx) == MARIO_RUNNING_SPEED)
 		{
 			if (nx >= 0)
-				ani_id = ID_ANI_MARIO_JUMP_RUN_RIGHT;
+				ani_id = ID_ANI_MARIO_JUMP_WALK_HOLD_RIGHT;
 			else
-				ani_id = ID_ANI_MARIO_JUMP_RUN_LEFT;
+				ani_id = ID_ANI_MARIO_JUMP_WALK_HOLD_LEFT;
 		}
 		else
 		{
