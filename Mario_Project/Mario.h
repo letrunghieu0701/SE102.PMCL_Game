@@ -73,6 +73,10 @@
 #pragma region ANIMATION_ID
 
 // Big Mario
+
+#define ID_ANI_MARIO_KICK_RIGHT			300
+#define ID_ANI_MARIO_KICK_LEFT			301
+
 #define ID_ANI_MARIO_IDLE_RIGHT			400
 #define ID_ANI_MARIO_IDLE_LEFT			401
 
@@ -111,6 +115,10 @@
 
 
 // SMALL MARIO
+
+#define ID_ANI_MARIO_SMALL_KICK_RIGHT			310
+#define ID_ANI_MARIO_SMALL_KICK_LEFT			311
+
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT		1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT		1101
 #define ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT		1150
@@ -141,6 +149,9 @@
 
 
 // Raccon Mario
+#define ID_ANI_MARIO_RACCON_KICK_RIGHT	320
+#define ID_ANI_MARIO_RACCON_KICK_LEFT	321
+
 #define	ID_ANI_MARIO_RACCON_IDLE_LEFT		1700
 #define ID_ANI_MARIO_RACCON_IDLE_RIGHT		1701
 #define	ID_ANI_MARIO_RACCON_IDLE_HOLD_RIGHT		1750
@@ -236,6 +247,8 @@
 
 #define MARIO_TURN_OFF_COLLISION_TIME 50
 
+#define MARIO_KICKING_TIME	200
+
 
 class CMario : public CGameObject
 {
@@ -280,6 +293,9 @@ private:
 	bool isHoldingKoopa;
 
 	CKoopa* current_koopa_holding;
+
+	bool isKicking;
+	ULONGLONG kick_start;
 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -341,6 +357,9 @@ public:
 		isHoldingKoopa = false;
 		isPressingHoldKoopaButton = false;
 		current_koopa_holding = nullptr;
+
+		isKicking = false;
+		kick_start = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -427,4 +446,11 @@ public:
 	void GetMaxSpeedX(float& maxv_x) { maxv_x = this->maxVx; }
 
 	bool IsHolding() { return this->isHoldingKoopa; }
+
+	bool IsKicking()
+	{
+		ULONGLONG time_passed = GetTickCount64() - this->kick_start;
+		return (0 <= time_passed &&
+			time_passed <= MARIO_KICKING_TIME);
+	}
 };

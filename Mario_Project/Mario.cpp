@@ -22,7 +22,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (vy > MARIO_FALL_DOWN_SPEED_Y) vy = MARIO_FALL_DOWN_SPEED_Y;
 
-
+	if (!IsKicking())
+	{
+		isKicking = false;
+		kick_start = 0;
+	}
 
 	if (this->isGettingOutOfPipeDesOut)
 	{
@@ -482,6 +486,9 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				koopa->SetNormalDirectionX(DIRECTION_LEFT);		// Cho xoay sang trái
 				koopa->SetState(KOOPA_STATE_SPIN_SHELL);	// Đặt lại state để có chỉ số vật lý sau: vận tốc x có giá trị tuyệt đối rất lớn và cùng dấu (âm) với vector normal
 			}
+			
+			isKicking = true;
+			kick_start = GetTickCount64();
 		}
 
 	}
@@ -605,6 +612,17 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 int CMario::GetAniIdSmall()
 {
 	int aniId = -1;
+
+	// Nếu đang đá Koopa
+	if (this->IsKicking())
+	{
+		if (nx >= 0)
+			aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
+
+		return aniId;
+	}
 
 	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
 	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
@@ -882,6 +900,19 @@ void CMario::GetAniIdRaccon()
 	float width = right - left;
 	float height = bottom - top;
 
+	// Nếu đang đá Koopa
+	if (this->IsKicking())
+	{
+		if (nx >= 0)
+			ani_id = ID_ANI_MARIO_RACCON_KICK_RIGHT;
+		else
+			ani_id = ID_ANI_MARIO_RACCON_KICK_LEFT;
+
+		CAnimations::GetInstance()->Get(ani_id)->Render(x + (width + shift_x) / 2,
+			y + height / 2);
+		return;
+	}
+
 	if (this->IsTailAttacking())
 	{
 		if (nx > 0)
@@ -1124,6 +1155,17 @@ int CMario::GetAniIdBigHold()
 int CMario::GetAniIdBig()
 {
 	int aniId = -1;
+
+	// Nếu đang đá Koopa
+	if (this->IsKicking())
+	{
+		if (nx >= 0)
+			aniId = ID_ANI_MARIO_KICK_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_KICK_LEFT;
+		
+		return aniId;
+	}
 
 	// Nếu đang chui vào pipe_gate hoặc chui ra khỏi pipe_des_out
 	if (this->isGoingIntoPipeGate || this->isGettingOutOfPipeDesOut)
