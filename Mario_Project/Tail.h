@@ -6,6 +6,7 @@
 
 #include "QuestionBrick.h"
 #include "BreakableBrick.h"
+#include "PButton.h"
 
 #include "Crumb.h"
 

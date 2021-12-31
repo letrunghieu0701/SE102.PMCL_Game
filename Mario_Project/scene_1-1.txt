@@ -50,7 +50,7 @@ scenes\Scenes_1-1.tmx
 19	123	123
 
 # P button
-20	2060	330
+#20	2060	330
 
 
 # Coin
@@ -132,6 +132,7 @@ scenes\Scenes_1-1.tmx
 1	2320	304
 
 # Breakable Brick's location
+# Extra info: 1: this will become a normal brick after Mario hit it with the tail
 14	1952	401	2000
 			
 14	1968	401	2000
@@ -151,7 +152,7 @@ scenes\Scenes_1-1.tmx
 			
 14	2032	401	2000
 14	2032	385	2000
-14	2032	369	2000
+14	2032	369	2000	1
 			
 14	2048	401	2000
 			

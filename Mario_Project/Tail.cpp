@@ -131,6 +131,18 @@ void CTail::OnColliswionWithBreakableBrick(LPCOLLISIONEVENT e)
 	play_scene->AddGameObject(crumb_2);
 	play_scene->AddGameObject(crumb_3);
 	play_scene->AddGameObject(crumb_4);
+
+	CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
+	if (bbrick->IsWillBecomeNormalBrick())
+	{
+		float bbrick_x, bbrick_y;
+		e->obj->GetPosition(bbrick_x, bbrick_y);
+		CBrick* brick = new CBrick(bbrick_x, bbrick_y, OBJECT_TYPE_BRICK);
+		play_scene->AddGameObject(brick);
+
+		CPButton* p_button = new CPButton(bbrick_x, bbrick_y - PBUTTON_BBOX_HEIGHT, OBJECT_TYPE_PBUTTON);
+		play_scene->AddGameObject(p_button);
+	}
 }
 
 

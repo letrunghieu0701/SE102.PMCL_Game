@@ -179,7 +179,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_BREAKABLE_BRICK:
 	{
-		obj = new CBreakableBrick(x, y, object_type);
+		if (tokens.size() == 4)
+			obj = new CBreakableBrick(x, y, object_type, true);
+		else
+			obj = new CBreakableBrick(x, y, object_type, false);
+
 		break;
 	}
 	case OBJECT_TYPE_PIPE:
