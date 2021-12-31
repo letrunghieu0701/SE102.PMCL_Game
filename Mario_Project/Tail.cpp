@@ -10,6 +10,9 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
+
+	// Nếu vẫn còn sống thì cho trượt qua trượt lại để attack các object khác
+	// 
 	// Nếu đã trượt xong một khoảng bằng width của tail && tail chưa đổi hướng
 	// Thì gán là đã đổi hướng và đổi hướng di chuyển cho tail (nx và vx)
 	// Và phải đặt lại đúng vị trí max có thể di chuyển trong lần đầu trượt, để tiện cho việc xử lý về sau
@@ -45,8 +48,6 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-
-	// Nếu vẫn còn sống thì cho trượt qua trượt lại để attack các object khác
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

@@ -56,7 +56,3 @@ void CHUD::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	right = left + HUD_BBOX_WIDTH - 1;
 	bottom = top + HUD_BBOX_HEIGHT - 1;
 }
-
-void CHUD::SetState(int state)
-{
-}

@@ -80,18 +80,13 @@ void CChangeDirectionOnPlatform::Render()
 	float height = bottom - top;
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
-	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
 	RenderBoundingBox();
 }
 
 void CChangeDirectionOnPlatform::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - CDOP_BBOX_WIDTH / 2;
-	top = y - CDOP_BBOX_HEIGHT / 2;
-	right = left + CDOP_BBOX_WIDTH;
-	bottom = top + CDOP_BBOX_HEIGHT;
-	/*left = x;
+	left = x;
 	top = y;
 	right = left + CDOP_BBOX_WIDTH;
-	bottom = top + CDOP_BBOX_HEIGHT;*/
+	bottom = top + CDOP_BBOX_HEIGHT;
 }

@@ -18,7 +18,3 @@ void CBreakableBrick::GetBoundingBox(float& left, float& top, float& right, floa
 	right = left + BREAKABLE_BRICK_BBOX_WIDTH;
 	bottom = top + BREAKABLE_BRICK_BBOX_HEIGHT;
 }
-
-void CBreakableBrick::SetState(int state)
-{
-}

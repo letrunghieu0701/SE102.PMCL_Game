@@ -170,16 +170,12 @@ void CKoopa::Render()
 
 	if (GetState() == KOOPA_STATE_WALKING)
 		ani_id = GetAniIdWalk();
-
 	else if (GetState() == KOOPA_STATE_SHELLING)
 		ani_id = GetAniIdShell();
-
 	else if (GetState() == KOOPA_STATE_HOLDED_BY_MARIO)
 		ani_id = GetAniIdShell();
-
 	else if (GetState() == KOOPA_STATE_SPIN_SHELL)
 		ani_id = GetAniIdSpinShell();
-
 	else if (GetState() == KOOPA_STATE_SHELL_BOUNCE_UP)
 		ani_id = ID_ANI_KOOPA_SHELL_UP;
 

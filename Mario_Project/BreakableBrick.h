@@ -20,8 +20,6 @@ public:
 	void Update(DWORD dt) {};
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	void virtual SetState(int state);
-
 	bool IsWillBecomeNormalBrick() { return isWillBecomeNormalBrick; }
 };
 

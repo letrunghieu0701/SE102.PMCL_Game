@@ -52,7 +52,6 @@ void CPButton::Render()
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
 
 	//RenderBoundingBox();
-	DebugOutTitle(L"P button x: %0.2f, y: %0.2f", x, y);
 }
 
 void CPButton::GetBoundingBox(float& left, float& top, float& right, float& bottom)
