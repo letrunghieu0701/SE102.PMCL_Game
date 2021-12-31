@@ -748,7 +748,7 @@ int CMario::GetAniIdSmallHold()
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)
-					aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
+					aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_RIGHT;
 			}
@@ -757,7 +757,7 @@ int CMario::GetAniIdSmallHold()
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X)
-					aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
+					aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_LEFT;
 			}
@@ -919,7 +919,7 @@ void CMario::GetAniIdRacconHold()
 					ani_id = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
 				{
-					ani_id = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
+					ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_RIGHT;
 					shift_x = -6;
 				}
 				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
@@ -934,7 +934,7 @@ void CMario::GetAniIdRacconHold()
 					ani_id = ID_ANI_MARIO_RACCON_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
 				{
-					ani_id = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
+					ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_LEFT;
 					shift_x = 6;
 				}
 				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
@@ -1184,7 +1184,7 @@ int CMario::GetAniIdBigHold()
 				if (ax < 0)
 					ani_id = ID_ANI_MARIO_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)
-					ani_id = ID_ANI_MARIO_RUNNING_RIGHT;
+					ani_id = ID_ANI_MARIO_RUNNING_HOLD_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
 			}
@@ -1193,7 +1193,7 @@ int CMario::GetAniIdBigHold()
 				if (ax > 0)
 					ani_id = ID_ANI_MARIO_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X)
-					ani_id = ID_ANI_MARIO_RUNNING_LEFT;
+					ani_id = ID_ANI_MARIO_RUNNING_HOLD_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
 			}
