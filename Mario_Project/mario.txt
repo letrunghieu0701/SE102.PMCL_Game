@@ -368,3 +368,8 @@
 # Run Right & Left
 1350	12271	75	12272	75
 1351	12261	75	12262	75
+
+# Jump walk Right & Left
+# Walk Right
+1550	12271	100
+1551	12261	100

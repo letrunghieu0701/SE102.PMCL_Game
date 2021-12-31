@@ -724,9 +724,9 @@ int CMario::GetAniIdSmallHold()
 		else
 		{
 			if (nx >= 0)
-				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_HOLD_RIGHT;
 			else
-				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
+				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_HOLD_LEFT;
 		}
 	}
 	else
