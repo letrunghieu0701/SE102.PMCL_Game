@@ -17,6 +17,7 @@
 
 #define MARIO_ACCEL_WALK_X			0.0005f
 #define MARIO_ACCEL_RUN_X			0.0007f
+#define MARIO_FACTOR_AIR_FORCE_JUMPING_X	0.75F
 
 #define MARIO_JUMP_SPEED_Y			0.6f
 #define MARIO_JUMP_RUN_SPEED_Y		0.6f
@@ -342,8 +343,8 @@ public:
 			return false;
 		}
 			
-		return ((0 <= (GetTickCount64() - this->GetFlyingStart())) &&
-			((GetTickCount64() - this->GetFlyingStart()) <= MARIO_FLYING_TIME));
+		ULONGLONG time_passed = GetTickCount64() - this->GetFlyingStart();
+		return (0 <= time_passed && time_passed <= MARIO_FLYING_TIME);
 	}
 
 	void AttackWithTail()
@@ -394,4 +395,6 @@ public:
 
 	void GetWidth(float &width);;
 	void GetHeight(float &height);
+
+	void GetMaxSpeedX(float& maxv_x) { maxv_x = this->maxVx; }
 };

@@ -1,11 +1,19 @@
 #pragma once
+#include "PlayScene.h"
 #include "GameObject.h"
 #include "Animation.h"
 #include "Animations.h"
+#include "AssetIDs.h"
 
 #define ID_ANI_HUD 16000
 #define HUD_BBOX_WIDTH 153
 #define HUD_BBOX_HEIGHT 30
+
+#define NUM_SPEED_ARROW 6
+#define SPEED_ARROW_POSITION_RELATE_2_HUD_X 52
+#define SPEED_ARROW_POSITION_RELATE_2_HUD_Y 10
+#define SPEED_ARROW_WIDTH 8
+#define SPEED_ARROW_HEIGHT 7
 
 class CHUD : public CGameObject {
 public:

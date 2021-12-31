@@ -53,6 +53,7 @@ public:
 	void GetPositionY(float &y) { y = this->y; }
 
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
+	void GetSpeedX(float& vx) { vx = this->vx; }
 
 	int GetState() { return this->state; }
 	void SetNormalDirectionX(int normal_x) { this->nx = normal_x; }
