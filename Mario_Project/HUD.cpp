@@ -24,14 +24,16 @@ void CHUD::Render()
 	// Vẽ các mũi tên vận tốc
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
+	float mario_vx;
+	mario->GetSpeedX(mario_vx);
+	float mario_diff_current_speed_to_walk_speed = abs(mario_vx) - MARIO_WALKING_SPEED;
+
 	float speed_per_arrow = (float)((MARIO_RUNNING_SPEED - MARIO_WALKING_SPEED) / NUM_SPEED_ARROW);
 	for (int arrow_ith = 1; arrow_ith <= NUM_SPEED_ARROW; arrow_ith++)
 	{
 		int sprite_id = ID_SPRITE_SPEED_ARROW_BLACK;
 
-		float mario_vx;
-		mario->GetSpeedX(mario_vx);
-		float mario_diff_current_speed_to_walk_speed = abs(mario_vx) - MARIO_WALKING_SPEED;
+		
 
 		// Nếu đang bay hoặc max speed thì đều tăng thanh tốc độ
 		if (mario->CanContinueFly() ||
@@ -44,6 +46,12 @@ void CHUD::Render()
 			y + SPEED_ARROW_POSITION_RELATE_2_HUD_Y + SPEED_ARROW_HEIGHT / 2);
 	}
 	
+	int ani_p_char = ID_ANI_P_CHAR_NORMAL;
+	if (abs(mario_vx) == MARIO_RUNNING_SPEED || mario->CanContinueFly())
+		ani_p_char = ID_ANI_P_CHAR_MAX_SPEED;
+
+	CAnimations::GetInstance()->Get(ani_p_char)->Render(x + SPEED_ARROW_POSITION_RELATE_2_HUD_X + P_CHAR_WIDTH / 2 + SPEED_ARROW_WIDTH * (NUM_SPEED_ARROW+1) + P_CHAR_DISTANCE_2_ARROWS,
+														y + SPEED_ARROW_POSITION_RELATE_2_HUD_Y  + P_CHAR_HEIGHT / 2);
 
 	//RenderBoundingBox();
 }

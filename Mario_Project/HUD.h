@@ -15,6 +15,14 @@
 #define SPEED_ARROW_WIDTH 8
 #define SPEED_ARROW_HEIGHT 7
 
+#define P_CHAR_WIDTH 15
+#define P_CHAR_HEIGHT 7
+#define P_CHAR_DISTANCE_2_ARROWS 5
+
+
+#define ID_ANI_P_CHAR_NORMAL	16002
+#define ID_ANI_P_CHAR_MAX_SPEED	16003
+
 class CHUD : public CGameObject {
 public:
 	CHUD(float x, float y, int type) : CGameObject(x, y, type) {}

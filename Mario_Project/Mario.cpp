@@ -1237,6 +1237,11 @@ int CMario::GetAniIdBig()
 
 void CMario::Render()
 {
+	/*CSprites* s = CSprites::GetInstance();
+	s->Get(12262)->Draw(x, y);
+
+	return;*/
+
 	int ani_id = -1;
 
 	if (state == MARIO_STATE_DIE)	// Mario đã DIE
@@ -1276,6 +1281,7 @@ void CMario::Render()
 	this->GetBoundingBox(left, top, right, bottom);
 	float width = right - left;
 	float height = bottom - top + 1;
+
 
 	CAnimations::GetInstance()->Get(ani_id)->Render(x + width / 2, y + height / 2);
 	//CAnimations::GetInstance()->Get(ani_id)->Render(x, y);
