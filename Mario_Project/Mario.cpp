@@ -924,7 +924,7 @@ void CMario::GetAniIdRacconHold()
 				}
 				else if (ax == MARIO_ACCEL_WALK_X) // Đang đi bộ
 				{
-					ani_id = ID_ANI_MARIO_RACCON_WALKING_RIGHT;
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_RIGHT;
 					shift_x = -7;
 				}
 			}
@@ -939,7 +939,7 @@ void CMario::GetAniIdRacconHold()
 				}
 				else if (ax == -MARIO_ACCEL_WALK_X)	// Đang đi bộ
 				{
-					ani_id = ID_ANI_MARIO_RACCON_WALKING_LEFT;
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_LEFT;
 					shift_x = 7;
 				}
 			}
@@ -1186,7 +1186,7 @@ int CMario::GetAniIdBigHold()
 				else if (ax == MARIO_ACCEL_RUN_X)
 					ani_id = ID_ANI_MARIO_RUNNING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
-					ani_id = ID_ANI_MARIO_WALKING_RIGHT;
+					ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
 			}
 			else // vx < 0
 			{
@@ -1195,7 +1195,7 @@ int CMario::GetAniIdBigHold()
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					ani_id = ID_ANI_MARIO_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
-					ani_id = ID_ANI_MARIO_WALKING_LEFT;
+					ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
 			}
 
 	if (ani_id == -1)
