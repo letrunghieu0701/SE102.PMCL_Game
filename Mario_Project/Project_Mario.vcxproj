@@ -156,6 +156,7 @@
     <ClCompile Include="ImageMap.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="Mushroom.cpp" />
+    <ClCompile Include="PButton.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PipeGate.cpp" />
     <ClCompile Include="PipeTeleportDestination.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="ImageMap.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mushroom.h" />
+    <ClInclude Include="PButton.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PipeGate.h" />
     <ClInclude Include="PipeTeleportDestination.h" />

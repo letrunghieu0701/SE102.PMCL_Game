@@ -12,6 +12,7 @@ pipe.txt
 brick.txt
 question_brick.txt
 breakable_brick.txt
+p_button.txt
 cloud.txt
 platform.txt
 
@@ -47,6 +48,9 @@ scenes\Scenes_1-1.tmx
 
 # HUD
 19	123	123
+
+# P button
+20	2390	330
 
 
 # Coin

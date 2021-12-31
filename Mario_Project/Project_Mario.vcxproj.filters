@@ -82,6 +82,12 @@
     <Filter Include="Game Objects\Tail Mario">
       <UniqueIdentifier>{460e98ba-f142-4c0d-bb86-86afd4333182}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Objects\HUD">
+      <UniqueIdentifier>{7d5733d6-92bf-4d38-af44-0f28c51f76db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Solid Objects\P buttons">
+      <UniqueIdentifier>{ee3474fd-ffc6-49fb-a224-c2ea5fe17d1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -205,7 +211,10 @@
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Objects\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="PButton.cpp">
+      <Filter>Game Objects\Solid Objects\P buttons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,7 +345,10 @@
       <Filter>Game Objects\Solid Objects\Bricks</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>Framework</Filter>
+      <Filter>Game Objects\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="PButton.h">
+      <Filter>Game Objects\Solid Objects\P buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

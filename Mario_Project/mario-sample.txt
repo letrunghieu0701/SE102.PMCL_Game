@@ -27,3 +27,4 @@ height	240
 60	textures\super_mario_bors_3_transparent.png
 70	textures\NES - Super Mario Bros 3 - Stage Tiles_transparent.png
 80	textures\UI_clean.png
+90	textures\SNES - Super Mario All-Stars Super Mario Bros 3 - Tileset and Objects_transparent.png

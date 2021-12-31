@@ -6,12 +6,9 @@
 
 # Speed Arrow: normal and max speed
 101111	91	162	98	169	80
-101121	64	162	71	168	80
+101121	64	162	71	169	80
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
-
-# HUD
-16000	101000	100
 

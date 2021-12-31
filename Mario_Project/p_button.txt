@@ -1,0 +1,18 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# Normal
+102111	312	979	327	995	60
+102112	348	979	363	995	60
+
+# Being pressed
+102121	754	24	769	29	90
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# Normal
+16000	102111	100	102112	100
+
+# Pressed
+16001	102121	100

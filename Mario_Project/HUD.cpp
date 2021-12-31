@@ -18,7 +18,7 @@ void CHUD::Render()
 	float height = bottom - top + 1;
 
 	CSprites* s = CSprites::GetInstance();
-	s->Get(ID_SPRITE_HUD+1)->Draw(x + width / 2, y + height / 2);
+	s->Get(ID_SPRITE_HUD + 1)->Draw(x + width / 2, y + height / 2);
 
 
 	// Vẽ các mũi tên vận tốc
@@ -40,12 +40,11 @@ void CHUD::Render()
 		else
 			sprite_id = ID_SPRITE_SPEED_ARROW_BLACK + 1;
 
-		s->Get(sprite_id)->Draw(x + SPEED_ARROW_POSITION_RELATE_2_HUD_X + SPEED_ARROW_WIDTH / 2 + arrow_ith *SPEED_ARROW_WIDTH,
+		s->Get(sprite_id)->Draw(x + SPEED_ARROW_POSITION_RELATE_2_HUD_X + SPEED_ARROW_WIDTH / 2 + arrow_ith*SPEED_ARROW_WIDTH,
 			y + SPEED_ARROW_POSITION_RELATE_2_HUD_Y + SPEED_ARROW_HEIGHT / 2);
 	}
 	
 
-	//CAnimations::GetInstance()->Get(ID_ANI_HUD)->Render(x + width / 2, y + height / 2);
 	//RenderBoundingBox();
 }
 

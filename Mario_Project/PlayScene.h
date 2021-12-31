@@ -10,6 +10,7 @@
 #include "Brick.h"
 #include "QuestionBrick.h"
 #include "BreakableBrick.h"
+#include "PButton.h"
 
 #include "Pipe.h"
 #include "PipeGate.h"

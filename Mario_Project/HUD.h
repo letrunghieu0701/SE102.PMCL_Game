@@ -5,7 +5,7 @@
 #include "Animations.h"
 #include "AssetIDs.h"
 
-#define ID_ANI_HUD 16000
+
 #define HUD_BBOX_WIDTH 153
 #define HUD_BBOX_HEIGHT 30
 

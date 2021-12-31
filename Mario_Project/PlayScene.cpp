@@ -172,6 +172,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CCoin(x, y, object_type);
 		break;
 	}
+	case OBJECT_TYPE_PBUTTON:
+	{
+		obj = new CPButton(x, y, object_type);
+		break;
+	}
 	case OBJECT_TYPE_BREAKABLE_BRICK:
 	{
 		int coin_life_time = atoi(tokens[3].c_str());
