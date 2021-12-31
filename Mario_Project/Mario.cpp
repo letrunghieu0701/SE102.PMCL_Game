@@ -1138,9 +1138,9 @@ int CMario::GetAniIdBigHold()
 		else
 		{
 			if (nx >= 0)
-				ani_id = ID_ANI_MARIO_JUMP_WALK_RIGHT;
+				ani_id = ID_ANI_MARIO_JUMP_WALK_HOLD_RIGHT;
 			else
-				ani_id = ID_ANI_MARIO_JUMP_WALK_LEFT;
+				ani_id = ID_ANI_MARIO_JUMP_WALK_HOLD_LEFT;
 		}
 	}
 	else // Đang ở mặt đất
