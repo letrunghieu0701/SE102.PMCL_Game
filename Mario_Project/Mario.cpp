@@ -805,12 +805,12 @@ void CMario::GetAniIdRacconHold()
 			{
 				if (nx > 0)
 				{
-					ani_id = ID_ANI_MARIO_RACCON_FLYING_RIGHT;
+					ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_HOLD_RIGHT;
 					shift_x = -5;
 				}
 				else
 				{
-					ani_id = ID_ANI_MARIO_RACCON_FLYING_LEFT;
+					ani_id = ID_ANI_MARIO_RACCON_JUMP_WALK_HOLD_LEFT;
 					shift_x = 5;
 				}
 			}
