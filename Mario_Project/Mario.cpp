@@ -745,8 +745,8 @@ int CMario::GetAniIdSmallHold()
 			}
 			else if (vx > 0)
 			{
-				if (ax < 0)
-					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
+				if (ax < 0)	// Quay mặt sang trái nên lấy ani walk left
+					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_LEFT;
 				else if (ax == MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
@@ -754,8 +754,8 @@ int CMario::GetAniIdSmallHold()
 			}
 			else // vx < 0
 			{
-				if (ax > 0)
-					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
+				if (ax > 0) // Quay mặt sang phải nên lấy ani walk right
+					aniId = ID_ANI_MARIO_SMALL_WALKING_HOLD_RIGHT;
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_HOLD_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
@@ -916,7 +916,7 @@ void CMario::GetAniIdRacconHold()
 			else if (vx > 0)	// Đang chạy sang bên phải
 			{
 				if (ax < 0)		// Đang thắng
-					ani_id = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_LEFT;
 				else if (ax == MARIO_ACCEL_RUN_X)	// Đang chạy
 				{
 					ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_RIGHT;
@@ -931,7 +931,7 @@ void CMario::GetAniIdRacconHold()
 			else  // Đang chạy sang bên trái
 			{
 				if (ax > 0)		// Đang thắng
-					ani_id = ID_ANI_MARIO_RACCON_BRACE_LEFT;
+					ani_id = ID_ANI_MARIO_RACCON_WALKING_HOLD_RIGHT;
 				else if (ax == -MARIO_ACCEL_RUN_X)	// Đang chạy
 				{
 					ani_id = ID_ANI_MARIO_RACCON_RUNNING_HOLD_LEFT;
@@ -1182,7 +1182,7 @@ int CMario::GetAniIdBigHold()
 			else if (vx > 0)
 			{
 				if (ax < 0)
-					ani_id = ID_ANI_MARIO_BRACE_RIGHT;
+					ani_id = ID_ANI_MARIO_WALKING_HOLD_LEFT;
 				else if (ax == MARIO_ACCEL_RUN_X)
 					ani_id = ID_ANI_MARIO_RUNNING_HOLD_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
@@ -1191,7 +1191,7 @@ int CMario::GetAniIdBigHold()
 			else // vx < 0
 			{
 				if (ax > 0)
-					ani_id = ID_ANI_MARIO_BRACE_LEFT;
+					ani_id = ID_ANI_MARIO_WALKING_HOLD_RIGHT;
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					ani_id = ID_ANI_MARIO_RUNNING_HOLD_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
