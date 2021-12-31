@@ -306,7 +306,7 @@ scenes\Scenes_1-1.tmx
 
 # 5th ground
 # 10th (Pink)
-8	2176	112	64	8
+8	2176	368	48	8
 # 11th (Green)
 8	2208	272	48	8
 

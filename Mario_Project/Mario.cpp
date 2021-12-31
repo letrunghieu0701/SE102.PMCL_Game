@@ -1300,7 +1300,7 @@ void CMario::SetState(int state)
 	switch (state)
 	{
 	case MARIO_STATE_RUNNING_RIGHT:
-		if (isSitting || !isOnPlatform) break;
+		if (isSitting) break;
 		// To-do:
 		// Phải xét nếu Mario có đang đứng trên platform hay blocking object hay không, nếu có thì mới cho tăng tốc độ di chuyển (maxVx và ax) được (vật lý)
 		maxVx = MARIO_RUNNING_SPEED;
@@ -1308,7 +1308,7 @@ void CMario::SetState(int state)
 		nx = 1;
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
-		if (isSitting || !isOnPlatform) break;
+		if (isSitting) break;
 		// To-do:
 		// Phải xét nếu Mario có đang đứng trên platform hay blocking object hay không, nếu có thì mới cho tăng tốc độ di chuyển (maxVx và ax) được (vật lý)
 		maxVx = -MARIO_RUNNING_SPEED;
