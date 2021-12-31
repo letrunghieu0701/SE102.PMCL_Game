@@ -149,6 +149,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="ChangeDirectionOnPlatform.cpp" />
     <ClCompile Include="Crumb.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InvisiblePlatform.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="ChangeDirectionOnPlatform.h" />
     <ClInclude Include="Crumb.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="InvisiblePlatform.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />

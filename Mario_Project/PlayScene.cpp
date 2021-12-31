@@ -148,6 +148,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
+	{
+
+
 		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
@@ -157,7 +160,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		player = (CMario*)obj;
 
 		DebugOut(L"[INFO] Player object has been created!\n");
+
+		MakeCameraFollowMario();
 		break;
+	}
+	case OBJECT_TYPE_HUD: obj = new CHUD(x, y, object_type); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y, object_type); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y, object_type); break;
 	case OBJECT_TYPE_COIN:
@@ -441,6 +448,14 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
+	MakeCameraFollowMario();
+
+	PurgeDeletedObjects();
+	/*}*/
+}
+
+void CPlayScene::MakeCameraFollowMario()
+{
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
@@ -456,30 +471,13 @@ void CPlayScene::Update(DWORD dt)
 	if (this->base_platform_pos_y != 0)
 	{
 		if (((this->base_platform_pos_y - game->GetBackBufferHeight()) <= cy) && (cy <= this->base_platform_pos_y))
-			cy = base_platform_pos_y + BASE_PLATFORM_HEIGHT - game->GetBackBufferHeight();
+			cy = base_platform_pos_y + BASE_PLATFORM_HEIGHT + HUD_BBOX_HEIGHT - game->GetBackBufferHeight();
 	}
-	//else
-	//{
-	//	CPlatform* base_platform = dynamic_cast<CPlatform*>(this->itemsInside[DEFAULT_ID_BASE_PLATFORM]);
-	//	float base_platform_y;
-	//	base_platform->GetPositionY(base_platform_y);
-
-	//	// Nếu Mario vẫn nằm trong khoảng giữa base platform và screen height, thì giữ nguyên camera cách base platform một khoảng bằng screen height
-	//	if (((base_platform_y - game->GetBackBufferHeight()) <= cy) && (cy <= base_platform_y))
-	//		cy = base_platform_y + base_platform->GetCellHeight() - game->GetBackBufferHeight();
-	//	else
-	//		//cy -= game->GetBackBufferHeight() / 2;
-	//		;
-	//}
-	
 
 	if (cx < 0) cx = 0;
 
 	CGame::GetInstance()->SetCamPos(cx, /*0.0f*/ cy);
 	/*DebugOutTitle(L"Camera: %0.2f, %0.2f", cx, cy);*/
-
-	PurgeDeletedObjects();
-	/*}*/
 }
 
 void CPlayScene::Render()

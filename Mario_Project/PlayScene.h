@@ -24,6 +24,8 @@
 //#include "Koopas.h"
 #include "ImageMap.h"
 
+#include "HUD.h"
+
 #define DEFAULT_ID_HIDDEN_ZONE_BASE_PLATFORM 720
 
 #define BASE_PLATFORM_HEIGHT 16
@@ -90,6 +92,8 @@ public:
 	}
 
 	void GetOldBasePlatformPosY(float& pos_y) { pos_y = old_base_platform_pos_y; }
+
+	void MakeCameraFollowMario();
 };
 
 typedef CPlayScene* LPPLAYSCENE;

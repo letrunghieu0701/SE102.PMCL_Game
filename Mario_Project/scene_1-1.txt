@@ -27,7 +27,8 @@ change_direction_on_platform.txt
 // Effect
 crumb.txt
 
-
+// HUD
+hud.txt
 
 
 [TILEMAP]
@@ -44,7 +45,8 @@ scenes\Scenes_1-1.tmx
 # MARIO
 0	2368	330
 
-
+# HUD
+19	123	123
 
 
 # Coin

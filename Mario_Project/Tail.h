@@ -13,6 +13,8 @@
 #include "Collision.h"
 #include "PlayScene.h"
 
+#include "Mario.h"
+
 // Physical Stats
 #define TAIL_SPEED_X 0.2f
 
