@@ -447,22 +447,14 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 		else  // Mario va chạm theo các hướng còn lại
 		{
+			// Nếu mario có thể bị đánh thì giảm level 1 bậc
 			if (untouchable == 0)
 			{
-				if (this->GetLevel() == MARIO_LEVEL_SMALL)
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					this->SetState(MARIO_STATE_DIE);
-				}
-				else if (this->GetLevel() == MARIO_LEVEL_BIG)
-				{
-					this->SetLevel(MARIO_LEVEL_SMALL);
-					StartUntouchable();
-				}
+				this->SetLevel(this->GetLevel() - 1);
+				StartUntouchable();
 			}
 		}
 	}
-
 
 
 	else if (koopa->GetState() == KOOPA_STATE_SHELLING)
@@ -493,9 +485,6 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 
 	}
-
-
-
 	else if (koopa->GetState() == KOOPA_STATE_SPIN_SHELL)
 	{
 		// Nếu Mario nhảy lên đầu Koopa khi Koopa đang xoay thì có thể khiến nó ngừng xoay
@@ -508,18 +497,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		// Nếu Mario có thể bị đụng vào, thì mới xử lý va chạm. Còn nếu đang trong thời gian "không thể bị đụng vào" thì thôi, không làm gì cả
 		else if (this->untouchable == 0)
 		{
-			// Nếu Mario có 2 mạng (level Big) thì giảm thành còn 1 mạng (level Small) rồi bắt đầu tính giờ cho untouchable
-			if (this->GetLevel() == MARIO_LEVEL_BIG)
-			{
-				this->SetLevel(MARIO_LEVEL_SMALL);
-				StartUntouchable();
-			}
-			// Còn nếu chỉ còn 1 mạng (level Small) thì cho Mario die luôn
-			else if (this->GetLevel() == MARIO_LEVEL_SMALL)
-			{
-				DebugOut(L">>> Marioo DIE >>> \n");
-				this->SetState(MARIO_STATE_DIE);
-			}
+			this->SetLevel(this->GetLevel() - 1);
+			StartUntouchable();
 		}
 	}
 }
@@ -570,16 +549,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				this->SetLevel(this->GetLevel() - 1);
+				StartUntouchable();
 			}
 		}
 	}
@@ -610,16 +581,8 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)	// Nếu Mario có thể bị đụng vào
 		{
-			if (level > MARIO_LEVEL_SMALL)	// Mario đang ở level dạng Big thì chuyển lại thành level Small và bắt đầu khoảng thời gian Mario không thể bị đụng vào
-			{
-				SetLevel(MARIO_LEVEL_SMALL);
-				StartUntouchable();
-			}
-			else  // Mario đang ở level Small thì cho chết luôn
-			{
-				DebugOut(L">>> Mario DIE >>> \n");
-				SetState(MARIO_STATE_DIE);
-			}
+			this->SetLevel(this->GetLevel() - 1);
+			StartUntouchable();
 		}
 	}
 }
@@ -1464,6 +1427,7 @@ void CMario::SetLevel(int l)
 	if (l < MARIO_LEVEL_SMALL)
 	{
 		this->SetState(MARIO_STATE_DIE);
+		DebugOut(L">>> Mario DIE >>> \n");
 		return;
 	}
 

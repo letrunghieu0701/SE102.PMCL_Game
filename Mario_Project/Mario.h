@@ -31,7 +31,7 @@
 
 // Raccon khi rơi chậm
 // Lực cản không khí theo trục x khi di chuyển với tốc độ bình thường (đi bộ)
-#define MARIO_AIR_FORCE_X				MARIO_WALKING_SPEED * 0.5f
+#define MARIO_AIR_FORCE_X				MARIO_WALKING_SPEED * 0.3f
 // Lực cản không khí theo trục x khi di chuyển với tốc độ nhanh (chạy)
 #define MARIO_AIR_FORCE_RUN_X			MARIO_RUNNING_SPEED * 0.5f
 
