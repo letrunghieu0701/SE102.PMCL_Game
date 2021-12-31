@@ -216,6 +216,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingGoomba(e);
 	else if (e->obj->GetType() == OBJECT_TYPE_KOOPA)
 		OnCollisionWithKoopa(e);
+	else if (e->obj->GetType() == OBJECT_TYPE_QUESTION_BRICK)
+		OnCollisionWithQuestionBrick(e);
 }
 
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -230,6 +232,17 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			other_koopa->StartBounce((int)e->nx);
 
 		other_koopa->SetShellDirection(KOOPA_SHELL_FACING_UP);
+	}
+}
+
+void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SPIN_SHELL)
+	{
+		if (e->obj->GetState() == QUESTION_BRICK_STATE_IDLE_HAVE_MUSHROOM)
+		{
+			e->obj->SetState(QUESTION_BRICK_STATE_BOUNCING_UP);
+		}
 	}
 }
 
